@@ -1,0 +1,72 @@
+{
+  "dataset": "data\\evaluation\\official_model_labeled_cases.json",
+  "case_count": 6,
+  "label_warning": "含非律师标注数据；可用于链路评测，不得作为真实案件准确率或概率校准结论",
+  "aggregate": {
+    "issue_recall": 1.0,
+    "authority_recall": 1.0,
+    "grounded_element_rate": 0.639,
+    "citation_validity": 1.0
+  },
+  "calibration": {
+    "sample_count": 0,
+    "brier_score": null,
+    "expected_calibration_error": null
+  },
+  "cases": [
+    {
+      "id": "spc-overtime-2021-01",
+      "source_type": "official_model_labeled",
+      "confidence": 0.77,
+      "issue_recall": 1.0,
+      "authority_recall": 1.0,
+      "grounded_element_rate": 0.833,
+      "citation_validity": 1.0
+    },
+    {
+      "id": "spc-overtime-2021-02",
+      "source_type": "official_model_labeled",
+      "confidence": 0.77,
+      "issue_recall": 1.0,
+      "authority_recall": 1.0,
+      "grounded_element_rate": 0.667,
+      "citation_validity": 1.0
+    },
+    {
+      "id": "spc-overtime-2021-03",
+      "source_type": "official_model_labeled",
+      "confidence": 0.77,
+      "issue_recall": 1.0,
+      "authority_recall": 1.0,
+      "grounded_element_rate": 0.667,
+      "citation_validity": 1.0
+    },
+    {
+      "id": "spc-overtime-2021-04",
+      "source_type": "official_model_labeled",
+      "confidence": 0.68,
+      "issue_recall": 1.0,
+      "authority_recall": 1.0,
+      "grounded_element_rate": 0.667,
+      "citation_validity": 1.0
+    },
+    {
+      "id": "spc-overtime-2021-08",
+      "source_type": "official_model_labeled",
+      "confidence": 0.68,
+      "issue_recall": 1.0,
+      "authority_recall": 1.0,
+      "grounded_element_rate": 0.333,
+      "citation_validity": 1.0
+    },
+    {
+      "id": "spc-overtime-2021-10",
+      "source_type": "official_model_labeled",
+      "confidence": 0.72,
+      "issue_recall": 1.0,
+      "authority_recall": 1.0,
+      "grounded_element_rate": 0.667,
+      "citation_validity": 1.0
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "dataset": "data\\evaluation\\gold_cases.json",
+  "case_count": 6,
+  "label_warning": "示范数据仅验证评测链路，不代表真实案件准确率",
+  "aggregate": {
+    "issue_recall": 1.0,
+    "authority_recall": 1.0,
+    "grounded_element_rate": 0.805,
+    "citation_validity": 1.0
+  },
+  "calibration": {
+    "sample_count": 0,
+    "brier_score": null,
+    "expected_calibration_error": null
+  },
+  "cases": [
+    {
+      "id": "demo-unlawful-termination-001",
+      "source_type": "demonstration",
+      "confidence": 0.77,
+      "issue_recall": 1.0,
+      "authority_recall": 1.0,
+      "grounded_element_rate": 1.0,
+      "citation_validity": 1.0
+    },
+    {
+      "id": "demo-no-contract-001",
+      "source_type": "demonstration",
+      "confidence": 0.72,
+      "issue_recall": 1.0,
+      "authority_recall": 1.0,
+      "grounded_element_rate": 1.0,
+      "citation_validity": 1.0
+    },
+    {
+      "id": "demo-overtime-001",
+      "source_type": "demonstration",
+      "confidence": 0.68,
+      "issue_recall": 1.0,
+      "authority_recall": 1.0,
+      "grounded_element_rate": 1.0,
+      "citation_validity": 1.0
+    },
+    {
+      "id": "demo-wage-001",
+      "source_type": "demonstration",
+      "confidence": 0.68,
+      "issue_recall": 1.0,
+      "authority_recall": 1.0,
+      "grounded_element_rate": 0.667,
+      "citation_validity": 1.0
+    },
+    {
+      "id": "demo-compensation-001",
+      "source_type": "demonstration",
+      "confidence": 0.72,
+      "issue_recall": 1.0,
+      "authority_recall": 1.0,
+      "grounded_element_rate": 0.833,
+      "citation_validity": 1.0
+    },
+    {
+      "id": "demo-limitation-001",
+      "source_type": "demonstration",
+      "confidence": 0.68,
+      "issue_recall": 1.0,
+      "authority_recall": 1.0,
+      "grounded_element_rate": 0.333,
+      "citation_validity": 1.0
+    }
+  ]
+}

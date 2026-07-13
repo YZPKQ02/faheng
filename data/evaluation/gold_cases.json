@@ -1,0 +1,50 @@
+[
+  {
+    "id": "demo-unlawful-termination-001",
+    "source_type": "demonstration",
+    "facts": [{"content": "公司突然辞退我并发了解除通知"}, {"content": "我有工资流水证明在公司工作"}],
+    "evidence": [{"name": "解除通知", "purpose": "证明公司作出解除"}, {"name": "工资流水", "purpose": "证明劳动关系"}],
+    "expected_issues": ["违法解除"],
+    "expected_authority_articles": ["第八十七条"]
+  },
+  {
+    "id": "demo-no-contract-001",
+    "source_type": "demonstration",
+    "facts": [{"content": "入职六个月一直没签书面劳动合同，每月发工资"}],
+    "evidence": [{"name": "工资流水", "purpose": "证明入职后持续工作"}],
+    "expected_issues": ["未签劳动合同"],
+    "expected_authority_articles": ["第十条"]
+  },
+  {
+    "id": "demo-overtime-001",
+    "source_type": "demonstration",
+    "facts": [{"content": "公司安排周末加班但没有支付加班费也未调休"}],
+    "evidence": [{"name": "考勤记录", "purpose": "证明加班日期和时长"}],
+    "expected_issues": ["加班费"],
+    "expected_authority_articles": ["第四十四条"]
+  },
+  {
+    "id": "demo-wage-001",
+    "source_type": "demonstration",
+    "facts": [{"content": "公司拖欠工资三个月，工资没发"}],
+    "evidence": [{"name": "银行流水", "purpose": "证明工资支付中断"}],
+    "expected_issues": ["拖欠工资"],
+    "expected_authority_articles": ["第二十七条"]
+  },
+  {
+    "id": "demo-compensation-001",
+    "source_type": "demonstration",
+    "facts": [{"content": "公司解除合同，我工作三年，要求经济补偿金"}],
+    "evidence": [{"name": "劳动合同", "purpose": "证明入职时间和工作年限"}, {"name": "工资条", "purpose": "证明平均工资"}],
+    "expected_issues": ["经济补偿"],
+    "expected_authority_articles": ["第四十七条"]
+  },
+  {
+    "id": "demo-limitation-001",
+    "source_type": "demonstration",
+    "facts": [{"content": "解除已经超过一年，现在担心仲裁时效"}],
+    "evidence": [{"name": "解除通知", "purpose": "证明解除日期"}],
+    "expected_issues": ["违法解除", "仲裁时效"],
+    "expected_authority_articles": ["第八十七条", "第二十七条"]
+  }
+]

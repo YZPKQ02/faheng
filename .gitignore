@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+*.pyc
+*.egg-info/
+*.db
+.env
+web/node_modules/
+web/.next/
+web/.venv/
+web/coverage/
+data/raw/

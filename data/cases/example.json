@@ -1,0 +1,17 @@
+{
+  "cases": [
+    {
+      "source_url": "https://www.court.gov.cn/zixun/xiangqing/426222.html",
+      "title": "结构化案例导入格式示例（非具体案件）",
+      "case_type": "劳动争议",
+      "facts": "这里填写从权威公开来源整理并再次脱敏的案件事实。",
+      "claims": ["劳动者的具体请求"],
+      "defenses": ["用人单位的主要抗辩"],
+      "issues": ["裁判需要解决的争议焦点"],
+      "evidence": ["关键证据及证明目的"],
+      "outcome": "裁判结果",
+      "reasoning": "裁判理由",
+      "authority_refs": ["关联法律条文"]
+    }
+  ]
+}

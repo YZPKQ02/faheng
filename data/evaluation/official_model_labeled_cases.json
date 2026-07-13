@@ -1,0 +1,121 @@
+[
+  {
+    "id": "spc-overtime-2021-01",
+    "source_type": "official_model_labeled",
+    "title": "劳动者拒绝违法超时加班安排，用人单位能否解除劳动合同",
+    "source_url": "https://www.court.gov.cn/zixun/xiangqing/319151.html",
+    "source_publisher": "最高人民法院、人力资源社会保障部",
+    "facts": [
+      {"content": "张某于2020年6月入职某快递公司，试用期三个月，月工资8000元", "status": "confirmed"},
+      {"content": "公司制度要求早9时至晚9时、每周工作6天", "status": "confirmed"},
+      {"content": "张某拒绝违法超时加班后，公司以试用期不符合录用条件解除劳动合同", "status": "confirmed"}
+    ],
+    "evidence": [{"name": "劳动合同及公司规章制度", "purpose": "证明劳动关系、工资标准及违法超时加班安排"}],
+    "expected_issues": ["违法解除", "加班费"],
+    "expected_authority_articles": ["第八十七条", "第四十四条"],
+    "outcome_supported": true,
+    "claims": ["支付违法解除劳动合同赔偿金8000元"],
+    "decision": "仲裁委员会支持违法解除赔偿金8000元",
+    "legal_reasoning": ["违法超时加班制度无效", "劳动者拒绝违法安排不构成试用期不符合录用条件"],
+    "annotation_confidence": 0.96
+  },
+  {
+    "id": "spc-overtime-2021-02",
+    "source_type": "official_model_labeled",
+    "title": "劳动者签订放弃加班费协议后能否主张加班费",
+    "source_url": "https://www.court.gov.cn/zixun/xiangqing/319151.html",
+    "source_publisher": "最高人民法院、人力资源社会保障部",
+    "facts": [
+      {"content": "张某月工资20000元，公司要求其签署自愿放弃加班费协议", "status": "confirmed"},
+      {"content": "公司认可存在加班事实，但以协议为由拒绝支付加班费", "status": "confirmed"}
+    ],
+    "evidence": [{"name": "劳动合同附件及加班记录", "purpose": "证明放弃加班费格式条款和加班事实"}],
+    "expected_issues": ["加班费"],
+    "expected_authority_articles": ["第四十四条"],
+    "outcome_supported": true,
+    "claims": ["支付2020年6月至12月加班费24000元"],
+    "decision": "仲裁委员会全额支持加班费24000元",
+    "legal_reasoning": ["放弃加班费条款免除单位法定责任、排除劳动者权利，应认定无效"],
+    "annotation_confidence": 0.98
+  },
+  {
+    "id": "spc-overtime-2021-03",
+    "source_type": "official_model_labeled",
+    "title": "未履行内部加班审批手续是否影响加班事实认定",
+    "source_url": "https://www.court.gov.cn/zixun/xiangqing/319151.html",
+    "source_publisher": "最高人民法院、人力资源社会保障部",
+    "facts": [
+      {"content": "公司安排吴某每天早9时至晚9时、每周工作6天", "status": "confirmed"},
+      {"content": "吴某提交加班申请，公司未实际履行审批手续", "status": "confirmed"},
+      {"content": "公司认可考勤、微信聊天和会议纪要的真实性", "status": "confirmed"}
+    ],
+    "evidence": [
+      {"name": "考勤记录", "purpose": "证明加班日期与时长"},
+      {"name": "微信聊天记录和会议纪要", "purpose": "证明加班由公司安排"}
+    ],
+    "expected_issues": ["加班费"],
+    "expected_authority_articles": ["第四十四条"],
+    "outcome_supported": true,
+    "claims": ["支付加班费50000元"],
+    "decision": "仲裁及生效一审判决支持加班费50000元",
+    "legal_reasoning": ["多项证据形成完整证据链", "公司未履行审批手续不影响认定其安排加班"],
+    "annotation_confidence": 0.99
+  },
+  {
+    "id": "spc-overtime-2021-04",
+    "source_type": "official_model_labeled",
+    "title": "包薪制约定能否免除足额支付加班费的义务",
+    "source_url": "https://www.court.gov.cn/zixun/xiangqing/319151.html",
+    "source_publisher": "最高人民法院、人力资源社会保障部",
+    "facts": [
+      {"content": "劳动合同约定月工资4000元且包含加班费", "status": "confirmed"},
+      {"content": "公司认可加班事实，但包薪低于依法计算的工资与加班费总额", "status": "confirmed"}
+    ],
+    "evidence": [{"name": "劳动合同和实际工作时间记录", "purpose": "证明包薪约定、工资标准和加班时长"}],
+    "expected_issues": ["加班费"],
+    "expected_authority_articles": ["第四十四条"],
+    "outcome_supported": true,
+    "claims": ["支付加班费差额17000元"],
+    "decision": "仲裁委员会全额支持加班费差额17000元",
+    "legal_reasoning": ["包薪制不得违反最低工资及加班费支付标准"],
+    "annotation_confidence": 0.97
+  },
+  {
+    "id": "spc-overtime-2021-08",
+    "source_type": "official_model_labeled",
+    "title": "规章制度能否以21时后起算方式否认加班事实",
+    "source_url": "https://www.court.gov.cn/zixun/xiangqing/319151.html",
+    "source_publisher": "最高人民法院、人力资源社会保障部",
+    "facts": [
+      {"content": "常某累计申请加班126小时，公司规定21时后才起算加班", "status": "confirmed"},
+      {"content": "公司不能证明18时至21时均为员工休息时间", "status": "confirmed"}
+    ],
+    "evidence": [{"name": "指纹考勤及工作系统记录", "purpose": "证明实际加班时间和加班申请"}],
+    "expected_issues": ["加班费"],
+    "expected_authority_articles": ["第四十四条"],
+    "outcome_supported": true,
+    "claims": ["支付加班费差额"],
+    "decision": "生效二审判决公司支付加班费差额32000元",
+    "legal_reasoning": ["21时后才起算加班的规定缺乏合理性", "考勤和工作系统记录能够证明加班"],
+    "annotation_confidence": 0.98
+  },
+  {
+    "id": "spc-overtime-2021-10",
+    "source_type": "official_model_labeled",
+    "title": "加班费请求适用何种仲裁时效",
+    "source_url": "https://www.court.gov.cn/zixun/xiangqing/319151.html",
+    "source_publisher": "最高人民法院、人力资源社会保障部",
+    "facts": [
+      {"content": "张某2016年7月入职，2019年2月离职，工作期间存在加班但未支付加班费", "status": "confirmed"},
+      {"content": "张某于2019年12月申请仲裁，离职后未超过一年", "status": "confirmed"}
+    ],
+    "evidence": [{"name": "劳动关系终止日期及加班材料", "purpose": "证明离职日期、申请仲裁日期和加班事实"}],
+    "expected_issues": ["加班费", "仲裁时效"],
+    "expected_authority_articles": ["第四十四条", "第二十七条"],
+    "outcome_supported": true,
+    "claims": ["支付加班费46293元"],
+    "decision": "生效一审判决部分支持加班费18120元",
+    "legal_reasoning": ["加班费属于劳动报酬", "离职后一年内提出请求未超过特别仲裁时效"],
+    "annotation_confidence": 0.99
+  }
+]

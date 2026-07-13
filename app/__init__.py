@@ -1,0 +1,2 @@
+"""AI Legal Advisor backend."""
+

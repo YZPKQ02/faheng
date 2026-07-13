@@ -1,0 +1,376 @@
+import json
+import re
+from typing import TypedDict
+
+from langgraph.graph import END, START, StateGraph
+from sqlalchemy.orm import Session
+
+from app.agent_contracts import ConversationOutput, ConversationPlan
+from app.analysis_lifecycle import invalidate_case_analyses
+from app.authorities import search_authorities
+from app.conversation_memory import ConversationMemory, build_conversation_memory
+from app.model_gateway import ModelGateway, ModelGatewayError
+from app.models import AuditEvent, CaseFile, Fact, LegalAuthority, Message
+
+
+class AdvisorState(TypedDict, total=False):
+    case_id: str
+    current_message_id: str
+    user_message: str
+    category: str
+    urgency: str
+    extracted_facts: list[str]
+    missing_information: list[str]
+    memory: ConversationMemory
+    plan: dict
+    plan_source: str
+    authority_ids: list[str]
+    response: str
+
+
+SUBSCENARIOS = {
+    "违法解除": ["辞退", "解除", "开除", "裁员"],
+    "拖欠工资": ["欠薪", "拖欠", "工资没发", "工资"],
+    "加班费": ["加班", "996", "调休"],
+    "未签劳动合同": ["没签合同", "未签", "劳动合同"],
+    "经济补偿": ["补偿金", "经济补偿", "赔偿金"],
+}
+
+REQUIRED_INFORMATION = {
+    "违法解除": [
+        ("入职日期", ["入职", "工作了", "工龄"]),
+        ("解除日期", ["解除日期", "辞退日期", "昨天", "今天", "通知不用上班"]),
+        ("解除理由或通知", ["解除理由", "辞退理由", "通知", "开除原因", "没有书面"]),
+        ("解除前十二个月平均工资", ["平均工资", "月工资", "每月", "工资标准"]),
+    ],
+    "拖欠工资": [
+        ("欠薪月份", ["欠薪月份", "拖欠", "个月工资", "工资没发"]),
+        ("约定工资", ["约定工资", "月工资", "每月", "工资标准"]),
+        ("实际发薪记录", ["工资流水", "发薪记录", "银行流水"]),
+        ("是否仍在职", ["仍在职", "已经离职", "还在职", "离职"]),
+    ],
+    "加班费": [
+        ("加班日期和时长", ["加班日期", "加班时长", "小时", "996"]),
+        ("考勤记录", ["考勤", "打卡", "排班"]),
+        ("工资基数", ["工资基数", "月工资", "每月"]),
+        ("是否安排调休", ["调休", "补休"]),
+    ],
+    "未签劳动合同": [
+        ("入职日期", ["入职", "工作了", "一年多"]),
+        ("合同签订情况", ["没签合同", "未签", "劳动合同"]),
+        ("工资流水", ["工资流水", "银行流水", "转账"]),
+        ("工作管理证据", ["考勤", "工牌", "工作群", "管理"]),
+    ],
+    "经济补偿": [
+        ("入职及离职日期", ["入职", "离职日期", "工作了", "工龄"]),
+        ("离职原因", ["离职原因", "辞退", "解除", "裁员"]),
+        ("平均工资", ["平均工资", "月工资", "每月"]),
+        ("离职文件", ["离职证明", "解除通知", "辞退通知"]),
+    ],
+}
+
+DEFAULT_REQUIRED = [
+    ("争议发生时间", ["发生时间", "日期", "昨天", "今天"]),
+    ("工作地点", ["工作地点", "办公地点", "城市"]),
+    ("核心诉求", ["希望", "要求", "诉求", "怎么办", "可以主张"]),
+    ("已有证据", ["证据", "记录", "流水", "通知", "合同"]),
+]
+
+LIST_PREFIX = re.compile(r"^\s*(?:(?:\d{1,2})\s*[.、．)]|[（(]\d{1,2}[)）])\s*")
+
+
+def _strip_list_prefix(value: str) -> str:
+    cleaned = value.strip()
+    while cleaned and (match := LIST_PREFIX.match(cleaned)):
+        cleaned = cleaned[match.end() :].strip()
+    return cleaned
+
+
+def _format_follow_up_questions(items: list[str]) -> str:
+    cleaned: list[str] = []
+    for item in items:
+        question = _strip_list_prefix(item)
+        if question and question not in cleaned:
+            cleaned.append(question)
+    return "\n".join(f"{index}. {item}" for index, item in enumerate(cleaned[:3], start=1))
+
+
+def _context_text(memory: ConversationMemory) -> str:
+    parts = [memory["initial_issue"], memory["current_user_message"]]
+    parts.extend(item["content"] for item in memory["conversation_history"])
+    parts.extend(item["content"] for item in memory["known_facts"])
+    return "\n".join(parts)
+
+
+def _missing_information(category: str, memory: ConversationMemory) -> list[str]:
+    context = _context_text(memory)
+    required = REQUIRED_INFORMATION.get(category, DEFAULT_REQUIRED)
+    return [label for label, signals in required if not any(signal in context for signal in signals)]
+
+
+def _default_plan(state: AdvisorState) -> ConversationPlan:
+    memory = state["memory"]
+    current = memory["current_user_message"]
+    history = memory["conversation_history"]
+    if len(current) <= 12 and history:
+        focus = f"结合上一轮对话理解本次补充“{current}”"
+    else:
+        focus = current[:160]
+    return ConversationPlan(
+        question_focus=focus,
+        user_intent=f"获得{state['category']}问题的直接答复与下一步建议",
+        relevant_fact_ids=[item["id"] for item in memory["known_facts"]],
+        information_gaps=state.get("missing_information", []),
+        action="retrieve_authorities",
+        retrieval_query=f"{state['category']} {memory['initial_issue']} {current}"[:1200],
+    )
+
+
+def build_workflow(db: Session, gateway: ModelGateway | None = None):
+    gateway = gateway or ModelGateway()
+
+    def observe(state: AdvisorState) -> AdvisorState:
+        memory = build_conversation_memory(
+            db,
+            case_id=state["case_id"],
+            current_message_id=state["current_message_id"],
+            current_user_message=state["user_message"],
+        )
+        topic_text = f"{memory['initial_issue']}\n{memory['current_user_message']}"
+        category = next(
+            (
+                name
+                for name, words in SUBSCENARIOS.items()
+                if any(word in topic_text for word in words)
+            ),
+            "一般劳动争议",
+        )
+        urgency = (
+            "high"
+            if any(
+                word in topic_text
+                for word in ["明天开庭", "即将过期", "已经收到传票", "自杀", "暴力"]
+            )
+            else "medium"
+        )
+        text = state["user_message"].strip()
+        facts = [part.strip() for part in re.split(r"[。；\n]", text) if len(part.strip()) >= 4]
+        return {
+            "memory": memory,
+            "category": category,
+            "urgency": urgency,
+            "extracted_facts": facts,
+            "missing_information": _missing_information(category, memory),
+        }
+
+    def reason(state: AdvisorState) -> AdvisorState:
+        plan = _default_plan(state)
+        plan_source = "deterministic"
+        if getattr(gateway, "enabled", True):
+            try:
+                candidate = gateway.structured(
+                    system=(
+                        "你是劳动争议咨询的 ReAct 规划器。只形成简短、可审计的行动计划，不输出详细思维链，"
+                        "也不回答问题。当前用户消息优先级最高；历史消息只用于消解指代和延续上下文。"
+                        "不得发明事实或事实 ID。action 表示下一步应执行的唯一动作。"
+                    ),
+                    user=json.dumps(
+                        {
+                            "category": state["category"],
+                            "missing_information": state["missing_information"],
+                            "memory": state["memory"],
+                        },
+                        ensure_ascii=False,
+                    ),
+                    schema=ConversationPlan,
+                )
+                valid_fact_ids = {item["id"] for item in state["memory"]["known_facts"]}
+                candidate.relevant_fact_ids = [
+                    fact_id for fact_id in candidate.relevant_fact_ids if fact_id in valid_fact_ids
+                ]
+                candidate.retrieval_query = (
+                    f"{state['category']} {state['memory']['current_user_message']} "
+                    f"{candidate.retrieval_query}"
+                )[:1200]
+                plan = candidate
+                plan_source = "model"
+            except ModelGatewayError:
+                plan_source = "deterministic_fallback"
+        return {"plan": plan.model_dump(), "plan_source": plan_source}
+
+    def act(state: AdvisorState) -> AdvisorState:
+        case = db.get(CaseFile, state["case_id"])
+        added_fact = False
+        for content in state.get("extracted_facts", []):
+            if not any(fact.content == content for fact in case.facts):
+                db.add(
+                    Fact(
+                        case_id=case.id,
+                        content=content,
+                        source="user",
+                        status="user_stated",
+                    )
+                )
+                added_fact = True
+        if added_fact:
+            invalidate_case_analyses(db, case, "用户补充了新的案件事实")
+        query = (
+            f"{state['plan']['retrieval_query']} {state['memory']['initial_issue']} "
+            f"{state['user_message']}"
+        )
+        authorities = search_authorities(db, query)
+        authority_ids = [item.id for item in authorities]
+        case.stage = "fact_gathering"
+        case.risk_level = state["urgency"]
+        db.add_all(
+            [
+                AuditEvent(
+                    case_id=case.id,
+                    event_type="react_plan",
+                    agent="intake_coordinator",
+                    payload={
+                        "protocol": "react-v1",
+                        "source": state["plan_source"],
+                        "question_focus": state["plan"]["question_focus"],
+                        "user_intent": state["plan"]["user_intent"],
+                        "action": state["plan"]["action"],
+                        "retrieval_query": state["plan"]["retrieval_query"],
+                        "information_gaps": state["plan"]["information_gaps"],
+                        "context_refs": {
+                            "message_ids": [
+                                item["id"] for item in state["memory"]["conversation_history"]
+                            ],
+                            "fact_ids": state["plan"]["relevant_fact_ids"],
+                            "evidence_ids": [
+                                item["id"] for item in state["memory"]["evidence_summary"]
+                            ],
+                        },
+                    },
+                ),
+                AuditEvent(
+                    case_id=case.id,
+                    event_type="react_action",
+                    agent="legal_research",
+                    payload={
+                        "protocol": "react-v1",
+                        "action": "retrieve_authorities",
+                        "authority_ids": authority_ids,
+                    },
+                ),
+            ]
+        )
+        db.commit()
+        return {"authority_ids": authority_ids}
+
+    def respond(state: AdvisorState) -> AdvisorState:
+        authorities = [db.get(LegalAuthority, aid) for aid in state.get("authority_ids", [])]
+        citations = "；".join(f"《{item.title}》{item.article}" for item in authorities if item)
+        missing = "、".join(state.get("missing_information", [])[:4])
+        authority_context = [
+            {
+                "id": item.id,
+                "title": item.title,
+                "article": item.article,
+                "content": item.content,
+                "source_url": item.source_url,
+            }
+            for item in authorities
+            if item
+        ]
+        focus = _strip_list_prefix(state["plan"]["question_focus"]).strip("：:。 ")
+        try:
+            output = gateway.structured(
+                system=(
+                    "你是面向中国大陆法律小白的劳动争议咨询协调智能体。系统已按 ReAct 协议完成："
+                    "观察案件上下文、形成简短行动计划、执行法律检索。现在只输出最终答复，不展示详细思维链。"
+                    "必须先直接回应当前用户消息，不得转而回答更早的问题；历史消息只用于消解指代。"
+                    "说明基于哪些用户陈述，并区分陈述与已确认事实。仅使用候选法律依据，不得凭记忆补充法条。"
+                    "信息不足时提出最多三个有明确目的的追问，追问文本不要自带序号。"
+                    "不得承诺胜诉或使用伪精确概率。高风险时建议尽快咨询真人律师。"
+                ),
+                user=json.dumps(
+                    {
+                        "current_user_message_highest_priority": state["memory"][
+                            "current_user_message"
+                        ],
+                        "question_focus": focus,
+                        "react_plan": state["plan"],
+                        "conversation_memory": state["memory"],
+                        "retrieval_observation": authority_context,
+                        "suggested_information_gaps": state.get("missing_information", []),
+                    },
+                    ensure_ascii=False,
+                ),
+                schema=ConversationOutput,
+            )
+            response = f"问题焦点：{focus or state['memory']['current_user_message'][:160]}\n\n{output.answer.strip()}"
+            questions = _format_follow_up_questions(output.follow_up_questions)
+            if questions:
+                response += f"\n\n为了进一步判断，请补充：\n{questions}"
+            if output.should_escalate:
+                response += (
+                    "\n\n建议尽快咨询真人律师："
+                    f"{output.escalation_reason or '本事项存在较高法律风险'}。"
+                )
+            response += f"\n\n可核验依据：{citations or '当前没有检索到可靠依据'}。"
+        except ModelGatewayError as exc:
+            response = (
+                f"问题焦点：{focus or state['memory']['current_user_message'][:160]}\n\n"
+                f"初步分诊为“{state['category']}”。目前仅根据你的陈述记录事实，"
+                "尚未将任何推测视为已确认事实。"
+                f"可能相关的依据包括：{citations or '暂无可靠依据'}。"
+                f"下一步需要确认：{missing or '当前关键信息是否完整'}。"
+                "你可以继续补充，也可以登记证据后生成完整分析。"
+                "结果仅供决策辅助，不能替代律师针对原始材料的审查。"
+            )
+            db.add(
+                AuditEvent(
+                    case_id=state["case_id"],
+                    event_type="model_fallback",
+                    agent="intake_coordinator",
+                    payload={"reason": str(exc), "protocol": "react-v1"},
+                )
+            )
+            db.commit()
+        return {"response": response}
+
+    graph = StateGraph(AdvisorState)
+    graph.add_node("observe", observe)
+    graph.add_node("reason", reason)
+    graph.add_node("act", act)
+    graph.add_node("respond", respond)
+    graph.add_edge(START, "observe")
+    graph.add_edge("observe", "reason")
+    graph.add_edge("reason", "act")
+    graph.add_edge("act", "respond")
+    graph.add_edge("respond", END)
+    return graph.compile()
+
+
+def run_intake(
+    db: Session,
+    case: CaseFile,
+    content: str,
+    gateway: ModelGateway | None = None,
+) -> tuple[Message, AdvisorState]:
+    user_message = Message(case_id=case.id, role="user", content=content)
+    db.add(user_message)
+    db.commit()
+    db.refresh(user_message)
+    result = build_workflow(db, gateway).invoke(
+        {
+            "case_id": case.id,
+            "current_message_id": user_message.id,
+            "user_message": content,
+        }
+    )
+    message = Message(
+        case_id=case.id,
+        role="assistant",
+        agent="intake_coordinator_react_v1",
+        content=result["response"],
+    )
+    db.add(message)
+    db.commit()
+    db.refresh(message)
+    return message, result
