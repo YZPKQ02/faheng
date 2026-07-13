@@ -5,7 +5,12 @@ from typing import TypedDict
 from langgraph.graph import END, START, StateGraph
 from sqlalchemy.orm import Session
 
-from app.agent_contracts import ConversationOutput, ConversationPlan
+from app.agent_contracts import (
+    ConversationExecutionPlan,
+    ConversationOutput,
+    ConversationPlan,
+    ExecutionStep,
+)
 from app.analysis_lifecycle import invalidate_case_analyses
 from app.authorities import search_authorities
 from app.conversation_memory import ConversationMemory, build_conversation_memory
@@ -23,8 +28,11 @@ class AdvisorState(TypedDict, total=False):
     missing_information: list[str]
     memory: ConversationMemory
     plan: dict
+    execution_plan: dict
     plan_source: str
     authority_ids: list[str]
+    tool_call_count: int
+    step_results: dict
     response: str
 
 
@@ -126,6 +134,41 @@ def _default_plan(state: AdvisorState) -> ConversationPlan:
     )
 
 
+def _compile_execution_plan(plan: ConversationPlan) -> ConversationExecutionPlan:
+    """Compile model suggestions into a fixed, budgeted application-owned plan."""
+    should_retrieve = plan.action == "retrieve_authorities"
+    return ConversationExecutionPlan(
+        goal=plan.user_intent,
+        max_replans=0,
+        steps=[
+            ExecutionStep(
+                step_id="persist_facts",
+                objective="Persist user-stated facts and invalidate stale analysis when needed",
+                executor="deterministic",
+                success_condition="Every extracted fact is persisted at most once",
+            ),
+            ExecutionStep(
+                step_id="retrieve_authorities",
+                objective=(
+                    "Retrieve current authorities relevant to the question focus"
+                    if should_retrieve
+                    else "Skip retrieval because the coarse plan requires clarification or escalation"
+                ),
+                executor="bounded_react",
+                allowed_tools=["search_authorities"] if should_retrieve else [],
+                max_tool_calls=2 if should_retrieve else 0,
+                success_condition="Return validated authority IDs or an explicit empty result",
+            ),
+            ExecutionStep(
+                step_id="compose_response",
+                objective="Answer the current question using only case context and retrieved authorities",
+                executor="structured_model",
+                success_condition="Return a schema-valid answer or deterministic fallback",
+            ),
+        ],
+    )
+
+
 def build_workflow(db: Session, gateway: ModelGateway | None = None):
     gateway = gateway or ModelGateway()
 
@@ -163,14 +206,15 @@ def build_workflow(db: Session, gateway: ModelGateway | None = None):
             "missing_information": _missing_information(category, memory),
         }
 
-    def reason(state: AdvisorState) -> AdvisorState:
+    def create_plan(state: AdvisorState) -> AdvisorState:
         plan = _default_plan(state)
         plan_source = "deterministic"
         if getattr(gateway, "enabled", True):
             try:
                 candidate = gateway.structured(
                     system=(
-                        "你是劳动争议咨询的 ReAct 规划器。只形成简短、可审计的行动计划，不输出详细思维链，"
+                        "你是劳动争议咨询的粗粒度规划器。只定义当前问题的目标、信息缺口和检索意图，"
+                        "不执行工具、不输出详细思维链，也不能增加应用未授权的步骤。"
                         "也不回答问题。当前用户消息优先级最高；历史消息只用于消解指代和延续上下文。"
                         "不得发明事实或事实 ID。action 表示下一步应执行的唯一动作。"
                     ),
@@ -196,9 +240,30 @@ def build_workflow(db: Session, gateway: ModelGateway | None = None):
                 plan_source = "model"
             except ModelGatewayError:
                 plan_source = "deterministic_fallback"
-        return {"plan": plan.model_dump(), "plan_source": plan_source}
+        execution_plan = _compile_execution_plan(plan)
+        db.add(
+            AuditEvent(
+                case_id=state["case_id"],
+                event_type="execution_plan_created",
+                agent="intake_coordinator",
+                payload={
+                    **execution_plan.model_dump(),
+                    "source": plan_source,
+                    "question_focus": plan.question_focus,
+                    "information_gaps": plan.information_gaps,
+                },
+            )
+        )
+        db.commit()
+        return {
+            "plan": plan.model_dump(),
+            "execution_plan": execution_plan.model_dump(),
+            "plan_source": plan_source,
+            "tool_call_count": 0,
+            "step_results": {},
+        }
 
-    def act(state: AdvisorState) -> AdvisorState:
+    def persist_facts(state: AdvisorState) -> AdvisorState:
         case = db.get(CaseFile, state["case_id"])
         added_fact = False
         for content in state.get("extracted_facts", []):
@@ -214,14 +279,58 @@ def build_workflow(db: Session, gateway: ModelGateway | None = None):
                 added_fact = True
         if added_fact:
             invalidate_case_analyses(db, case, "用户补充了新的案件事实")
-        query = (
-            f"{state['plan']['retrieval_query']} {state['memory']['initial_issue']} "
-            f"{state['user_message']}"
-        )
-        authorities = search_authorities(db, query)
-        authority_ids = [item.id for item in authorities]
         case.stage = "fact_gathering"
         case.risk_level = state["urgency"]
+        result = {"added_fact": added_fact, "status": "completed"}
+        db.add(
+            AuditEvent(
+                case_id=case.id,
+                event_type="plan_step_completed",
+                agent="intake_coordinator",
+                payload={
+                    "protocol": "plan-execute-react-v1",
+                    "step_id": "persist_facts",
+                    "executor": "deterministic",
+                    "result": result,
+                },
+            )
+        )
+        db.commit()
+        return {"step_results": {**state.get("step_results", {}), "persist_facts": result}}
+
+    def retrieve_authorities(state: AdvisorState) -> AdvisorState:
+        case = db.get(CaseFile, state["case_id"])
+        step = next(
+            item
+            for item in state["execution_plan"]["steps"]
+            if item["step_id"] == "retrieve_authorities"
+        )
+        queries = [
+            (
+                f"{state['plan']['retrieval_query']} {state['memory']['initial_issue']} "
+                f"{state['user_message']}"
+            )[:1600],
+            f"{state['category']} {state['plan']['question_focus']}"[:1200],
+        ]
+        authority_ids: list[str] = []
+        attempts: list[dict] = []
+        for query in queries[: step["max_tool_calls"]]:
+            authorities = search_authorities(db, query)
+            authority_ids = list(dict.fromkeys(item.id for item in authorities))
+            attempts.append(
+                {
+                    "action": "retrieve_authorities",
+                    "query": query,
+                    "authority_ids": authority_ids,
+                }
+            )
+            if authority_ids:
+                break
+        result = {
+            "status": "completed" if authority_ids else "completed_empty",
+            "tool_calls": len(attempts),
+            "authority_ids": authority_ids,
+        }
         db.add_all(
             [
                 AuditEvent(
@@ -229,13 +338,14 @@ def build_workflow(db: Session, gateway: ModelGateway | None = None):
                     event_type="react_plan",
                     agent="intake_coordinator",
                     payload={
-                        "protocol": "react-v1",
+                        "protocol": "plan-execute-react-v1",
                         "source": state["plan_source"],
                         "question_focus": state["plan"]["question_focus"],
                         "user_intent": state["plan"]["user_intent"],
-                        "action": state["plan"]["action"],
+                        "action": "retrieve_authorities",
                         "retrieval_query": state["plan"]["retrieval_query"],
                         "information_gaps": state["plan"]["information_gaps"],
+                        "budget": {"max_tool_calls": step["max_tool_calls"]},
                         "context_refs": {
                             "message_ids": [
                                 item["id"] for item in state["memory"]["conversation_history"]
@@ -252,15 +362,64 @@ def build_workflow(db: Session, gateway: ModelGateway | None = None):
                     event_type="react_action",
                     agent="legal_research",
                     payload={
-                        "protocol": "react-v1",
-                        "action": "retrieve_authorities",
-                        "authority_ids": authority_ids,
+                        "protocol": "plan-execute-react-v1",
+                        "step_id": "retrieve_authorities",
+                        "allowed_tools": step["allowed_tools"],
+                        "attempts": attempts,
+                        **result,
+                    },
+                ),
+                AuditEvent(
+                    case_id=case.id,
+                    event_type="plan_step_completed",
+                    agent="legal_research",
+                    payload={
+                        "protocol": "plan-execute-react-v1",
+                        "step_id": "retrieve_authorities",
+                        "executor": "bounded_react",
+                        "result": result,
                     },
                 ),
             ]
         )
         db.commit()
-        return {"authority_ids": authority_ids}
+        return {
+            "authority_ids": authority_ids,
+            "tool_call_count": len(attempts),
+            "step_results": {
+                **state.get("step_results", {}),
+                "retrieve_authorities": result,
+            },
+        }
+
+    def validate_execution(state: AdvisorState) -> AdvisorState:
+        valid_ids = [
+            authority_id
+            for authority_id in state.get("authority_ids", [])
+            if db.get(LegalAuthority, authority_id) is not None
+        ]
+        step = next(
+            item
+            for item in state["execution_plan"]["steps"]
+            if item["step_id"] == "retrieve_authorities"
+        )
+        budget_ok = state.get("tool_call_count", 0) <= step["max_tool_calls"]
+        db.add(
+            AuditEvent(
+                case_id=state["case_id"],
+                event_type="execution_validated",
+                agent="intake_coordinator",
+                payload={
+                    "protocol": "plan-execute-react-v1",
+                    "authority_ids": valid_ids,
+                    "tool_call_count": state.get("tool_call_count", 0),
+                    "budget_ok": budget_ok,
+                    "replans_used": 0,
+                },
+            )
+        )
+        db.commit()
+        return {"authority_ids": valid_ids}
 
     def respond(state: AdvisorState) -> AdvisorState:
         authorities = [db.get(LegalAuthority, aid) for aid in state.get("authority_ids", [])]
@@ -281,8 +440,8 @@ def build_workflow(db: Session, gateway: ModelGateway | None = None):
         try:
             output = gateway.structured(
                 system=(
-                    "你是面向中国大陆法律小白的劳动争议咨询协调智能体。系统已按 ReAct 协议完成："
-                    "观察案件上下文、形成简短行动计划、执行法律检索。现在只输出最终答复，不展示详细思维链。"
+                    "你是面向中国大陆法律小白的劳动争议咨询协调智能体。系统已完成粗粒度规划、"
+                    "确定性事实处理和有界法律检索。现在只输出最终答复，不展示详细思维链。"
                     "必须先直接回应当前用户消息，不得转而回答更早的问题；历史消息只用于消解指代。"
                     "说明基于哪些用户陈述，并区分陈述与已确认事实。仅使用候选法律依据，不得凭记忆补充法条。"
                     "信息不足时提出最多三个有明确目的的追问，追问文本不要自带序号。"
@@ -294,7 +453,9 @@ def build_workflow(db: Session, gateway: ModelGateway | None = None):
                             "current_user_message"
                         ],
                         "question_focus": focus,
-                        "react_plan": state["plan"],
+                        "execution_protocol": "plan-execute-react-v1",
+                        "coarse_plan": state["plan"],
+                        "step_results": state.get("step_results", {}),
                         "conversation_memory": state["memory"],
                         "retrieval_observation": authority_context,
                         "suggested_information_gaps": state.get("missing_information", []),
@@ -328,21 +489,39 @@ def build_workflow(db: Session, gateway: ModelGateway | None = None):
                     case_id=state["case_id"],
                     event_type="model_fallback",
                     agent="intake_coordinator",
-                    payload={"reason": str(exc), "protocol": "react-v1"},
+                    payload={"reason": str(exc), "protocol": "plan-execute-react-v1"},
                 )
             )
             db.commit()
+        db.add(
+            AuditEvent(
+                case_id=state["case_id"],
+                event_type="plan_step_completed",
+                agent="intake_coordinator",
+                payload={
+                    "protocol": "plan-execute-react-v1",
+                    "step_id": "compose_response",
+                    "executor": "structured_model",
+                    "result": {"status": "completed"},
+                },
+            )
+        )
+        db.commit()
         return {"response": response}
 
     graph = StateGraph(AdvisorState)
     graph.add_node("observe", observe)
-    graph.add_node("reason", reason)
-    graph.add_node("act", act)
+    graph.add_node("create_plan", create_plan)
+    graph.add_node("persist_facts", persist_facts)
+    graph.add_node("retrieve_authorities", retrieve_authorities)
+    graph.add_node("validate_execution", validate_execution)
     graph.add_node("respond", respond)
     graph.add_edge(START, "observe")
-    graph.add_edge("observe", "reason")
-    graph.add_edge("reason", "act")
-    graph.add_edge("act", "respond")
+    graph.add_edge("observe", "create_plan")
+    graph.add_edge("create_plan", "persist_facts")
+    graph.add_edge("persist_facts", "retrieve_authorities")
+    graph.add_edge("retrieve_authorities", "validate_execution")
+    graph.add_edge("validate_execution", "respond")
     graph.add_edge("respond", END)
     return graph.compile()
 
@@ -367,7 +546,7 @@ def run_intake(
     message = Message(
         case_id=case.id,
         role="assistant",
-        agent="intake_coordinator_react_v1",
+        agent="intake_coordinator_plan_execute_react_v1",
         content=result["response"],
     )
     db.add(message)

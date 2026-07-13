@@ -48,7 +48,7 @@ class ConversationOutput(BaseModel):
 
 
 class ConversationPlan(BaseModel):
-    """A concise auditable ReAct plan, not a hidden chain-of-thought transcript."""
+    """A concise auditable coarse plan, not a hidden chain-of-thought transcript."""
 
     question_focus: str
     user_intent: str
@@ -56,6 +56,26 @@ class ConversationPlan(BaseModel):
     information_gaps: list[str]
     action: Literal["retrieve_authorities", "clarify", "escalate"]
     retrieval_query: str
+
+
+class ExecutionStep(BaseModel):
+    """System-owned execution contract for one bounded plan step."""
+
+    step_id: Literal["persist_facts", "retrieve_authorities", "compose_response"]
+    objective: str
+    executor: Literal["deterministic", "bounded_react", "structured_model"]
+    allowed_tools: list[Literal["search_authorities"]] = Field(default_factory=list)
+    max_tool_calls: int = Field(default=0, ge=0, le=2)
+    success_condition: str
+
+
+class ConversationExecutionPlan(BaseModel):
+    """Validated outer Plan-and-Execute plan compiled by the application."""
+
+    protocol: Literal["plan-execute-react-v1"] = "plan-execute-react-v1"
+    goal: str
+    steps: list[ExecutionStep]
+    max_replans: int = Field(default=0, ge=0, le=1)
 
 
 class SimulationTurnOutput(BaseModel):
