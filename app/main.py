@@ -216,9 +216,9 @@ def stream_message(
     def generate() -> Iterator[str]:
         yield sse("status", {"stage": "observe", "label": "正在回顾本案与当前问题"})
         time.sleep(0.05)
-        yield sse("status", {"stage": "reason", "label": "正在形成回答计划与核对重点"})
+        yield sse("status", {"stage": "plan", "label": "正在生成可控的分步计划"})
         time.sleep(0.05)
-        yield sse("status", {"stage": "act", "label": "正在检索并核验法律依据"})
+        yield sse("status", {"stage": "execute", "label": "正在按计划检索并核验法律依据"})
         try:
             message, state = run_intake(db, case, payload.content)
             reconcile_case_stage(db, case)
