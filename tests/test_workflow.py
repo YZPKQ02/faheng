@@ -10,7 +10,7 @@ class RecordingGateway:
     def __init__(self):
         self.calls: list[tuple[type, str]] = []
 
-    def structured(self, *, system: str, user: str, schema: type):
+    def structured(self, *, system: str, user: str, schema: type, authorization=None):
         self.calls.append((schema, user))
         if schema is ConversationPlan:
             return ConversationPlan(

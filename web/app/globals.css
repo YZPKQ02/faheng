@@ -309,6 +309,15 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px
 .dialog-actions button { flex: 1; min-height: 44px; border: 1px solid var(--line-strong); border-radius: 9px; background: #fff; color: var(--ink-soft); font-size: 13px; font-weight: 600; }
 .dialog-actions .danger-button { border-color: var(--red); background: var(--red); color: #fff; }
 .dialog-actions .primary-button { border-color: var(--navy-900); background: var(--navy-900); color: #fff; }
+.consent-dialog { display: flex; flex-direction: column; width: min(560px, 100%); max-height: calc(100dvh - 40px); padding: 0; overflow: hidden; }
+.consent-scroll { min-height: 0; overflow-y: auto; padding: 28px 32px 12px; }
+.consent-dialog > .dialog-actions { flex: 0 0 auto; margin: 0; padding: 16px 32px 24px; border-top: 1px solid var(--line); background: #fff; }
+.consent-mark { display: grid; place-items: center; width: 48px; height: 48px; margin-bottom: 15px; border-radius: 15px; background: #dceeea; color: #267566; font: 700 18px "Songti SC", Georgia, serif; }
+.consent-dialog ul { margin: 20px 0 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
+.consent-dialog li { display: grid; grid-template-columns: 92px 1fr; gap: 14px; padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 12px; line-height: 1.65; }
+.consent-dialog li b { color: var(--ink); }
+.consent-dialog li span { color: var(--muted); }
+.consent-warning { margin-top: 16px; padding: 11px 13px; border-left: 3px solid var(--gold); background: #faf7ef; color: #6d6047; font-size: 11px; line-height: 1.65; }
 .form-kicker { color: var(--gold); font-size: 9px; font-weight: 700; letter-spacing: .18em; }
 .evidence-dialog label { display: block; margin-top: 18px; color: var(--ink-soft); font-size: 12px; font-weight: 600; }
 .evidence-dialog input, .evidence-dialog textarea { display: block; width: 100%; margin-top: 8px; padding: 12px 13px; border: 1px solid var(--line-strong); border-radius: 9px; outline: 0; color: var(--ink); font-size: 13px; }
@@ -316,39 +325,83 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px
 .evidence-dialog textarea { min-height: 100px; resize: vertical; line-height: 1.6; }
 .backdrop { display: none; }
 
-.simulation-overlay { position: fixed; inset: 0; z-index: 200; display: flex; flex-direction: column; background: #eef1f2; }
-.simulation-overlay > header { display: flex; align-items: center; flex: 0 0 68px; padding: 0 28px; background: var(--navy-950); color: #fff; }
+.simulation-overlay { position: fixed; inset: 0; z-index: 200; display: flex; flex-direction: column; width: 100%; height: 100dvh; overflow: hidden; background: #eef1f2; }
+.simulation-overlay > header { display: flex; align-items: center; flex: 0 0 62px; padding: 0 28px; background: var(--navy-950); color: #fff; }
 .simulation-overlay > header span, .simulation-overlay > header b { display: block; }
 .simulation-overlay > header span { color: #8297a7; font-size: 10px; letter-spacing: .11em; }
-.simulation-overlay > header b { margin-top: 4px; font: 17px "Songti SC", Georgia, serif; }
+.simulation-overlay > header b { margin-top: 3px; font: 18px "Songti SC", Georgia, serif; }
 .simulation-status { display: flex; align-items: center; gap: 7px; margin-left: auto; margin-right: 24px; color: #9dafbb; font-size: 11px; }
 .simulation-status i { width: 7px; height: 7px; border-radius: 50%; background: #4aba84; }
+.simulation-status.rule { padding: 6px 9px; border: 1px solid rgba(196,163,102,.28); border-radius: 999px; background: rgba(196,163,102,.13); color: #f0d7a4; }
+.simulation-status.rule i { background: var(--gold); }
+.simulation-status.hybrid { padding: 6px 9px; border: 1px solid rgba(106,157,181,.3); border-radius: 999px; background: rgba(106,157,181,.14); color: #cde5ef; }
+.simulation-status.hybrid i { background: #73afc9; }
 .simulation-overlay > header button { padding: 9px 11px; border: 1px solid rgba(255,255,255,.16); border-radius: 8px; background: rgba(255,255,255,.06); color: #dbe3e8; font-size: 11px; }
-.simulation-overlay > main { display: grid; grid-template-columns: minmax(0, 1fr) 330px; flex: 1; min-height: 0; }
-.hearing-room { display: flex; flex-direction: column; min-height: 0; padding: 28px clamp(24px, 6vw, 90px); }
-.bench { align-self: center; min-width: 270px; padding: 14px 32px; border-top: 3px solid var(--gold); border-radius: 0 0 8px 8px; background: var(--navy-900); color: #fff; text-align: center; box-shadow: var(--shadow-md); }
+.simulation-mobile-tabs { display: none; }
+.simulation-overlay > main { display: grid; grid-template-columns: minmax(0, 1fr) 292px; flex: 1 1 auto; min-height: 0; overflow: hidden; }
+.hearing-room { display: flex; flex-direction: column; min-width: 0; min-height: 0; overflow: hidden; padding: 16px clamp(14px, 2vw, 30px) 12px; }
+.bench { align-self: center; flex: 0 0 auto; min-width: 260px; padding: 10px 28px; border-top: 3px solid var(--gold); border-radius: 0 0 10px 10px; background: var(--navy-900); color: #fff; text-align: center; box-shadow: var(--shadow-md); }
 .bench span, .bench b { display: block; }
-.bench span { color: #8498a7; font-size: 9px; letter-spacing: .14em; }
-.bench b { margin-top: 5px; font: 15px "Songti SC", Georgia, serif; }
-.hearing-stream { flex: 1; min-height: 0; overflow: auto; margin-top: 24px; padding: 26px; border: 1px solid var(--line); border-radius: var(--radius-md); background: #fff; }
-.hearing-stream article { display: flex; gap: 12px; max-width: 760px; margin: 0 auto 21px; }
-.hearing-stream article > span { display: grid; place-items: center; flex: 0 0 36px; height: 36px; border-radius: 10px; background: var(--blue-soft); color: #47667b; font: 13px "Songti SC", serif; }
-.hearing-stream article b { font-size: 12px; }
-.hearing-stream article p { margin: 7px 0 0; padding: 13px 15px; border-left: 2px solid #c4a366; background: #f6f7f7; color: var(--ink-soft); font-size: 13px; line-height: 1.8; white-space: pre-wrap; }
-.hearing-thinking { display: flex; align-items: center; gap: 5px; max-width: 760px; margin: 10px auto; color: var(--muted); font-size: 11px; }
+.bench span { color: #a7b7c2; font-size: 10px; letter-spacing: .08em; }
+.bench b { margin-top: 4px; font: 16px "Songti SC", Georgia, serif; }
+.bench b i { display: inline-grid; place-items: center; width: 28px; height: 28px; margin-right: 7px; border: 1px solid rgba(255,255,255,.42); border-radius: 9px; background: linear-gradient(145deg, #fff8df, #dcbf77); box-shadow: inset 1px 1px 1px rgba(255,255,255,.9), 0 4px 8px rgba(0,0,0,.22); font-family: "Segoe UI Emoji", sans-serif; font-size: 15px; font-style: normal; }
+.role-legend { display: flex; flex: 0 0 auto; flex-wrap: wrap; justify-content: center; gap: 7px; margin: 10px auto 0; }
+.role-legend span { display: inline-flex; align-items: center; gap: 5px; padding: 5px 9px; border: 1px solid var(--line); border-radius: 999px; background: #fff; color: var(--ink-soft); font-size: 11px; }
+.role-legend i { display: grid; place-items: center; width: 23px; height: 23px; border: 1px solid rgba(255,255,255,.9); border-radius: 8px; box-shadow: inset 1px 1px 1px rgba(255,255,255,.9), 0 3px 7px rgba(30,52,66,.16); font-family: "Segoe UI Emoji", sans-serif; font-size: 13px; font-style: normal; }
+.role-legend .arbitrator i { background: #f0e5cc; color: #82662f; }
+.role-legend .employer i { background: #f2ddda; color: #9d493f; }
+.role-legend .coach i { background: #dceeea; color: #267566; }
+.role-legend .worker i { background: #dfeaf5; color: #315f89; }
+.round-trace { display: flex; flex: 0 0 auto; justify-content: center; gap: 20px; max-width: 100%; margin: 10px auto 0; overflow-x: auto; color: #72838e; font-size: 10px; white-space: nowrap; }
+.round-trace span { position: relative; display: grid; grid-template-columns: 19px auto; align-items: center; gap: 6px; }
+.round-trace span:not(:last-child)::after { content: "→"; position: absolute; left: calc(100% + 6px); color: #b4bec4; }
+.round-trace span::first-letter { color: var(--gold); font-weight: 800; }
+.round-trace b { color: var(--ink-soft); font-size: 10px; }
+.round-trace small { grid-column: 2; color: #a86155; font-size: 9px; }
+.hearing-stream { flex: 1 1 auto; min-height: 100px; overflow-y: auto; overscroll-behavior: contain; margin-top: 12px; padding: 20px clamp(12px, 1.5vw, 22px); border: 1px solid var(--line); border-radius: 14px; background: #fff; scrollbar-gutter: stable; }
+.hearing-stream article { display: flex; width: 100%; max-width: none; gap: 14px; margin: 0 0 20px; }
+.avatar-stack { display: flex; flex: 0 0 70px; flex-direction: column; align-items: center; gap: 5px; }
+.avatar-stack > small { max-width: 70px; overflow: hidden; color: var(--ink); font-size: 11px; font-weight: 700; text-align: center; text-overflow: ellipsis; white-space: nowrap; }
+.avatar-stack > span { position: relative; display: grid; place-items: center; width: 56px; height: 56px; overflow: hidden; border: 1px solid rgba(255,255,255,.94); border-radius: 17px; background: linear-gradient(145deg, #eef6fc, #c9dbe9); box-shadow: inset 1px 1px 2px rgba(255,255,255,.95), 0 8px 16px rgba(39,65,82,.18); color: #47667b; font-family: "Segoe UI Emoji", sans-serif; font-size: 24px; }
+.avatar-stack > span em { position: absolute; z-index: 0; font-style: normal; }
+.avatar-stack > span img { position: relative; z-index: 1; width: 100%; height: 100%; object-fit: cover; }
+.message-card > b { display: block; color: #82939e; font-size: 10px; font-weight: 600; letter-spacing: .02em; }
+.hearing-stream article p { margin: 7px 0 0; padding: 13px 16px; border-left: 3px solid #c4a366; border-radius: 0 10px 10px 0; background: #f6f7f7; color: var(--ink-soft); font-size: 14px; line-height: 1.75; white-space: pre-wrap; }
+.message-card { flex: 0 1 auto; width: fit-content; min-width: 0; max-width: 74%; }
+.hearing-stream article.arbitrator .avatar-stack > span { background: linear-gradient(145deg, #fff7df, #ddc484); color: #82662f; }
+.hearing-stream article.employer .avatar-stack > span { background: linear-gradient(145deg, #fff0ed, #dba9a1); color: #9d493f; }
+.hearing-stream article.employer p { border-left-color: #b65e54; background: #fbf4f3; }
+.hearing-stream article.worker { flex-direction: row-reverse; }
+.hearing-stream article.worker .avatar-stack > span { background: linear-gradient(145deg, #eef7ff, #b8d2e8); color: #315f89; }
+.hearing-stream article.worker .message-card { margin-left: auto; }
+.hearing-stream article.worker .message-card > b { text-align: right; }
+.hearing-stream article.worker p { border-right: 2px solid #5f8eb7; border-left: 0; background: #f0f6fb; }
+.hearing-stream article.system { max-width: 680px; }
+.hearing-stream article.system .avatar-stack > span { background: linear-gradient(145deg, #effbf7, #acd7cb); color: #267566; }
+.hearing-stream article.system p { border-left-color: #4b9a89; background: #f0f8f6; font-size: 12px; }
+.hearing-stream article.question p { border-color: #b88b3e; background: #fff9ed; box-shadow: 0 0 0 1px rgba(184,139,62,.12); }
+.hearing-stream article.question p::before { content: "请你回答 · "; color: #956c28; font-size: 11px; font-weight: 800; }
+.hearing-thinking { display: flex; align-items: center; gap: 5px; max-width: 780px; margin: 10px auto; color: var(--muted); font-size: 12px; }
 .hearing-thinking span { margin-left: 5px; }
-.inline-error { margin: 8px 0 0; color: var(--red); font-size: 11px; }
-.hearing-composer { display: grid; grid-template-columns: 1fr 110px; gap: 10px; margin-top: 12px; padding: 11px; border: 1px solid var(--line-strong); border-radius: 12px; background: #fff; box-shadow: var(--shadow-sm); }
-.hearing-composer textarea { min-height: 60px; resize: none; padding: 8px; border: 0; outline: 0; color: var(--ink); font-size: 13px; }
-.hearing-composer button { border: 0; border-radius: 9px; background: var(--navy-900); color: #fff; font-size: 12px; font-weight: 600; }
+.inline-error { flex: 0 0 auto; margin: 8px 0 0; color: var(--red); font-size: 12px; }
+.hearing-composer { display: grid; flex: 0 0 auto; grid-template-columns: minmax(0, 1fr) 112px; gap: 10px; margin-top: 10px; padding: 10px 10px 8px 14px; border: 1px solid var(--line-strong); border-radius: 14px; background: #fff; box-shadow: var(--shadow-sm); }
+.hearing-composer > div { min-width: 0; }
+.hearing-composer textarea { display: block; width: 100%; min-height: 50px; max-height: 110px; resize: vertical; padding: 5px 0; border: 0; outline: 0; color: var(--ink); font-size: 14px; line-height: 1.55; }
+.hearing-composer small { display: block; color: #93a0a8; font-size: 10px; }
+.hearing-composer button { min-height: 54px; border: 0; border-radius: 10px; background: var(--navy-900); color: #fff; font-size: 13px; font-weight: 600; }
 .hearing-composer button:disabled { opacity: .45; }
-.simulation-overlay > main > aside { padding: 32px 25px; border-left: 1px solid var(--line); background: #fff; }
+.simulation-overlay > main > aside { display: flex; flex-direction: column; min-height: 0; overflow: hidden; padding: 26px 22px 18px; border-left: 1px solid var(--line); background: #fff; }
 .simulation-overlay > main > aside h2 { margin: 8px 0; font: 23px "Songti SC", Georgia, serif; }
-.simulation-overlay > main > aside > p { color: var(--muted); font-size: 12px; line-height: 1.7; }
-.simulation-overlay > main > aside ul { padding: 0; list-style: none; }
-.simulation-overlay > main > aside li { margin: 9px 0; padding: 11px; border-radius: 9px; background: #f3f5f5; color: var(--ink-soft); font-size: 11px; line-height: 1.6; }
+.coach-identity { display: flex; align-items: center; gap: 11px; }
+.coach-identity > i { position: relative; display: grid; place-items: center; flex: 0 0 56px; height: 56px; overflow: hidden; border: 1px solid #fff; border-radius: 17px; background: linear-gradient(145deg, #effbf7, #abd8cc); box-shadow: inset 1px 1px 2px rgba(255,255,255,.95), 0 8px 16px rgba(38,86,76,.16); color: #267566; font-family: "Segoe UI Emoji", sans-serif; font-size: 23px; font-style: normal; }
+.coach-identity > i em { position: absolute; z-index: 0; font-style: normal; }
+.coach-identity > i img { position: relative; z-index: 1; width: 100%; height: 100%; object-fit: cover; }
+.coach-identity h2 { margin-top: 4px !important; font-size: 19px !important; }
+.simulation-overlay > main > aside > p { flex: 0 0 auto; color: var(--muted); font-size: 13px; line-height: 1.7; }
+.simulation-overlay > main > aside ul { flex: 1 1 auto; min-height: 0; margin: 12px 0 0; padding: 0 5px 0 0; overflow-y: auto; overscroll-behavior: contain; list-style: none; scrollbar-gutter: stable; }
+.simulation-overlay > main > aside li { margin: 0 0 9px; padding: 12px; border-radius: 10px; background: #f3f6f5; color: var(--ink-soft); font-size: 13px; line-height: 1.65; }
 .simulation-overlay > main > aside li::before { content: "✓"; margin-right: 7px; color: var(--green); }
-.simulation-overlay > main > aside button { width: 100%; min-height: 42px; margin-top: 14px; border: 0; border-radius: 9px; background: var(--navy-900); color: #fff; font-size: 12px; }
+.simulation-overlay > main > aside button { flex: 0 0 auto; width: 100%; min-height: 44px; margin-top: 12px; border: 0; border-radius: 10px; background: var(--navy-900); color: #fff; font-size: 13px; }
 .stream-cursor { display: inline-block; width: 2px; height: 1em; margin-left: 3px; vertical-align: -2px; background: #537897; animation: blink .8s steps(1) infinite; }
 @keyframes blink { 50% { opacity: 0; } }
 
@@ -411,14 +464,35 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px
   .next-actions { display: block; }
   .next-actions button { width: 100%; margin-top: 18px; }
   .dialog { padding: 25px 20px; }
-  .simulation-status { display: none; }
-  .simulation-overlay > header { padding: 0 14px; }
-  .simulation-overlay > header button { margin-left: auto; }
-  .simulation-overlay > main { grid-template-columns: 1fr; }
-  .simulation-overlay > main > aside { display: none; }
-  .hearing-room { padding: 16px 10px; }
-  .hearing-stream { padding: 16px 12px; }
-  .hearing-composer { grid-template-columns: 1fr 88px; }
+  .consent-dialog { max-height: calc(100dvh - 20px); padding: 0; }
+  .consent-scroll { padding: 22px 20px 10px; }
+  .consent-dialog > .dialog-actions { padding: 13px 20px 18px; }
+  .consent-dialog li { grid-template-columns: 1fr; gap: 3px; }
+  .simulation-overlay > header { flex-basis: 58px; padding: 0 12px; }
+  .simulation-overlay > header span { display: none; }
+  .simulation-overlay > header b { margin: 0; font-size: 16px; }
+  .simulation-status { display: flex; margin-left: auto; margin-right: 8px; padding: 5px 7px !important; font-size: 10px; }
+  .simulation-overlay > header button { padding: 7px 8px; }
+  .simulation-mobile-tabs { display: grid; flex: 0 0 44px; grid-template-columns: 1fr 1fr; padding: 5px 10px; border-bottom: 1px solid var(--line); background: #fff; }
+  .simulation-mobile-tabs button { border: 0; border-radius: 8px; background: transparent; color: var(--muted); font-size: 13px; font-weight: 600; }
+  .simulation-mobile-tabs button.active { background: var(--navy-900); color: #fff; }
+  .simulation-overlay > main { display: block; flex: 1 1 auto; min-height: 0; }
+  .hearing-room, .simulation-overlay > main > aside { display: none; height: 100%; }
+  .hearing-room.mobile-active, .simulation-overlay > main > aside.mobile-active { display: flex; }
+  .hearing-room { padding: 10px 9px 8px; }
+  .bench { min-width: 230px; padding: 8px 20px; }
+  .bench b { font-size: 14px; }
+  .role-legend { flex-wrap: nowrap; justify-content: flex-start; width: 100%; overflow-x: auto; }
+  .role-legend span { flex: 0 0 auto; }
+  .round-trace { justify-content: flex-start; width: 100%; padding-bottom: 2px; }
+  .hearing-stream { margin-top: 9px; padding: 14px 10px; }
+  .hearing-stream article { gap: 9px; margin-bottom: 15px; }
+  .hearing-stream article > span { flex-basis: 32px; height: 32px; }
+  .hearing-stream article p { padding: 11px 12px; font-size: 14px; }
+  .hearing-composer { grid-template-columns: minmax(0, 1fr) 86px; }
+  .hearing-composer small { display: none; }
+  .hearing-composer textarea { min-height: 48px; }
+  .simulation-overlay > main > aside { padding: 22px 18px 14px; border-left: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {

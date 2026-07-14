@@ -1,7 +1,9 @@
 "use client";
 
 import { FormEvent, ReactNode, useEffect, useMemo, useRef, useState } from "react";
-import { api, CaseFile, Fact, HumanReview } from "../lib/api";
+import Image from "next/image";
+import { api, CaseFile, Fact, HumanReview, ModelConsent, Simulation, SimulationLine } from "../lib/api";
+import { mergeConsentScope, type ModelPurpose } from "../lib/consent";
 import { normalizeConsultationContent } from "../lib/format";
 
 const stageLabels: Record<string, string> = {
@@ -32,7 +34,8 @@ const starters = [
 ];
 
 type View = "welcome" | "chat" | "report";
-type Simulation = { id: string; transcript: { role: string; content: string }[]; feedback: string[] };
+type ConsentPurpose = ModelPurpose;
+type ConsentRequest = { purpose: ConsentPurpose; content?: string };
 
 export default function Home() {
   const [cases, setCases] = useState<CaseFile[]>([]);
@@ -49,6 +52,8 @@ export default function Home() {
   const [evidenceOpen, setEvidenceOpen] = useState(false);
   const [pinned, setPinned] = useState<string[]>([]);
   const [simulation, setSimulation] = useState<Simulation | null>(null);
+  const [consentRequest, setConsentRequest] = useState<ConsentRequest | null>(null);
+  const [activeConsent, setActiveConsent] = useState<ModelConsent | null>(null);
 
   useEffect(() => {
     setPinned(JSON.parse(localStorage.getItem("pinned-legal-cases") ?? "[]"));
@@ -114,6 +119,12 @@ export default function Home() {
     event.preventDefault();
     if (!current || !input.trim() || busy) return;
     const content = input.trim();
+    if (!await ensureModelConsent("intake", content)) return;
+    await sendWithModelConsent(content);
+  }
+
+  async function sendWithModelConsent(content: string) {
+    if (!current) return;
     setInput("");
     setBusy("正在理解你的情况");
     setStreamedAnswer("");
@@ -137,7 +148,13 @@ export default function Home() {
 
   async function analyze() {
     if (!current || busy) return;
-    setBusy("多智能体正在核对事实、证据与法律依据");
+    if (!await ensureModelConsent("analysis")) return;
+    await analyzeWithModelConsent();
+  }
+
+  async function analyzeWithModelConsent() {
+    if (!current) return;
+    setBusy("正在从双方立场核对事实、证据和法律依据");
     setError("");
     try {
       await api.analyze(current.id);
@@ -164,12 +181,62 @@ export default function Home() {
   }
 
   async function simulate() {
+    if (!current || busy) return;
+    if (!await ensureModelConsent("simulation")) return;
+    await simulateWithModelConsent();
+  }
+
+  async function simulateWithModelConsent() {
     if (!current) return;
-    setBusy("正在布置仲裁模拟环境");
+    setBusy("正在恢复仲裁模拟环境");
+    setError("");
     try {
       setSimulation(await api.simulate(current.id));
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : "模拟暂时无法启动");
+    } finally {
+      setBusy("");
+    }
+  }
+
+  async function ensureModelConsent(purpose: ConsentPurpose, content?: string) {
+    if (!current) return false;
+    setBusy("正在检查模型数据授权");
+    setError("");
+    try {
+      const consents = await api.listModelConsents(current.id);
+      const active = consents.find((item) => item.status === "active" && !item.revoked_at) ?? null;
+      if (!active?.purposes.includes(purpose)) {
+        setActiveConsent(active);
+        setConsentRequest({ purpose, content });
+        return false;
+      }
+      return true;
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : "无法检查模型授权");
+      return false;
+    } finally {
+      setBusy("");
+    }
+  }
+
+  async function grantRequestedConsent() {
+    if (!current || !consentRequest || busy) return;
+    const request = consentRequest;
+    setBusy("正在记录案件模型授权");
+    setError("");
+    try {
+      await api.grantModelConsent(
+        current.id,
+        mergeConsentScope(activeConsent, request.purpose),
+      );
+      setConsentRequest(null);
+      setActiveConsent(null);
+      if (request.purpose === "intake" && request.content) await sendWithModelConsent(request.content);
+      if (request.purpose === "analysis") await analyzeWithModelConsent();
+      if (request.purpose === "simulation") await simulateWithModelConsent();
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : "模型授权失败");
     } finally {
       setBusy("");
     }
@@ -263,6 +330,7 @@ export default function Home() {
       </section>
       {deleteTarget && <DeleteDialog item={deleteTarget} busy={busy} onCancel={() => setDeleteTarget(null)} onConfirm={() => void confirmDelete()} />}
       {evidenceOpen && current && <EvidenceDialog caseId={current.id} onClose={() => setEvidenceOpen(false)} onSaved={async () => { setEvidenceOpen(false); await refresh(); }} />}
+      {consentRequest && <ModelConsentDialog purpose={consentRequest.purpose} busy={busy} onCancel={() => { setConsentRequest(null); setActiveConsent(null); }} onConfirm={() => void grantRequestedConsent()} />}
       {simulation && <SimulationOverlay session={simulation} onClose={() => setSimulation(null)} />}
     </main>
   );
@@ -399,12 +467,21 @@ function Report({ caseFile, reviews, onBack, onAnalyze, onSimulate, busy }: { ca
       {result.reasoning_trace?.length > 0 && <section className="reasoning-section"><header><div><small>EVIDENCE CHAIN</small><h2>争点与构成要件</h2></div><p>每项判断均关联案件事实、证据与法律依据</p></header><div>{result.reasoning_trace.map((trace) => <article key={trace.issue}><div><span>争议焦点</span><h3>{trace.issue}</h3><small>{trace.authority_ids.length} 条法律依据</small></div><ul>{trace.elements.map((element) => <li key={element.element}><i className={element.status}>{element.status === "supported" ? "✓" : element.status === "claimed" ? "·" : "!"}</i><span><b>{element.element}</b><small>{element.status === "supported" ? "已有证据支持" : element.status === "claimed" ? "仅有事实陈述" : "尚缺必要信息"}</small></span></li>)}</ul></article>)}</div></section>}
       <section className="next-actions"><div><small>NEXT STEP</small><h2>用模拟庭审检验表达与证据</h2><p>模拟内容不会写入已确认案件事实。</p></div><button onClick={onSimulate}>进入仲裁模拟 <span>→</span></button></section>
       <p className="report-disclaimer">本报告仅提供法律信息和决策辅助，不构成律师意见，不承诺案件结果。</p>
-    </> : <div className="empty-report"><span>{stale ? "↻" : "◇"}</span><h2>{stale ? "案件材料已变化，需要重新分析" : "还没有分析报告"}</h2><p>{stale?.invalidated_reason ?? "完成事实陈述并登记关键证据后，可以启动多智能体分析。"}</p><button onClick={onAnalyze} disabled={!!busy}>{busy || "生成最新分析"}</button></div>}
+    </> : <div className="empty-report"><span>{stale ? "↻" : "◇"}</span><h2>{stale ? "案件材料已变化，需要重新分析" : "还没有分析报告"}</h2><p>{stale?.invalidated_reason ?? "完成事实陈述并登记关键证据后，可以从双方立场生成案件分析。"}</p><button onClick={onAnalyze} disabled={!!busy}>{busy || "生成最新分析"}</button></div>}
   </div>;
 }
 
 function ReportCard({ tone, icon, eyebrow, title, children }: { tone: string; icon: string; eyebrow: string; title: string; children: ReactNode }) {
   return <section className={`report-card ${tone}`}><header><i>{icon}</i><div><span>{eyebrow}</span><b>{title}</b></div></header>{children}</section>;
+}
+
+function ModelConsentDialog({ purpose, busy, onCancel, onConfirm }: { purpose: ConsentPurpose; busy: string; onCancel: () => void; onConfirm: () => void }) {
+  const copy = {
+    intake: { title: "授权案件协调助手", purpose: "理解当前问题、整理案件事实并生成咨询回应", data: "本轮对话、案件事实、证据名称与证明目的", action: "同意并发送消息" },
+    analysis: { title: "授权多方视角案件分析", purpose: "分别整理劳动者观点、单位可能的答辩和中立评估", data: "案件事实、证据名称、证明目的和已有分析", action: "同意并开始分析" },
+    simulation: { title: "授权用于仲裁模拟", purpose: "生成仲裁员和用人单位代理人的模拟回应", data: "本轮模拟对话、案件事实、证据名称与证明目的", action: "同意并开始模拟" },
+  }[purpose];
+  return <div className="modal-layer" role="presentation"><div className="dialog consent-dialog" role="dialog" aria-modal="true" aria-labelledby="consent-title"><div className="consent-scroll"><div className="consent-mark">隐</div><span className="form-kicker">信息使用授权</span><h2 id="consent-title">{copy.title}</h2><p>该功能需要把以下案件信息发送给 DeepSeek。只有你确认后才会发送。</p><ul><li><b>用来做什么</b><span>{copy.purpose}</span></li><li><b>会使用什么</b><span>{copy.data}</span></li><li><b>如何保护</b><span>发送前会隐藏身份证号、手机号等敏感信息；不会改动你保存的原始材料</span></li><li><b>你可以撤销</b><span>授权只对当前案件生效，以后可以撤销；新增用途不会取消已有授权</span></li></ul><div className="consent-warning">生成内容只用于案件辅助，不是律师意见，也不会自动变成已经确认的事实。</div></div><div className="dialog-actions"><button disabled={Boolean(busy)} onClick={onCancel}>暂不授权</button><button className="primary-button" disabled={Boolean(busy)} onClick={onConfirm}>{busy || copy.action}</button></div></div></div>;
 }
 
 function DeleteDialog({ item, busy, onCancel, onConfirm }: { item: CaseFile; busy: string; onCancel: () => void; onConfirm: () => void }) {
@@ -423,7 +500,9 @@ function SimulationOverlay({ session, onClose }: { session: Simulation; onClose:
   const [current, setCurrent] = useState(session);
   const [answer, setAnswer] = useState("");
   const [sending, setSending] = useState(false);
+  const [ending, setEnding] = useState(false);
   const [failure, setFailure] = useState("");
+  const [mobilePanel, setMobilePanel] = useState<"hearing" | "coach">("hearing");
   const streamRef = useRef<HTMLDivElement>(null);
   useEffect(() => { streamRef.current?.scrollTo({ top: streamRef.current.scrollHeight, behavior: "smooth" }); }, [current.transcript.length]);
   async function submit(event: FormEvent) {
@@ -432,12 +511,32 @@ function SimulationOverlay({ session, onClose }: { session: Simulation; onClose:
     const content = answer.trim();
     const base = current.transcript;
     setAnswer(""); setSending(true); setFailure("");
-    setCurrent({ ...current, transcript: [...base, { role: "劳动者（你）", content }] });
+    setCurrent({ ...current, transcript: [...base, { role: "劳动者（你）", agent_id: "worker", content }] });
     try { setCurrent(await api.simulationMessage(current.id, content)); }
     catch { setAnswer(content); setCurrent({ ...current, transcript: base }); setFailure("回应生成失败，内容已保留，请重试。"); }
     finally { setSending(false); }
   }
-  return <div className="simulation-overlay" role="dialog" aria-modal="true" aria-label="劳动仲裁庭审模拟"><header><div><span>法衡 · 仲裁沙盘</span><b>劳动仲裁庭审模拟</b></div><div className="simulation-status"><i />练习模式</div><button onClick={onClose}>退出模拟 ×</button></header><main><section className="hearing-room"><div className="bench"><span>仲裁席</span><b>中立裁判智能体</b></div><div className="hearing-stream" ref={streamRef} aria-live="polite">{current.transcript.map((line, index) => <article key={`${line.role}-${index}`}><span>{line.role.slice(0, 1)}</span><div><b>{line.role}</b><p>{line.content}</p></div></article>)}{sending && <div className="hearing-thinking"><i /><i /><i /><span>仲裁智能体正在回应</span></div>}</div>{failure && <p className="inline-error" role="alert">{failure}</p>}<form className="hearing-composer" onSubmit={submit}><label className="sr-only" htmlFor="hearing-answer">回答仲裁员</label><textarea id="hearing-answer" value={answer} onChange={(event) => setAnswer(event.target.value)} onKeyDown={(event) => { if (event.key === "Enter" && !event.shiftKey) { event.preventDefault(); event.currentTarget.form?.requestSubmit(); } }} placeholder="以劳动者身份回答仲裁员的问题……" /><button disabled={sending || !answer.trim()}>{sending ? "回应中…" : "提交回答"}</button></form></section><aside><span className="form-kicker">REAL-TIME COACH</span><h2>庭审教练</h2><p>模拟内容只用于练习，不会写入已确认案件事实。</p><ul>{current.feedback.map((item) => <li key={item}>{item}</li>)}</ul><button onClick={onClose}>结束本轮模拟</button></aside></main></div>;
+  async function complete() {
+    if (ending || sending) return;
+    setEnding(true); setFailure("");
+    try { await api.completeSimulation(current.id); onClose(); }
+    catch { setFailure("暂时无法结束本次模拟，请稍后重试。当前对话仍然保留。"); }
+    finally { setEnding(false); }
+  }
+  const runtime = current.transcript.find((line) => line.agent_id === "system");
+  const mode = runtime?.mode ?? "rule";
+  const modeLabels = { model: "智能模拟", hybrid: "部分智能回应", rule: "基础模拟" };
+  const stageLabels: Record<string, string> = { orientation: "身份与程序确认", claims: "仲裁请求", fact_investigation: "事实调查", evidence_examination: "举证质证", debate: "辩论", closing_or_mediation: "最后陈述／调解" };
+  const executionLabels: Record<string, string> = { employer_advocate: "单位代表回应", arbitrator: "仲裁员整理问题", worker_coach: "仲裁助手给出建议" };
+  const visibleTranscript = current.transcript.filter((line) => line.agent_id !== "system");
+  return <div className="simulation-overlay" role="dialog" aria-modal="true" aria-label="劳动仲裁庭审模拟"><header><div><span>法衡 · 模拟仲裁庭</span><b>劳动仲裁模拟</b></div><div className={`simulation-status ${mode}`}><i />{modeLabels[mode]}</div><button onClick={onClose}>退出</button></header><nav className="simulation-mobile-tabs" aria-label="切换模拟内容"><button className={mobilePanel === "hearing" ? "active" : ""} onClick={() => setMobilePanel("hearing")}>庭审对话</button><button className={mobilePanel === "coach" ? "active" : ""} onClick={() => setMobilePanel("coach")}>仲裁建议</button></nav><main><section className={`hearing-room ${mobilePanel === "hearing" ? "mobile-active" : ""}`}><div className="bench"><span>{stageLabels[runtime?.stage ?? "orientation"]} · 第 {runtime?.round_number ?? 0} 回合</span><b><i>⚖️</i> 中立仲裁员</b></div><div className="role-legend" aria-label="模拟角色说明"><span className="arbitrator"><i>⚖️</i>仲裁员</span><span className="employer"><i>🏢</i>单位代表</span><span className="coach"><i>🧭</i>仲裁助手</span><span className="worker"><i>👤</i>你</span></div>{Boolean(runtime?.last_execution?.length) && <div className="round-trace" aria-label="本轮回应过程">{runtime?.last_execution?.map((agent, index) => <span className={runtime.fallback_agents?.includes(agent) ? "fallback" : ""} key={`${agent}-${index}`}>{index + 1}<b>{executionLabels[agent] ?? agent}</b>{runtime.fallback_agents?.includes(agent) && <small>已使用备用回答</small>}</span>)}</div>}<div className="hearing-stream" ref={streamRef} aria-live="polite">{visibleTranscript.map((line, index) => { const identity = simulationIdentity(line); return <article className={`${identity.id}${line.kind === "question" ? " question" : ""}`} key={`${line.role}-${index}`}><div className="avatar-stack"><small>{identity.label}</small><span aria-hidden="true"><em>{identity.icon}</em><Image src={identity.avatar} alt="" width={56} height={56} onError={(event) => { event.currentTarget.style.display = "none"; }} /></span></div><div className="message-card"><b>{identity.tag}</b><p>{line.content}</p></div></article>; })}{sending && <div className="hearing-thinking"><i /><i /><i /><span>正在准备单位回应和仲裁员提问…</span></div>}</div>{failure && <p className="inline-error" role="alert">{failure}</p>}<form className="hearing-composer" onSubmit={submit}><label className="sr-only" htmlFor="hearing-answer">输入你的回答</label><div><textarea id="hearing-answer" value={answer} onChange={(event) => setAnswer(event.target.value)} onKeyDown={(event) => { if (event.key === "Enter" && !event.shiftKey) { event.preventDefault(); event.currentTarget.form?.requestSubmit(); } }} placeholder="输入你的回答，也可以询问当前流程…" /><small>Enter 发送 · Shift + Enter 换行</small></div><button disabled={sending || !answer.trim()}>{sending ? "提交中…" : "提交回答"}</button></form></section><aside className={`coach-panel ${mobilePanel === "coach" ? "mobile-active" : ""}`}><div className="coach-identity"><i><em>🧭</em><Image src="/avatars/coach.png" alt="" width={56} height={56} onError={(event) => { event.currentTarget.style.display = "none"; }} /></i><div><span className="form-kicker">仲裁助手</span><h2>怎样回答更清楚</h2></div></div><p>这里会提示表达和证据上的改进方向，不会代替你发言，也不会把练习内容当成已经确认的事实。</p><ul>{current.feedback.map((item) => <li key={item}>{item}</li>)}</ul><button disabled={ending || sending} onClick={() => void complete()}>{ending ? "正在结束…" : "结束本次模拟"}</button></aside></main></div>;
+}
+
+function simulationIdentity(line: SimulationLine) {
+  if (line.agent_id === "system" || line.role === "系统") return { id: "system", icon: "💡", avatar: "/avatars/coach.png", label: "模拟提示", tag: "当前状态" };
+  if (line.agent_id === "employer_advocate" || line.role.includes("用人单位")) return { id: "employer", icon: "🏢", avatar: "/avatars/employer.png", label: "单位代表", tag: "单位一方" };
+  if (line.agent_id === "worker" || line.role.includes("劳动者")) return { id: "worker", icon: "👤", avatar: "/avatars/worker.png", label: "你", tag: "你的发言" };
+  return { id: "arbitrator", icon: "⚖️", avatar: "/avatars/arbitrator.png", label: "仲裁员", tag: "中立主持" };
 }
 
 function extractNeutral(viewpoint: string) {

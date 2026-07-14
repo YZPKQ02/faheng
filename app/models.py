@@ -2,7 +2,7 @@ from datetime import date, datetime, timezone
 from enum import StrEnum
 from uuid import uuid4
 
-from sqlalchemy import JSON, Date, DateTime, Float, ForeignKey, String, Text
+from sqlalchemy import JSON, Date, DateTime, Float, ForeignKey, String, Text, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database import Base
@@ -28,6 +28,8 @@ class FactStatus(StrEnum):
 class CaseFile(Base):
     __tablename__ = "case_files"
     id: Mapped[str] = mapped_column(String(36), primary_key=True, default=uid)
+    tenant_id: Mapped[str] = mapped_column(String(100), default="local", index=True)
+    owner_id: Mapped[str] = mapped_column(String(200), default="local", index=True)
     title: Mapped[str] = mapped_column(String(200), default="新的劳动争议")
     case_type: Mapped[str] = mapped_column(String(50), default="labor_dispute")
     region: Mapped[str] = mapped_column(String(100), default="中国大陆")
@@ -160,6 +162,42 @@ class HumanReviewTask(Base):
     reviewed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
 
 
+class ModelDataConsent(Base):
+    __tablename__ = "model_data_consents"
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=uid)
+    case_id: Mapped[str] = mapped_column(
+        ForeignKey("case_files.id", ondelete="CASCADE"), index=True
+    )
+    tenant_id: Mapped[str] = mapped_column(String(100), index=True)
+    provider: Mapped[str] = mapped_column(String(50))
+    purposes: Mapped[list[str]] = mapped_column(JSON, default=list)
+    data_categories: Mapped[list[str]] = mapped_column(JSON, default=list)
+    status: Mapped[str] = mapped_column(String(20), default="active", index=True)
+    version: Mapped[int] = mapped_column(default=1)
+    granted_by: Mapped[str] = mapped_column(String(200))
+    granted_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
+    revoked_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+
+
+class CasePseudonym(Base):
+    __tablename__ = "case_pseudonyms"
+    __table_args__ = (
+        UniqueConstraint("case_id", "entity_fingerprint", name="uq_case_pseudonym_fingerprint"),
+        UniqueConstraint("case_id", "pseudonym", name="uq_case_pseudonym_label"),
+    )
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=uid)
+    case_id: Mapped[str] = mapped_column(
+        ForeignKey("case_files.id", ondelete="CASCADE"), index=True
+    )
+    tenant_id: Mapped[str] = mapped_column(String(100), index=True)
+    entity_fingerprint: Mapped[str] = mapped_column(String(64))
+    source_length: Mapped[int]
+    entity_type: Mapped[str] = mapped_column(String(30))
+    pseudonym: Mapped[str] = mapped_column(String(100))
+    created_by: Mapped[str] = mapped_column(String(200))
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
+
+
 class SimulationSession(Base):
     __tablename__ = "simulation_sessions"
     id: Mapped[str] = mapped_column(String(36), primary_key=True, default=uid)
@@ -168,6 +206,9 @@ class SimulationSession(Base):
     user_role: Mapped[str] = mapped_column(String(50))
     transcript: Mapped[list[dict]] = mapped_column(JSON, default=list)
     feedback: Mapped[list[str]] = mapped_column(JSON, default=list)
+    status: Mapped[str] = mapped_column(String(20), default="active", index=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now, onupdate=now)
 
 
 class GeneratedDocument(Base):
