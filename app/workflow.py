@@ -15,6 +15,8 @@ from app.analysis_lifecycle import invalidate_case_analyses
 from app.authorities import search_authorities
 from app.conversation_memory import ConversationMemory, build_conversation_memory
 from app.model_gateway import ModelGateway, ModelGatewayError
+from app.observability import record_model_call_metric
+from app.privacy_governance import build_model_authorization
 from app.models import AuditEvent, CaseFile, Fact, LegalAuthority, Message
 
 
@@ -172,6 +174,18 @@ def _compile_execution_plan(plan: ConversationPlan) -> ConversationExecutionPlan
 def build_workflow(db: Session, gateway: ModelGateway | None = None):
     gateway = gateway or ModelGateway()
 
+    def model_authorization(state: AdvisorState):
+        if not isinstance(gateway, ModelGateway):
+            return None
+        case = db.get(CaseFile, state["case_id"])
+        return build_model_authorization(
+            db,
+            case_id=state["case_id"],
+            tenant_id=case.tenant_id,
+            purpose="intake",
+            settings=gateway.settings,
+        )
+
     def observe(state: AdvisorState) -> AdvisorState:
         memory = build_conversation_memory(
             db,
@@ -227,6 +241,7 @@ def build_workflow(db: Session, gateway: ModelGateway | None = None):
                         ensure_ascii=False,
                     ),
                     schema=ConversationPlan,
+                    authorization=model_authorization(state),
                 )
                 valid_fact_ids = {item["id"] for item in state["memory"]["known_facts"]}
                 candidate.relevant_fact_ids = [
@@ -240,6 +255,14 @@ def build_workflow(db: Session, gateway: ModelGateway | None = None):
                 plan_source = "model"
             except ModelGatewayError:
                 plan_source = "deterministic_fallback"
+            finally:
+                if isinstance(gateway, ModelGateway):
+                    record_model_call_metric(
+                        db,
+                        case_id=state["case_id"],
+                        phase="intake_plan",
+                        telemetry=gateway.last_telemetry,
+                    )
         execution_plan = _compile_execution_plan(plan)
         db.add(
             AuditEvent(
@@ -315,7 +338,12 @@ def build_workflow(db: Session, gateway: ModelGateway | None = None):
         authority_ids: list[str] = []
         attempts: list[dict] = []
         for query in queries[: step["max_tool_calls"]]:
-            authorities = search_authorities(db, query)
+            authorities = search_authorities(
+                db,
+                query,
+                case_id=case.id,
+                tenant_id=case.tenant_id,
+            )
             authority_ids = list(dict.fromkeys(item.id for item in authorities))
             attempts.append(
                 {
@@ -463,6 +491,7 @@ def build_workflow(db: Session, gateway: ModelGateway | None = None):
                     ensure_ascii=False,
                 ),
                 schema=ConversationOutput,
+                authorization=model_authorization(state),
             )
             response = f"问题焦点：{focus or state['memory']['current_user_message'][:160]}\n\n{output.answer.strip()}"
             questions = _format_follow_up_questions(output.follow_up_questions)
@@ -493,6 +522,14 @@ def build_workflow(db: Session, gateway: ModelGateway | None = None):
                 )
             )
             db.commit()
+        finally:
+            if isinstance(gateway, ModelGateway):
+                record_model_call_metric(
+                    db,
+                    case_id=state["case_id"],
+                    phase="intake_response",
+                    telemetry=gateway.last_telemetry,
+                )
         db.add(
             AuditEvent(
                 case_id=state["case_id"],

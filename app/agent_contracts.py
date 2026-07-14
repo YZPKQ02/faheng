@@ -79,7 +79,79 @@ class ConversationExecutionPlan(BaseModel):
 
 
 class SimulationTurnOutput(BaseModel):
-    speaker: str
+    speaker: Literal["arbitrator", "employer_advocate"]
     reply: str
     coaching_feedback: list[str]
-    next_question: str
+    next_question: str | None = None
+
+
+class SimulationAgentReply(BaseModel):
+    reply: str
+
+
+class SimulationArbitratorReply(BaseModel):
+    reply: str
+    next_question: str | None = None
+    next_stage: Literal[
+        "orientation",
+        "claims",
+        "fact_investigation",
+        "evidence_examination",
+        "debate",
+        "closing_or_mediation",
+    ]
+
+
+class SimulationCoachReply(BaseModel):
+    feedback: list[str] = Field(min_length=1, max_length=3)
+
+
+class SimulationTurnDecision(BaseModel):
+    """Application-owned floor-control decision for one simulation turn."""
+
+    speech_act: Literal[
+        "role_identity",
+        "procedure",
+        "coaching",
+        "direct_question",
+        "answer_or_substantive",
+        "clarify",
+    ]
+    addressed_to: Literal[
+        "arbitrator",
+        "employer_advocate",
+        "worker_coach",
+        "all",
+        "unspecified",
+    ]
+    response_plan: list[Literal["arbitrator", "employer_advocate", "worker_coach"]]
+    route_source: Literal[
+        "explicit_address",
+        "speech_act",
+        "pending_question",
+        "semantic_router",
+        "fallback",
+    ]
+
+
+class SimulationRouterOutput(BaseModel):
+    """Strict semantic-router output; the application still validates the plan."""
+
+    speech_act: Literal[
+        "role_identity",
+        "procedure",
+        "coaching",
+        "direct_question",
+        "answer_or_substantive",
+        "clarify",
+    ]
+    addressed_to: Literal[
+        "arbitrator",
+        "employer_advocate",
+        "worker_coach",
+        "all",
+        "unspecified",
+    ]
+    response_plan: list[Literal["arbitrator", "employer_advocate", "worker_coach"]]
+    confidence: float = Field(ge=0, le=1)
+    needs_clarification: bool

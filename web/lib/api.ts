@@ -8,6 +8,9 @@ export type ReasoningTrace = { issue: string; as_of: string; elements: Reasoning
 export type Conclusion = { id: string; viewpoint: string; counterargument: string; confidence: number; uncertainties: string[]; authority_ids: string[]; reasoning_trace: ReasoningTrace[]; quality_metrics: Record<string, unknown>; is_current: boolean; invalidated_reason?: string | null };
 export type CaseFile = { id: string; title: string; stage: string; goal: string; risk_level: string; created_at: string; updated_at: string; facts: Fact[]; evidence: Evidence[]; messages: Message[]; analyses: Conclusion[] };
 export type HumanReview = { id: string; case_id: string; analysis_id: string; risk_level: string; reasons: string[]; status: string; decision?: string | null; reviewer?: string | null; notes?: string | null; created_at: string; reviewed_at?: string | null };
+export type ModelConsent = { id: string; case_id: string; provider: string; purposes: string[]; data_categories: string[]; status: string; version: number; granted_at: string; revoked_at?: string | null };
+export type SimulationLine = { role: string; content: string; agent_id?: "system" | "arbitrator" | "employer_advocate" | "worker"; mode?: "model" | "rule" | "hybrid"; mode_reason?: string | null; stage?: string; round_number?: number; last_execution?: string[]; fallback_agents?: string[]; kind?: "question" };
+export type Simulation = { id: string; scenario: string; user_role: string; transcript: SimulationLine[]; feedback: string[]; status: "active" | "completed"; created_at: string; updated_at: string };
 
 async function request<T>(path: string, options?: RequestInit): Promise<T> {
   const response = await fetch(`${API_URL}${path}`, {
@@ -63,6 +66,9 @@ export const api = {
   updateFact: (caseId: string, factId: string, payload: { status: string; occurred_on?: string | null }) => request<Fact>(`/cases/${caseId}/facts/${factId}`, { method: "PATCH", body: JSON.stringify(payload) }),
   analyze: (id: string) => request<{ conclusions: Conclusion[]; evidence_gaps: string[]; next_steps: string[]; disclaimer: string; requires_human_review: boolean; blocked_reasons: string[] }>(`/cases/${id}/analysis`, { method: "POST", body: JSON.stringify({}) }),
   listReviews: (id: string) => request<HumanReview[]>(`/cases/${id}/reviews`),
-  simulate: (id: string) => request<{ id: string; transcript: { role: string; content: string }[]; feedback: string[] }>(`/cases/${id}/simulations`, { method: "POST", body: JSON.stringify({ scenario: "arbitration", user_role: "worker" }) }),
-  simulationMessage: (id: string, content: string) => request<{ id: string; transcript: { role: string; content: string }[]; feedback: string[] }>(`/simulations/${id}/messages`, { method: "POST", body: JSON.stringify({ content }) }),
+  listModelConsents: (id: string) => request<ModelConsent[]>(`/cases/${id}/model-consents`),
+  grantModelConsent: (id: string, payload: { purposes: string[]; data_categories: string[] }) => request<ModelConsent>(`/cases/${id}/model-consents`, { method: "POST", body: JSON.stringify({ provider: "deepseek", ...payload }) }),
+  simulate: (id: string) => request<Simulation>(`/cases/${id}/simulations/active`, { method: "PUT", body: JSON.stringify({ scenario: "arbitration", user_role: "worker" }) }),
+  simulationMessage: (id: string, content: string) => request<Simulation>(`/simulations/${id}/messages`, { method: "POST", body: JSON.stringify({ content }) }),
+  completeSimulation: (id: string) => request<Simulation>(`/simulations/${id}/complete`, { method: "POST" }),
 };

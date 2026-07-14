@@ -1,10 +1,13 @@
 from datetime import date
 import re
+import time
 
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from app.models import LegalAuthority
+from app.config import get_settings
+from app.models import AuditEvent, LegalAuthority
+from app.observability import query_fingerprint
 
 
 SEED_AUTHORITIES = [
@@ -72,19 +75,52 @@ def tokenize(text: str) -> set[str]:
     return {normalized[i : i + size] for size in (2, 3, 4) for i in range(len(normalized) - size + 1)}
 
 
-def search_authorities(db: Session, query: str, as_of: date | None = None, limit: int = 10, region: str = "中国大陆") -> list[LegalAuthority]:
+def search_authorities(
+    db: Session,
+    query: str,
+    as_of: date | None = None,
+    limit: int = 10,
+    region: str = "中国大陆",
+    *,
+    case_id: str | None = None,
+    tenant_id: str | None = None,
+) -> list[LegalAuthority]:
+    started = time.perf_counter()
     as_of = as_of or date.today()
     candidates = db.scalars(select(LegalAuthority)).all()
     query_tokens = tokenize(query)
 
-    def score(authority: LegalAuthority) -> float:
+    def relevance(authority: LegalAuthority) -> float:
         haystack = authority.title + authority.article + authority.content + " ".join(authority.keywords)
         keyword_hits = sum(8 for keyword in authority.keywords if keyword in query)
         overlap = len(query_tokens & tokenize(haystack)) / max(1, len(query_tokens))
+        return keyword_hits + overlap * 10
+
+    def score(authority: LegalAuthority) -> float:
         region_bonus = 2 if authority.region in ("全国", region, "中国大陆") else -10
-        return keyword_hits + overlap * 10 + LEVEL_WEIGHT.get(authority.level, 1) + region_bonus
+        return relevance(authority) + LEVEL_WEIGHT.get(authority.level, 1) + region_bonus
 
     valid = [a for a in candidates if a.effective_on <= as_of and (a.expired_on is None or a.expired_on > as_of)]
-    ranked = sorted(valid, key=score, reverse=True)
-    positive = [a for a in ranked if score(a) > 0]
-    return (positive or ranked[:2])[:limit]
+    relevant = [authority for authority in valid if relevance(authority) >= 0.5]
+    result = sorted(relevant, key=score, reverse=True)[:limit]
+    if case_id and tenant_id:
+        settings = get_settings()
+        db.add(
+            AuditEvent(
+                case_id=case_id,
+                event_type="authority_retrieval_metric",
+                agent="observability",
+                duration_ms=round((time.perf_counter() - started) * 1000, 2),
+                payload={
+                    "candidate_count": len(candidates),
+                    "valid_count": len(valid),
+                    "result_count": len(result),
+                    "query_fingerprint": query_fingerprint(
+                        query,
+                        secret=settings.observability_hmac_secret,
+                        tenant_id=tenant_id,
+                    ),
+                },
+            )
+        )
+    return result

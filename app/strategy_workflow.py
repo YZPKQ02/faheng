@@ -8,6 +8,7 @@ from sqlalchemy.orm import Session
 from app.agent_contracts import JudicialAssessment, PartyArgument, SafetyReview
 from app.coordinator import record_agent_task
 from app.model_gateway import ModelGateway, ModelGatewayError
+from app.privacy_governance import build_model_authorization
 from app.models import CaseFile, LegalAuthority
 
 
@@ -22,6 +23,37 @@ class StrategyState(TypedDict, total=False):
     safety_review: dict
     protocol_version: str
     round_number: int
+
+
+MAX_STRATEGY_FACTS = 30
+MAX_STRATEGY_EVIDENCE = 20
+MAX_STRATEGY_AUTHORITIES = 10
+
+
+def _clip(value: str, limit: int) -> str:
+    value = value.strip()
+    return value if len(value) <= limit else f"{value[:limit]}…"
+
+
+def _select_strategy_facts(case: CaseFile) -> list[dict]:
+    status_priority = {
+        "confirmed": 0,
+        "evidence_supported": 1,
+        "disputed": 2,
+        "user_stated": 3,
+        "unknown": 4,
+        "inferred": 5,
+    }
+    ranked = sorted(case.facts, key=lambda fact: (status_priority.get(fact.status, 9), fact.id))
+    return [
+        {
+            "id": fact.id,
+            "content": _clip(fact.content, 600),
+            "status": fact.status,
+            "source": fact.source,
+        }
+        for fact in ranked[:MAX_STRATEGY_FACTS]
+    ]
 
 
 def _context(state: StrategyState) -> str:
@@ -42,6 +74,18 @@ def _filter_ids(ids: list[str], state: StrategyState) -> list[str]:
 
 def build_strategy_workflow(db: Session, gateway: ModelGateway | None = None):
     gateway = gateway or ModelGateway()
+
+    def model_authorization(state: StrategyState):
+        if not isinstance(gateway, ModelGateway):
+            return None
+        case = db.get(CaseFile, state["case_id"])
+        return build_model_authorization(
+            db,
+            case_id=case.id,
+            tenant_id=case.tenant_id,
+            purpose="analysis",
+            settings=gateway.settings,
+        )
 
     def audit(case_id: str, agent: str, started: float, payload: dict) -> None:
         objectives = {
@@ -70,6 +114,7 @@ def build_strategy_workflow(db: Session, gateway: ModelGateway | None = None):
                 system="你是中国大陆劳动争议中的劳动者代理人。仅基于给定事实、证据和候选依据形成最有力但审慎的论证。",
                 user=_context(state),
                 schema=PartyArgument,
+                authorization=model_authorization(state),
             )
         except ModelGatewayError:
             result = PartyArgument(
@@ -90,7 +135,8 @@ def build_strategy_workflow(db: Session, gateway: ModelGateway | None = None):
             result = gateway.structured(
                 system="你是用人单位代理人。识别劳动者主张中事实、证据、计算、程序和时效方面最可能成立的抗辩，不得捏造新事实。",
                 user=prompt,
-                schema=PartyArgument,
+            schema=PartyArgument,
+            authorization=model_authorization(state),
             )
         except ModelGatewayError:
             result = PartyArgument(
@@ -113,7 +159,8 @@ def build_strategy_workflow(db: Session, gateway: ModelGateway | None = None):
             result = gateway.structured(
                 system="你是中立的劳动争议裁判评估者。逐项列出争点、举证责任、双方强弱与待核实事项。不得给出伪精确胜诉率。",
                 user=prompt,
-                schema=JudicialAssessment,
+            schema=JudicialAssessment,
+            authorization=model_authorization(state),
             )
         except ModelGatewayError:
             result = JudicialAssessment(
@@ -167,17 +214,24 @@ def run_strategy(db: Session, case: CaseFile, authorities: list[LegalAuthority])
         "case_id": case.id,
         "protocol_version": "legal-debate-v1",
         "round_number": 1,
-        "facts": [
-            {"id": fact.id, "content": fact.content, "status": fact.status, "source": fact.source}
-            for fact in case.facts
-        ],
+        "facts": _select_strategy_facts(case),
         "evidence": [
-            {"id": item.id, "name": item.name, "purpose": item.purpose, "authenticity": item.authenticity}
-            for item in case.evidence
+            {
+                "id": item.id,
+                "name": _clip(item.name, 200),
+                "purpose": _clip(item.purpose, 500),
+                "authenticity": item.authenticity,
+            }
+            for item in case.evidence[:MAX_STRATEGY_EVIDENCE]
         ],
         "authorities": [
-            {"id": item.id, "title": item.title, "article": item.article, "content": item.content}
-            for item in authorities
+            {
+                "id": item.id,
+                "title": _clip(item.title, 300),
+                "article": item.article,
+                "content": _clip(item.content, 1200),
+            }
+            for item in authorities[:MAX_STRATEGY_AUTHORITIES]
         ],
     }
     return build_strategy_workflow(db).invoke(initial)

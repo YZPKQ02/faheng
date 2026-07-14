@@ -124,6 +124,9 @@ class SimulationRead(ORMModel):
     user_role: str
     transcript: list[dict]
     feedback: list[str]
+    status: Literal["active", "completed"]
+    created_at: datetime
+    updated_at: datetime
 
 
 class SimulationMessageCreate(BaseModel):
@@ -191,3 +194,38 @@ class HumanReviewDecision(BaseModel):
     decision: Literal["approved", "rejected", "changes_requested"]
     reviewer: str = Field(min_length=1, max_length=100)
     notes: str = Field(min_length=1, max_length=5000)
+
+
+class ModelConsentCreate(BaseModel):
+    provider: Literal["deepseek"] = "deepseek"
+    purposes: list[Literal["intake", "analysis", "simulation"]] = Field(min_length=1)
+    data_categories: list[
+        Literal["conversation", "facts", "evidence_metadata", "legal_analysis"]
+    ] = Field(min_length=1)
+
+
+class ModelConsentRead(ORMModel):
+    id: str
+    case_id: str
+    provider: str
+    purposes: list[str]
+    data_categories: list[str]
+    status: str
+    version: int
+    granted_by: str
+    granted_at: datetime
+    revoked_at: datetime | None
+
+
+class PseudonymCreate(BaseModel):
+    entity_value: str = Field(min_length=2, max_length=200)
+    entity_type: Literal["person", "organization", "address", "other"]
+
+
+class PseudonymRead(ORMModel):
+    id: str
+    case_id: str
+    entity_type: str
+    pseudonym: str
+    created_by: str
+    created_at: datetime

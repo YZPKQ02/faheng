@@ -2,6 +2,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { api } from "../lib/api";
 import { normalizeConsultationContent } from "../lib/format";
+import { mergeConsentScope } from "../lib/consent";
 
 describe("legal advisor workspace", () => {
   afterEach(() => vi.unstubAllGlobals());
@@ -41,6 +42,80 @@ describe("legal advisor workspace", () => {
       "http://localhost:8000/cases/case-1/reviews",
       expect.any(Object),
     );
+  });
+
+  it("records explicit simulation consent with the required data scope", async () => {
+    const consent = { id: "consent-1", purposes: ["simulation"], data_categories: ["conversation", "facts", "evidence_metadata"] };
+    const fetchMock = vi.fn().mockResolvedValue(
+      new Response(JSON.stringify(consent), { status: 201, headers: { "Content-Type": "application/json" } }),
+    );
+    vi.stubGlobal("fetch", fetchMock);
+
+    await api.grantModelConsent("case-1", {
+      purposes: ["simulation"],
+      data_categories: ["conversation", "facts", "evidence_metadata"],
+    });
+
+    expect(fetchMock).toHaveBeenCalledWith(
+      "http://localhost:8000/cases/case-1/model-consents",
+      expect.objectContaining({
+        method: "POST",
+        body: JSON.stringify({
+          provider: "deepseek",
+          purposes: ["simulation"],
+          data_categories: ["conversation", "facts", "evidence_metadata"],
+        }),
+      }),
+    );
+  });
+
+  it("opens the active simulation instead of creating a new session on re-entry", async () => {
+    const session = { id: "simulation-1", status: "active", transcript: [], feedback: [] };
+    const fetchMock = vi.fn().mockResolvedValue(
+      new Response(JSON.stringify(session), { status: 200, headers: { "Content-Type": "application/json" } }),
+    );
+    vi.stubGlobal("fetch", fetchMock);
+
+    await expect(api.simulate("case-1")).resolves.toEqual(session);
+    expect(fetchMock).toHaveBeenCalledWith(
+      "http://localhost:8000/cases/case-1/simulations/active",
+      expect.objectContaining({
+        method: "PUT",
+        body: JSON.stringify({ scenario: "arbitration", user_role: "worker" }),
+      }),
+    );
+  });
+
+  it("only completes a simulation through the explicit completion action", async () => {
+    const session = { id: "simulation-1", status: "completed", transcript: [], feedback: [] };
+    const fetchMock = vi.fn().mockResolvedValue(
+      new Response(JSON.stringify(session), { status: 200, headers: { "Content-Type": "application/json" } }),
+    );
+    vi.stubGlobal("fetch", fetchMock);
+
+    await expect(api.completeSimulation("simulation-1")).resolves.toEqual(session);
+    expect(fetchMock).toHaveBeenCalledWith(
+      "http://localhost:8000/simulations/simulation-1/complete",
+      expect.objectContaining({ method: "POST" }),
+    );
+  });
+
+  it("adds intake consent without dropping an existing simulation scope", () => {
+    const existing = {
+      id: "consent-1",
+      case_id: "case-1",
+      provider: "deepseek",
+      purposes: ["simulation"],
+      data_categories: ["conversation", "facts", "evidence_metadata"],
+      status: "active",
+      version: 1,
+      granted_at: new Date().toISOString(),
+    };
+
+    const merged = mergeConsentScope(existing, "intake");
+
+    expect(merged.purposes).toEqual(["simulation", "intake"]);
+    expect(merged.data_categories).toEqual(["conversation", "facts", "evidence_metadata"]);
   });
 
   it("removes duplicate model numbering from existing assistant messages", () => {
