@@ -1,0 +1,4359 @@
+[
+  {
+    "id": "pilot-a15f175fc681",
+    "topic": "社会保险",
+    "difficulty": "medium",
+    "query": "现实中遇到与“社会保险基金实行收支两条线管理，由财政部门依法进行监督”有关的社会保险争议，应当适用什么处理规则？",
+    "expected_citations": [
+      "《社会保险费征缴暂行条例》第二十二条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《社会保险费征缴暂行条例》第二十二条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=518",
+        "effective_on": "2019-03-24",
+        "excerpt": "第二十二条 社会保险基金实行收支两条线管理，由财政部门依法进行监督。\n审计部门依法对社会保险基金的收支情况进行监督。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "test"
+  },
+  {
+    "id": "pilot-2cedaff77323",
+    "topic": "社会保险",
+    "difficulty": "medium",
+    "query": "征缴的社会保险费应当如何管理，任何单位或者个人能否挪用？",
+    "expected_citations": [
+      "《社会保险费征缴暂行条例》第四条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《社会保险费征缴暂行条例》第四条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=518",
+        "effective_on": "2019-03-24",
+        "excerpt": "第四条 缴费单位、缴费个人应当按时足额缴纳社会保险费。\n征缴的社会保险费纳入社会保险基金，专款专用，任何单位和个人不得挪用。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved_after_revision",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "test"
+  },
+  {
+    "id": "pilot-c6bd5df3398d",
+    "topic": "监督执法",
+    "difficulty": "medium",
+    "query": "现实中遇到与“劳动安全卫生的监督检查，由卫生部门、安全生产监督管理部门、特种设备安全监督管理部门等主管部门依照有关法律、行政法规的规定执行”有关的监督执法争议，应当适用什么处理规则？",
+    "expected_citations": [
+      "《劳动保障监察条例》第三十五条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《劳动保障监察条例》第三十五条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=128",
+        "effective_on": "2004-12-01",
+        "excerpt": "第三十五条 劳动安全卫生的监督检查，由卫生部门、安全生产监督管理部门、特种设备安全监督管理部门等有关部门依照有关法律、行政法规的规定执行。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "test"
+  },
+  {
+    "id": "pilot-e583d716397d",
+    "topic": "劳动保护",
+    "difficulty": "medium",
+    "query": "现实中遇到与“公司维护、检修存在高毒物品的生产装置，必须事先制订维护、检修方案，明确职业中毒危害防护措施，确保维护、检修人员的生命安全和身体健康”有关的劳动保护争议，应当适用什么处理规则？",
+    "expected_citations": [
+      "《使用有毒物品作业场所劳动保护条例》第二十四条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《使用有毒物品作业场所劳动保护条例》第二十四条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=1748",
+        "effective_on": "2024-12-06",
+        "excerpt": "第二十四条 用人单位维护、检修存在高毒物品的生产装置，必须事先制订维护、检修方案，明确职业中毒危害防护措施，确保维护、检修人员的生命安全和身体健康。\n维护、检修存在高毒物品的生产装置，必须严格按照维护、检修方案和操作规程进行。维护、检修现场应当有专人监护，并设置警示标志。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "test"
+  },
+  {
+    "id": "pilot-b0e09a51bad8",
+    "topic": "劳动合同",
+    "difficulty": "medium",
+    "query": "处理劳动合同问题时，遇到“公司自用工之日起超过一个月不满一年未与员工订立书面劳动合同的，需要依照劳动合同法相关条款的规定向员工每月支付两倍的工资，并与员工补订书面劳动合同”的情形，相关主体需要履行什么义务？",
+    "expected_citations": [
+      "《中华人民共和国劳动合同法实施条例》第六条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《中华人民共和国劳动合同法实施条例》第六条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=284",
+        "effective_on": "2008-09-18",
+        "excerpt": "第六条 用人单位自用工之日起超过一个月不满一年未与劳动者订立书面劳动合同的，应当依照劳动合同法第八十二条的规定向劳动者每月支付两倍的工资，并与劳动者补订书面劳动合同；劳动者不与用人单位订立书面劳动合同的，用人单位应当书面通知劳动者终止劳动关系，并依照劳动合同法第四十七条的规定支付经济补偿。\n前款规定的用人单位向劳动者每月支付两倍工资的起算时间为用工之日起满一个月的次日，截止时间为补订书面劳动合同的前一日。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "test"
+  },
+  {
+    "id": "pilot-ba39cdef2433",
+    "topic": "社会保险",
+    "difficulty": "medium",
+    "query": "处理社会保险问题时，遇到“省、自治区、直辖市人民政府规定由税务机关征收社会保险费的，社会保险经办机构需要及时向税务机关提供缴费单位社会保险登记、变更登记、注销登记以及缴费”的情形，相关主体需要履行什么义务？",
+    "expected_citations": [
+      "《社会保险费征缴暂行条例》第十一条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《社会保险费征缴暂行条例》第十一条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=518",
+        "effective_on": "2019-03-24",
+        "excerpt": "第十一条 省、自治区、直辖市人民政府规定由税务机关征收社会保险费的，社会保险经办机构应当及时向税务机关提供缴费单位社会保险登记、变更登记、注销登记以及缴费申报的情况。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "test"
+  },
+  {
+    "id": "pilot-361507db6098",
+    "topic": "工资支付",
+    "difficulty": "medium",
+    "query": "处理工资支付问题时，遇到“相关行业工程建设主管部门需要依法规范本领域建设市场秩序，对违法发包、转包、违法分包、挂靠等行为进行查处，并对导致拖欠农民工工资的违法行为及时予以”的情形，相关主体需要履行什么义务？",
+    "expected_citations": [
+      "《保障农民工工资支付条例》第四十三条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《保障农民工工资支付条例》第四十三条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=449",
+        "effective_on": "2020-05-01",
+        "excerpt": "第四十三条 相关行业工程建设主管部门应当依法规范本领域建设市场秩序，对违法发包、转包、违法分包、挂靠等行为进行查处，并对导致拖欠农民工工资的违法行为及时予以制止、纠正。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "test"
+  },
+  {
+    "id": "pilot-bd0ca498b251",
+    "topic": "特殊用工",
+    "difficulty": "medium",
+    "query": "处理特殊用工问题时，遇到“船长管理和指挥船舶时，需要符合下列要求：(一)保证船舶和船员携带符合法定要求的证书、文书以及有关航行资料”的情形，相关主体需要履行什么义务？",
+    "expected_citations": [
+      "《中华人民共和国船员条例》第十八条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《中华人民共和国船员条例》第十八条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=1691",
+        "effective_on": "2023-07-20",
+        "excerpt": "第十八条 船长管理和指挥船舶时，应当符合下列要求：\n(一)保证船舶和船员携带符合法定要求的证书、文书以及有关航行资料；\n(二)制订船舶应急计划并保证其有效实施；\n(三)保证船舶和船员在开航时处于适航、适任状态，按照规定保障船舶的最低安全配员，保证船舶的正常值班；\n(四)执行海事管理机构有关水上交通安全和防治船舶污染的指令，船舶发生水上交通事故或者污染事故的，向海事管理机构提交事故报告；\n(五)对本船船员进行日常训练和考核，在本船船员的船"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "test"
+  },
+  {
+    "id": "pilot-5152dc4af091",
+    "topic": "就业安置",
+    "difficulty": "medium",
+    "query": "在就业安置纠纷中，如果有人主张“自主就业的退役军士和义务兵入伍前通过家庭承包方式承包的农村土地，承包期内不能违法收回或者强迫、阻碍土地经营权流转”，这种做法是否合法、限制是什么？",
+    "expected_citations": [
+      "《退役军人安置条例》第七十条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《退役军人安置条例》第七十条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=1730",
+        "effective_on": "2024-09-01",
+        "excerpt": "第七十条 自主就业的退役军士和义务兵入伍前通过家庭承包方式承包的农村土地，承包期内不得违法收回或者强迫、阻碍土地经营权流转；通过招标、拍卖、公开协商等非家庭承包方式承包的农村土地，承包期内其家庭成员可以继续承包；承包的农村土地被依法征收、征用或者占用的，与其他农村集体经济组织成员享有同等权利。\n符合条件的复员军官、自主就业的退役军士和义务兵回入伍时户口所在地落户，属于农村集体经济组织成员但没有承包农村土地的，可以申请承包农村土地，农村集"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "test"
+  },
+  {
+    "id": "pilot-25a06ef2dadc",
+    "topic": "劳动保护",
+    "difficulty": "medium",
+    "query": "处理劳动保护问题时，遇到“疾病预防控制部门依法实施罚款的行政处罚，需要依照有关法律、行政法规的规定，实施罚款决定与罚款收缴分离”的情形，相关主体需要履行什么义务？",
+    "expected_citations": [
+      "《使用有毒物品作业场所劳动保护条例》第五十二条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《使用有毒物品作业场所劳动保护条例》第五十二条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=1748",
+        "effective_on": "2024-12-06",
+        "excerpt": "第五十二条 疾病预防控制部门依法实施罚款的行政处罚，应当依照有关法律、行政法规的规定，实施罚款决定与罚款收缴分离；收缴的罚款以及依法没收的经营所得，必须全部上缴国库。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "test"
+  },
+  {
+    "id": "pilot-5144788bd9e6",
+    "topic": "社会保险",
+    "difficulty": "medium",
+    "query": "处理社会保险问题时，遇到“缴费个人需要缴纳的社会保险费，由所在单位从其本人工资中代扣代缴”的情形，相关主体需要履行什么义务？",
+    "expected_citations": [
+      "《社会保险费征缴暂行条例》第十二条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《社会保险费征缴暂行条例》第十二条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=518",
+        "effective_on": "2019-03-24",
+        "excerpt": "第十二条 缴费单位和缴费个人应当以货币形式全额缴纳社会保险费。\n缴费个人应当缴纳的社会保险费，由所在单位从其本人工资中代扣代缴。\n社会保险费不得减免。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "test"
+  },
+  {
+    "id": "pilot-df291dfcf862",
+    "topic": "劳动合同",
+    "difficulty": "medium",
+    "query": "现实中遇到与“劳务派遣单位或者被派遣员工依法解除、终止劳动合同的经济补偿，依照劳动合同法相关条款、相关条款的规定执行”有关的劳动合同争议，应当适用什么处理规则？",
+    "expected_citations": [
+      "《中华人民共和国劳动合同法实施条例》第三十一条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《中华人民共和国劳动合同法实施条例》第三十一条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=284",
+        "effective_on": "2008-09-18",
+        "excerpt": "第三十一条 劳务派遣单位或者被派遣劳动者依法解除、终止劳动合同的经济补偿，依照劳动合同法第四十六条、第四十七条的规定执行。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "test"
+  },
+  {
+    "id": "pilot-cde5095b3f7d",
+    "topic": "监督执法",
+    "difficulty": "medium",
+    "query": "现实中遇到与“实施劳动保障监察，坚持教育与处罚相结合，接受社会监督”有关的监督执法争议，应当适用什么处理规则？",
+    "expected_citations": [
+      "《劳动保障监察条例》第八条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《劳动保障监察条例》第八条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=128",
+        "effective_on": "2004-12-01",
+        "excerpt": "第八条 劳动保障监察遵循公正、公开、高效、便民的原则。\n实施劳动保障监察，坚持教育与处罚相结合，接受社会监督。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "test"
+  },
+  {
+    "id": "pilot-5335a7af09e7",
+    "topic": "就业安置",
+    "difficulty": "medium",
+    "query": "处理就业安置问题时，遇到“各级人民政府和主管部门需要为就业困难的残疾人提供有针对性的就业援助服务，鼓励和扶持职业培训机构为残疾人提供职业培训，并组织残疾人定期开展职业技能”的情形，相关主体需要履行什么义务？",
+    "expected_citations": [
+      "《残疾人就业条例》第二十一条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《残疾人就业条例》第二十一条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=1556",
+        "effective_on": "2007-05-01",
+        "excerpt": "第二十一条 各级人民政府和有关部门应当为就业困难的残疾人提供有针对性的就业援助服务，鼓励和扶持职业培训机构为残疾人提供职业培训，并组织残疾人定期开展职业技能竞赛。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "test"
+  },
+  {
+    "id": "pilot-21cd3fcfeaf2",
+    "topic": "就业安置",
+    "difficulty": "medium",
+    "query": "现实中遇到与“安排工作的退役军士和义务兵在国家规定的待安排工作期间，依法参加安置地员工基本医疗保险并享受相应待遇，单位缴费部分由安置地人民政府缴纳，个人缴费部”有关的就业安置争议，应当适用什么处理规则？",
+    "expected_citations": [
+      "《退役军人安置条例》第八十三条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《退役军人安置条例》第八十三条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=1730",
+        "effective_on": "2024-09-01",
+        "excerpt": "第八十三条 安置到机关、群团组织、企业事业单位的退役军人，依法参加职工基本医疗保险并享受相应待遇。\n安排工作的退役军士和义务兵在国家规定的待安排工作期间，依法参加安置地职工基本医疗保险并享受相应待遇，单位缴费部分由安置地人民政府缴纳，个人缴费部分由个人缴纳。\n逐月领取退役金的退役军官和军士、复员军官、自主就业的退役军士和义务兵依法参加职工基本医疗保险或者城乡居民基本医疗保险并享受相应待遇。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "test"
+  },
+  {
+    "id": "pilot-77d8c9a0ac01",
+    "topic": "劳动保护",
+    "difficulty": "medium",
+    "query": "现实中遇到与“县级以上人民政府人力资源社会保障行政部门、安全生产监督管理部门按照各自职责负责对公司遵守本规定的情况进行监督检查”有关的劳动保护争议，应当适用什么处理规则？",
+    "expected_citations": [
+      "《女职工劳动保护特别规定》第十二条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《女职工劳动保护特别规定》第十二条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=343",
+        "effective_on": "2012-04-28",
+        "excerpt": "第十二条 县级以上人民政府人力资源社会保障行政部门、安全生产监督管理部门按照各自职责负责对用人单位遵守本规定的情况进行监督检查。\n工会、妇女组织依法对用人单位遵守本规定的情况进行监督。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "test"
+  },
+  {
+    "id": "pilot-1e652a5cfaa0",
+    "topic": "劳动合同",
+    "difficulty": "medium",
+    "query": "现实中遇到与“原公司已经向员工支付经济补偿的，新公司在依法解除、终止劳动合同计算支付经济补偿的工作年限时，不再计算员工在原公司的工作年限”有关的劳动合同争议，应当适用什么处理规则？",
+    "expected_citations": [
+      "《中华人民共和国劳动合同法实施条例》第十条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《中华人民共和国劳动合同法实施条例》第十条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=284",
+        "effective_on": "2008-09-18",
+        "excerpt": "第十条 劳动者非因本人原因从原用人单位被安排到新用人单位工作的，劳动者在原用人单位的工作年限合并计算为新用人单位的工作年限。原用人单位已经向劳动者支付经济补偿的，新用人单位在依法解除、终止劳动合同计算支付经济补偿的工作年限时，不再计算劳动者在原用人单位的工作年限。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "test"
+  },
+  {
+    "id": "pilot-0132ad0dd7e0",
+    "topic": "特殊用工",
+    "difficulty": "medium",
+    "query": "处理特殊用工问题时，遇到“从事向中国籍船舶派遣船员业务的机构，需要按照相关规定的规定取得劳务派遣许可”的情形，相关主体需要履行什么义务？",
+    "expected_citations": [
+      "《中华人民共和国船员条例》第三十五条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《中华人民共和国船员条例》第三十五条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=1691",
+        "effective_on": "2023-07-20",
+        "excerpt": "第三十五条 从事向中国籍船舶派遣船员业务的机构，应当按照《中华人民共和国劳动合同法》的规定取得劳务派遣许可。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "medium",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [
+        {
+          "title": "中华人民共和国劳动合同法",
+          "source_url": "https://flk.npc.gov.cn/detail?fileId=&id=2c909fdd678bf17901678bf74d7106b3",
+          "status": "有效",
+          "verified_on": "2026-07-16"
+        }
+      ],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "test"
+  },
+  {
+    "id": "pilot-f13adcb63557",
+    "topic": "工资支付",
+    "difficulty": "medium",
+    "query": "现实中遇到与“发展改革等部门按照职责负责政府投资项目的审批管理，依法审查政府投资项目的资金来源和筹措方式，按规定及时安排政府投资，加强社会信用体系建设，组织对”有关的工资支付争议，应当适用什么处理规则？",
+    "expected_citations": [
+      "《保障农民工工资支付条例》第七条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《保障农民工工资支付条例》第七条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=449",
+        "effective_on": "2020-05-01",
+        "excerpt": "第七条 人力资源社会保障行政部门负责保障农民工工资支付工作的组织协调、管理指导和农民工工资支付情况的监督检查，查处有关拖欠农民工工资案件。\n住房城乡建设、交通运输、水利等相关行业工程建设主管部门按照职责履行行业监管责任，督办因违法发包、转包、违法分包、挂靠、拖欠工程款等导致的拖欠农民工工资案件。\n发展改革等部门按照职责负责政府投资项目的审批管理，依法审查政府投资项目的资金来源和筹措方式，按规定及时安排政府投资，加强社会信用体系建设，组织"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "test"
+  },
+  {
+    "id": "pilot-9abc7758ba6e",
+    "topic": "劳动保护",
+    "difficulty": "medium",
+    "query": "现实中遇到与“女员工产假期间的生育津贴，对已经参加生育保险的，按照公司上年度员工月平均工资的标准由生育保险基金支付”有关的劳动保护争议，应当适用什么处理规则？",
+    "expected_citations": [
+      "《女职工劳动保护特别规定》第八条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《女职工劳动保护特别规定》第八条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=343",
+        "effective_on": "2012-04-28",
+        "excerpt": "第八条 女职工产假期间的生育津贴，对已经参加生育保险的，按照用人单位上年度职工月平均工资的标准由生育保险基金支付；对未参加生育保险的，按照女职工产假前工资的标准由用人单位支付。\n女职工生育或者流产的医疗费用，按照生育保险规定的项目和标准，对已经参加生育保险的，由生育保险基金支付；对未参加生育保险的，由用人单位支付。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "test"
+  },
+  {
+    "id": "pilot-0103048b5719",
+    "topic": "社会保险",
+    "difficulty": "hard",
+    "query": "一次综合法律咨询包含两个独立问题：第一，公司依照本条例规定需要参加工伤保险而未参加的，由社会保险行政部门责令限期参加，补缴需要缴纳的工伤保险费，并自欠缴之日起，按日加收万分之五的滞纳金；第二，任何单位、个人挪用社会保险基金的，追回被挪用的社会保险基金。请分别说明适用规则。",
+    "expected_citations": [
+      "《工伤保险条例》第六十二条",
+      "《社会保险费征缴暂行条例》第二十八条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《工伤保险条例》第六十二条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=610",
+        "effective_on": "2010-12-20",
+        "excerpt": "第六十二条 用人单位依照本条例规定应当参加工伤保险而未参加的，由社会保险行政部门责令限期参加，补缴应当缴纳的工伤保险费，并自欠缴之日起，按日加收万分之五的滞纳金；逾期仍不缴纳的，处欠缴数额1倍以上3倍以下的罚款。\n依照本条例规定应当参加工伤保险而未参加工伤保险的用人单位职工发生工伤的，由该用人单位按照本条例规定的工伤保险待遇项目和标准支付费用。\n用人单位参加工伤保险并补缴应当缴纳的工伤保险费、滞纳金后，由工伤保险基金和用人单位依照本条例"
+      },
+      {
+        "citation": "《社会保险费征缴暂行条例》第二十八条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=518",
+        "effective_on": "2019-03-24",
+        "excerpt": "第二十八条 任何单位、个人挪用社会保险基金的，追回被挪用的社会保险基金；有违法所得的，没收违法所得，并入社会保险基金；构成犯罪的，依法追究刑事责任；尚不构成犯罪的，对直接负责的主管人员和其他直接责任人员依法给予行政处分。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_cross_regulation_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved_after_revision",
+    "review_confidence": "medium",
+    "review_rationale": "问题与最低预期依据直接对应；跨法规题已改为两个独立问题的多意图检索，不再暗示条文属于同一争议。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "test"
+  },
+  {
+    "id": "pilot-1572a758a898",
+    "topic": "工资支付",
+    "difficulty": "medium",
+    "query": "现实中遇到与“财政部门、审计机关和相关行业工程建设主管部门按照职责，依法对政府投资项目建设单位按照工程施工合同约定向农民工工资专用账户拨付资金情况进行监督”有关的工资支付争议，应当适用什么处理规则？",
+    "expected_citations": [
+      "《保障农民工工资支付条例》第四十四条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《保障农民工工资支付条例》第四十四条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=449",
+        "effective_on": "2020-05-01",
+        "excerpt": "第四十四条 财政部门、审计机关和相关行业工程建设主管部门按照职责，依法对政府投资项目建设单位按照工程施工合同约定向农民工工资专用账户拨付资金情况进行监督。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "test"
+  },
+  {
+    "id": "pilot-e7f0ee19ca80",
+    "topic": "监督执法",
+    "difficulty": "hard",
+    "query": "一次综合法律咨询包含两个独立问题：第一，劳动保障行政部门对违反劳动保障法律、法规或者规章的行为作出行政处罚或者行政处理决定前，需要听取公司的陈述、申辩；第二，公安机关的人民警察在保安服务活动监督管理工作中滥用职权、玩忽职守、徇私舞弊的，依法给予处分。请分别说明适用规则。",
+    "expected_citations": [
+      "《劳动保障监察条例》第十九条",
+      "《保安服务管理条例》第四十九条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《劳动保障监察条例》第十九条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=128",
+        "effective_on": "2004-12-01",
+        "excerpt": "第十九条 劳动保障行政部门对违反劳动保障法律、法规或者规章的行为作出行政处罚或者行政处理决定前，应当听取用人单位的陈述、申辩；作出行政处罚或者行政处理决定，应当告知用人单位依法享有申请行政复议或者提起行政诉讼的权利。"
+      },
+      {
+        "citation": "《保安服务管理条例》第四十九条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=1458",
+        "effective_on": "2022-03-29",
+        "excerpt": "第四十九条 公安机关的人民警察在保安服务活动监督管理工作中滥用职权、玩忽职守、徇私舞弊的，依法给予处分；构成犯罪的，依法追究刑事责任。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_cross_regulation_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved_after_revision",
+    "review_confidence": "medium",
+    "review_rationale": "问题与最低预期依据直接对应；跨法规题已改为两个独立问题的多意图检索，不再暗示条文属于同一争议。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "test"
+  },
+  {
+    "id": "pilot-014079a22048",
+    "topic": "劳动合同",
+    "difficulty": "hard",
+    "query": "一次综合法律咨询包含两个独立问题：第一，公司自用工之日起满一年未与员工订立书面劳动合同的，自用工之日起满一个月的次日至满一年的前一日需要依照劳动合同法相关条款的规定向员工每月支付两倍的；第二，拒不改正的，处1万元以上2万元以下的罚款，并对其主要负责人处2000元以上5000元以下的罚款：(一)未将服务合同或者劳动合同、劳务合作合同副本。请分别说明适用规则。",
+    "expected_citations": [
+      "《中华人民共和国劳动合同法实施条例》第七条",
+      "《对外劳务合作管理条例》第四十五条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《中华人民共和国劳动合同法实施条例》第七条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=284",
+        "effective_on": "2008-09-18",
+        "excerpt": "第七条 用人单位自用工之日起满一年未与劳动者订立书面劳动合同的，自用工之日起满一个月的次日至满一年的前一日应当依照劳动合同法第八十二条的规定向劳动者每月支付两倍的工资，并视为自用工之日起满一年的当日已经与劳动者订立无固定期限劳动合同，应当立即与劳动者补订书面劳动合同。"
+      },
+      {
+        "citation": "《对外劳务合作管理条例》第四十五条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=346",
+        "effective_on": "2012-08-01",
+        "excerpt": "第四十五条 对外劳务合作企业有下列情形之一的，由商务主管部门责令改正；拒不改正的，处1万元以上2万元以下的罚款，并对其主要负责人处2000元以上5000元以下的罚款：\n(一)未将服务合同或者劳动合同、劳务合作合同副本以及劳务人员名单报商务主管部门备案；\n(二)组织劳务人员出境后，未将有关情况向中国驻用工项目所在国使馆、领馆报告，或者未依照本条例规定将随行管理人员名单报负责审批的商务主管部门备案；\n(三)未制定突发事件应急预案；\n(四)停"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_cross_regulation_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved_after_revision",
+    "review_confidence": "medium",
+    "review_rationale": "问题与最低预期依据直接对应；跨法规题已改为两个独立问题的多意图检索，不再暗示条文属于同一争议。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "test"
+  },
+  {
+    "id": "pilot-174b9d89293a",
+    "topic": "工伤保险",
+    "difficulty": "medium",
+    "query": "处理工伤保险问题时，遇到“员工再次发生工伤，根据规定需要享受伤残津贴的，按照新认定的伤残等级享受伤残津贴待遇”的情形，相关主体需要履行什么义务？",
+    "expected_citations": [
+      "《工伤保险条例》第四十五条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《工伤保险条例》第四十五条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=610",
+        "effective_on": "2010-12-20",
+        "excerpt": "第四十五条 职工再次发生工伤，根据规定应当享受伤残津贴的，按照新认定的伤残等级享受伤残津贴待遇。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "test"
+  },
+  {
+    "id": "pilot-6ae61577a74d",
+    "topic": "就业安置",
+    "difficulty": "medium",
+    "query": "发生就业安置争议时，针对“退役军人未及时就业的，能否依法向户口所在地人力资源社会保障部门申领失业保险待遇，服现役年限视同参保缴费年限，但是以退休、供养方式安置的退役军人除”的情况，可以采取哪些措施？",
+    "expected_citations": [
+      "《退役军人安置条例》第八十五条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《退役军人安置条例》第八十五条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=1730",
+        "effective_on": "2024-09-01",
+        "excerpt": "第八十五条 退役军人未及时就业的，可以依法向户口所在地人力资源社会保障部门申领失业保险待遇，服现役年限视同参保缴费年限，但是以退休、供养方式安置的退役军人除外。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "test"
+  },
+  {
+    "id": "pilot-59418487a69c",
+    "topic": "监督执法",
+    "difficulty": "medium",
+    "query": "处理监督执法问题时，遇到“对需要通过劳动争议处理程序解决的事项或者已经按照劳动争议处理程序申请调解、仲裁或者已经提起诉讼的事项，劳动保障行政部门需要告知投诉人依照劳动争议”的情形，相关主体需要履行什么义务？",
+    "expected_citations": [
+      "《劳动保障监察条例》第二十一条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《劳动保障监察条例》第二十一条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=128",
+        "effective_on": "2004-12-01",
+        "excerpt": "第二十一条 用人单位违反劳动保障法律、法规或者规章，对劳动者造成损害的，依法承担赔偿责任。劳动者与用人单位就赔偿发生争议的，依照国家有关劳动争议处理的规定处理。\n对应当通过劳动争议处理程序解决的事项或者已经按照劳动争议处理程序申请调解、仲裁或者已经提起诉讼的事项，劳动保障行政部门应当告知投诉人依照劳动争议处理或者诉讼的程序办理。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "test"
+  },
+  {
+    "id": "pilot-5e7b2dc8d8e0",
+    "topic": "工资支付",
+    "difficulty": "medium",
+    "query": "处理工资支付问题时，遇到“本条例所称工资，是指农民工为公司提供劳动后需要获得的劳动报酬”的情形，相关主体需要履行什么义务？",
+    "expected_citations": [
+      "《保障农民工工资支付条例》第二条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《保障农民工工资支付条例》第二条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=449",
+        "effective_on": "2020-05-01",
+        "excerpt": "第二条 保障农民工工资支付，适用本条例。\n本条例所称农民工，是指为用人单位提供劳动的农村居民。\n本条例所称工资，是指农民工为用人单位提供劳动后应当获得的劳动报酬。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "test"
+  },
+  {
+    "id": "pilot-a0511b9ec781",
+    "topic": "劳动合同",
+    "difficulty": "hard",
+    "query": "一次综合法律咨询包含两个独立问题：第一，公司与员工不能在劳动合同法相关条款规定的劳动合同终止情形之外约定其他的劳动合同终止条件；第二，情节严重的，给予施工单位限制承接新工程、降低资质等级、吊销资质证书等处罚：(一)施工总承包单位未按规定开设或者使用农民工工资专用账户。请分别说明适用规则。",
+    "expected_citations": [
+      "《中华人民共和国劳动合同法实施条例》第十三条",
+      "《保障农民工工资支付条例》第五十五条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《中华人民共和国劳动合同法实施条例》第十三条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=284",
+        "effective_on": "2008-09-18",
+        "excerpt": "第十三条 用人单位与劳动者不得在劳动合同法第四十四条规定的劳动合同终止情形之外约定其他的劳动合同终止条件。"
+      },
+      {
+        "citation": "《保障农民工工资支付条例》第五十五条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=449",
+        "effective_on": "2020-05-01",
+        "excerpt": "第五十五条 有下列情形之一的，由人力资源社会保障行政部门、相关行业工程建设主管部门按照职责责令限期改正；逾期不改正的，责令项目停工，并处5万元以上10万元以下的罚款；情节严重的，给予施工单位限制承接新工程、降低资质等级、吊销资质证书等处罚：\n(一)施工总承包单位未按规定开设或者使用农民工工资专用账户；\n(二)施工总承包单位未按规定存储工资保证金或者未提供金融机构保函；\n(三)施工总承包单位、分包单位未实行劳动用工实名制管理。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_cross_regulation_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved_after_revision",
+    "review_confidence": "medium",
+    "review_rationale": "问题与最低预期依据直接对应；跨法规题已改为两个独立问题的多意图检索，不再暗示条文属于同一争议。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "test"
+  },
+  {
+    "id": "pilot-f29e2e5dace5",
+    "topic": "工伤保险",
+    "difficulty": "medium",
+    "query": "发生工伤保险争议时，针对“自劳动能力鉴定结论作出之日起1年后，工伤员工或者其近亲属、所在单位或者经办机构认为伤残情况发生变化的，能否申请劳动能力复查鉴定”的情况，可以采取哪些措施？",
+    "expected_citations": [
+      "《工伤保险条例》第二十八条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《工伤保险条例》第二十八条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=610",
+        "effective_on": "2010-12-20",
+        "excerpt": "第二十八条 自劳动能力鉴定结论作出之日起1年后，工伤职工或者其近亲属、所在单位或者经办机构认为伤残情况发生变化的，可以申请劳动能力复查鉴定。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "test"
+  },
+  {
+    "id": "pilot-d90057d1e840",
+    "topic": "劳动保护",
+    "difficulty": "medium",
+    "query": "现实中遇到与“造成严重职业中毒危害或者导致职业中毒事故发生的，对负有责任的主管人员和其他直接责任人员依照刑法关于危险物品肇事罪、重大责任事故罪或者其他罪的规定”有关的劳动保护争议，应当适用什么处理规则？",
+    "expected_citations": [
+      "《使用有毒物品作业场所劳动保护条例》第六十二条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《使用有毒物品作业场所劳动保护条例》第六十二条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=1748",
+        "effective_on": "2024-12-06",
+        "excerpt": "第六十二条 在作业场所使用国家明令禁止使用的有毒物品或者使用不符合国家标准的有毒物品的，由疾病预防控制部门责令立即停止使用，处5万元以上30万元以下的罚款；情节严重的，责令停止使用有毒物品作业，或者提请有关人民政府按照国务院规定的权限予以关闭；造成严重职业中毒危害或者导致职业中毒事故发生的，对负有责任的主管人员和其他直接责任人员依照刑法关于危险物品肇事罪、重大责任事故罪或者其他罪的规定，依法追究刑事责任。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "test"
+  },
+  {
+    "id": "pilot-0a5603e3e5a9",
+    "topic": "社会保险",
+    "difficulty": "medium",
+    "query": "在社会保险纠纷中，如果有人主张“税务机关、社会保险经办机构征收社会保险费，不能从社会保险基金中提取任何费用，所需经费列入预算，由财政拨付”，这种做法是否合法、限制是什么？",
+    "expected_citations": [
+      "《社会保险费征缴暂行条例》第三十条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《社会保险费征缴暂行条例》第三十条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=518",
+        "effective_on": "2019-03-24",
+        "excerpt": "第三十条 税务机关、社会保险经办机构征收社会保险费，不得从社会保险基金中提取任何费用，所需经费列入预算，由财政拨付。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "test"
+  },
+  {
+    "id": "pilot-ceb08faf9d34",
+    "topic": "社会保险",
+    "difficulty": "hard",
+    "query": "一次综合法律咨询包含两个独立问题：第一，公司缴纳工伤保险费的数额为本单位员工工资总额乘以单位缴费费率之积；第二，失业保险调剂金以统筹地区依法需要征收的失业保险费为基数，按照省、自治区人民政府规定的比例筹集。请分别说明适用规则。",
+    "expected_citations": [
+      "《工伤保险条例》第十条",
+      "《失业保险条例》第八条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《工伤保险条例》第十条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=610",
+        "effective_on": "2010-12-20",
+        "excerpt": "第十条 用人单位应当按时缴纳工伤保险费。职工个人不缴纳工伤保险费。\n用人单位缴纳工伤保险费的数额为本单位职工工资总额乘以单位缴费费率之积。\n对难以按照工资总额缴纳工伤保险费的行业，其缴纳工伤保险费的具体方式，由国务院社会保险行政部门规定。"
+      },
+      {
+        "citation": "《失业保险条例》第八条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=517",
+        "effective_on": "1999-01-22",
+        "excerpt": "第八条 省、自治区可以建立失业保险调剂金。\n失业保险调剂金以统筹地区依法应当征收的失业保险费为基数，按照省、自治区人民政府规定的比例筹集。\n统筹地区的失业保险基金不敷使用时，由失业保险调剂金调剂、地方财政补贴。\n失业保险调剂金的筹集、调剂使用以及地方财政补贴的具体办法，由省、自治区人民政府规定。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_cross_regulation_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved_after_revision",
+    "review_confidence": "medium",
+    "review_rationale": "问题与最低预期依据直接对应；跨法规题已改为两个独立问题的多意图检索，不再暗示条文属于同一争议。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "test"
+  },
+  {
+    "id": "pilot-75e4d9e8286b",
+    "topic": "工伤保险",
+    "difficulty": "medium",
+    "query": "处理工伤保险问题时，遇到“社会保险行政部门受理工伤认定申请后，根据审核需要能否对事故伤害进行调查核实，公司、员工、工会组织、医疗机构以及主管部门需要予以协助”的情形，相关主体需要履行什么义务？",
+    "expected_citations": [
+      "《工伤保险条例》第十九条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《工伤保险条例》第十九条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=610",
+        "effective_on": "2010-12-20",
+        "excerpt": "第十九条 社会保险行政部门受理工伤认定申请后，根据审核需要可以对事故伤害进行调查核实，用人单位、职工、工会组织、医疗机构以及有关部门应当予以协助。职业病诊断和诊断争议的鉴定，依照职业病防治法的有关规定执行。对依法取得职业病诊断证明书或者职业病诊断鉴定书的，社会保险行政部门不再进行调查核实。\n职工或者其近亲属认为是工伤，用人单位不认为是工伤的，由用人单位承担举证责任。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "test"
+  },
+  {
+    "id": "pilot-e66be8f4f4fa",
+    "topic": "劳动保护",
+    "difficulty": "medium",
+    "query": "现实中遇到与“作业场所使用有毒物品可能产生职业中毒危害的劳动保护，适用本条例”有关的劳动保护争议，应当适用什么处理规则？",
+    "expected_citations": [
+      "《使用有毒物品作业场所劳动保护条例》第二条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《使用有毒物品作业场所劳动保护条例》第二条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=1748",
+        "effective_on": "2024-12-06",
+        "excerpt": "第二条 作业场所使用有毒物品可能产生职业中毒危害的劳动保护，适用本条例。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "test"
+  },
+  {
+    "id": "pilot-6e3c91fbedff",
+    "topic": "工资支付",
+    "difficulty": "medium",
+    "query": "现实中遇到与“逾期不改正的，责令项目停工，并处5万元以上10万元以下的罚款：(一)建设单位未依法提供工程款支付担保”有关的工资支付争议，应当适用什么处理规则？",
+    "expected_citations": [
+      "《保障农民工工资支付条例》第五十七条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《保障农民工工资支付条例》第五十七条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=449",
+        "effective_on": "2020-05-01",
+        "excerpt": "第五十七条 有下列情形之一的，由人力资源社会保障行政部门、相关行业工程建设主管部门按照职责责令限期改正；逾期不改正的，责令项目停工，并处5万元以上10万元以下的罚款：\n(一)建设单位未依法提供工程款支付担保；\n(二)建设单位未按约定及时足额向农民工工资专用账户拨付工程款中的人工费用；\n(三)建设单位或者施工总承包单位拒不提供或者无法提供工程施工合同、农民工工资专用账户有关资料。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "test"
+  },
+  {
+    "id": "pilot-6875ae8f11fd",
+    "topic": "特殊用工",
+    "difficulty": "medium",
+    "query": "发生特殊用工争议时，针对“(二)对船员公司或者船舶所有人下达的违法指令，或者可能危及有关人员、财产和船舶安全或者可能造成水域环境污染的指令，能否拒绝执行”的情况，可以采取哪些措施？",
+    "expected_citations": [
+      "《中华人民共和国船员条例》第二十条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《中华人民共和国船员条例》第二十条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=1691",
+        "effective_on": "2023-07-20",
+        "excerpt": "第二十条 船长在保障水上人身与财产安全、船舶保安、防治船舶污染水域方面，具有独立决定权，并负有最终责任。\n船长为履行职责，可以行使下列权力：\n(一)决定船舶的航次计划，对不具备船舶安全航行条件的，可以拒绝开航或者续航；\n(二)对船员用人单位或者船舶所有人下达的违法指令，或者可能危及有关人员、财产和船舶安全或者可能造成水域环境污染的指令，可以拒绝执行；\n(三)发现引航员的操纵指令可能对船舶航行安全构成威胁或者可能造成水域环境污染时，应当及"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "test"
+  },
+  {
+    "id": "pilot-226959095577",
+    "topic": "特殊用工",
+    "difficulty": "hard",
+    "query": "一次综合法律咨询包含两个独立问题：第一，曾经在军用船舶、渔业船舶上工作的人员，或者持有其他国家、地区船员适任证书的船员，依照本条例的规定申请船员适任证书的，海事管理机构能否免除船员培训；第二，集体企业在国家法律、法规的规定范围内享有下列权利：(一)对其全部财产享有占有、使用、收益和处分的权利，拒绝任何形式的平调。请分别说明适用规则。",
+    "expected_citations": [
+      "《中华人民共和国船员条例》第十条",
+      "《中华人民共和国城镇集体所有制企业条例》第二十一条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《中华人民共和国船员条例》第十条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=1691",
+        "effective_on": "2023-07-20",
+        "excerpt": "第十条 曾经在军用船舶、渔业船舶上工作的人员，或者持有其他国家、地区船员适任证书的船员，依照本条例的规定申请船员适任证书的，海事管理机构可以免除船员培训和考试的相应内容。具体办法由国务院交通主管部门另行规定。"
+      },
+      {
+        "citation": "《中华人民共和国城镇集体所有制企业条例》第二十一条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=329",
+        "effective_on": "2016-02-06",
+        "excerpt": "第二十一条 集体企业在国家法律、法规的规定范围内享有下列权利：\n(一)对其全部财产享有占有、使用、收益和处分的权利，拒绝任何形式的平调；\n(二)自主安排生产、经营、服务活动；\n(三)除国家规定由物价部门和有关主管部门控制价格的以外，企业有权自行确定产品价格、劳务价格；\n(四)企业有权依照国家规定与外商谈判并签订合同，提取和使用分成的外汇收入；\n(五)依照国家信贷政策的规定向有关专业银行申请贷款；\n(六)依照国家规定确定适合本企业情况的经"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_cross_regulation_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved_after_revision",
+    "review_confidence": "medium",
+    "review_rationale": "问题与最低预期依据直接对应；跨法规题已改为两个独立问题的多意图检索，不再暗示条文属于同一争议。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "test"
+  },
+  {
+    "id": "pilot-a470a8bb1f79",
+    "topic": "工伤保险",
+    "difficulty": "medium",
+    "query": "劳动能力再次鉴定和复查鉴定应当在多长期限内完成，适用哪项期限规则？",
+    "expected_citations": [
+      "《工伤保险条例》第二十九条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《工伤保险条例》第二十九条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=610",
+        "effective_on": "2010-12-20",
+        "excerpt": "第二十九条 劳动能力鉴定委员会依照本条例第二十六条和第二十八条的规定进行再次鉴定和复查鉴定的期限，依照本条例第二十五条第二款的规定执行。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved_after_revision",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "test"
+  },
+  {
+    "id": "pilot-5748378dc7a7",
+    "topic": "工伤保险",
+    "difficulty": "medium",
+    "query": "现实中遇到与“员工因工致残被鉴定为五级、六级伤残的，享受以下待遇：(一)从工伤保险基金按伤残等级支付一次性伤残补助金，标准为：五级伤残为18个月的本人工资，六”有关的工伤保险争议，应当适用什么处理规则？",
+    "expected_citations": [
+      "《工伤保险条例》第三十六条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《工伤保险条例》第三十六条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=610",
+        "effective_on": "2010-12-20",
+        "excerpt": "第三十六条 职工因工致残被鉴定为五级、六级伤残的，享受以下待遇：\n(一)从工伤保险基金按伤残等级支付一次性伤残补助金，标准为：五级伤残为18个月的本人工资，六级伤残为16个月的本人工资；\n(二)保留与用人单位的劳动关系，由用人单位安排适当工作。难以安排工作的，由用人单位按月发给伤残津贴，标准为：五级伤残为本人工资的70%，六级伤残为本人工资的60%，并由用人单位按照规定为其缴纳应缴纳的各项社会保险费。伤残津贴实际金额低于当地最低工资标准"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "test"
+  },
+  {
+    "id": "pilot-b34c54442917",
+    "topic": "社会保险",
+    "difficulty": "medium",
+    "query": "现实中遇到与“缴费单位未按照规定办理社会保险登记、变更登记或者注销登记，或者未按照规定申报应缴纳的社会保险费数额的，由劳动保障行政部门责令限期改正”有关的社会保险争议，应当适用什么处理规则？",
+    "expected_citations": [
+      "《社会保险费征缴暂行条例》第二十三条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《社会保险费征缴暂行条例》第二十三条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=518",
+        "effective_on": "2019-03-24",
+        "excerpt": "第二十三条 缴费单位未按照规定办理社会保险登记、变更登记或者注销登记，或者未按照规定申报应缴纳的社会保险费数额的，由劳动保障行政部门责令限期改正；情节严重的，对直接负责的主管人员和其他直接责任人员可以处1000元以上5000元以下的罚款；情节特别严重的，对直接负责的主管人员和其他直接责任人员可以处5000元以上10000元以下的罚款。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-8a9335f55ebd",
+    "topic": "社会保险",
+    "difficulty": "hard",
+    "query": "一次综合法律咨询包含两个独立问题：第一，员工因工致残被鉴定为五级、六级伤残的，享受以下待遇：(一)从工伤保险基金按伤残等级支付一次性伤残补助金，标准为：五级伤残为18个月的本人工资，六；第二，退役军人随调随迁家属，已经参加社会保险的，其社会保险关系和相应资金转移接续由社会保险经办机构依法办理。请分别说明适用规则。",
+    "expected_citations": [
+      "《工伤保险条例》第三十六条",
+      "《退役军人安置条例》第八十六条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《工伤保险条例》第三十六条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=610",
+        "effective_on": "2010-12-20",
+        "excerpt": "第三十六条 职工因工致残被鉴定为五级、六级伤残的，享受以下待遇：\n(一)从工伤保险基金按伤残等级支付一次性伤残补助金，标准为：五级伤残为18个月的本人工资，六级伤残为16个月的本人工资；\n(二)保留与用人单位的劳动关系，由用人单位安排适当工作。难以安排工作的，由用人单位按月发给伤残津贴，标准为：五级伤残为本人工资的70%，六级伤残为本人工资的60%，并由用人单位按照规定为其缴纳应缴纳的各项社会保险费。伤残津贴实际金额低于当地最低工资标准"
+      },
+      {
+        "citation": "《退役军人安置条例》第八十六条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=1730",
+        "effective_on": "2024-09-01",
+        "excerpt": "第八十六条 退役军人随调随迁家属，已经参加社会保险的，其社会保险关系和相应资金转移接续由社会保险经办机构依法办理。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_cross_regulation_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved_after_revision",
+    "review_confidence": "medium",
+    "review_rationale": "问题与最低预期依据直接对应；跨法规题已改为两个独立问题的多意图检索，不再暗示条文属于同一争议。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-fc81db264e51",
+    "topic": "劳动保护",
+    "difficulty": "medium",
+    "query": "现实中遇到与“造成严重职业中毒危害或者导致职业中毒事故发生的，对负有责任的主管人员和其他直接责任人员依照刑法关于重大责任事故罪或者其他罪的规定，依法追究刑事责”有关的劳动保护争议，应当适用什么处理规则？",
+    "expected_citations": [
+      "《使用有毒物品作业场所劳动保护条例》第六十三条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《使用有毒物品作业场所劳动保护条例》第六十三条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=1748",
+        "effective_on": "2024-12-06",
+        "excerpt": "第六十三条 用人单位违反本条例的规定，有下列行为之一的，由疾病预防控制部门责令限期改正，处5万元以上30万元以下的罚款；情节严重的，责令停止使用有毒物品作业，或者提请有关人民政府按照国务院规定的权限予以关闭；造成严重职业中毒危害或者导致职业中毒事故发生的，对负有责任的主管人员和其他直接责任人员依照刑法关于重大责任事故罪或者其他罪的规定，依法追究刑事责任：\n(一)未组织从事使用有毒物品作业的劳动者进行上岗前职业健康检查，安排未经上岗前职业"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-62b827c17781",
+    "topic": "监督执法",
+    "difficulty": "medium",
+    "query": "处理监督执法问题时，遇到“劳动保障行政部门认为公司有违反劳动保障法律、法规或者规章的行为，需要进行调查处理的，需要及时立案”的情形，相关主体需要履行什么义务？",
+    "expected_citations": [
+      "《劳动保障监察条例》第十四条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《劳动保障监察条例》第十四条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=128",
+        "effective_on": "2004-12-01",
+        "excerpt": "第十四条 劳动保障监察以日常巡视检查、审查用人单位按照要求报送的书面材料以及接受举报投诉等形式进行。\n劳动保障行政部门认为用人单位有违反劳动保障法律、法规或者规章的行为，需要进行调查处理的，应当及时立案。\n劳动保障行政部门或者受委托实施劳动保障监察的组织应当设立举报、投诉信箱和电话。\n对因违反劳动保障法律、法规或者规章的行为引起的群体性事件，劳动保障行政部门应当根据应急预案，迅速会同有关部门处理。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-0538833b8c42",
+    "topic": "特殊用工",
+    "difficulty": "medium",
+    "query": "现实中遇到与“对外承包工程项下外派人员赴国外工作的管理，依照相关规定以及国务院商务主管部门、国务院住房城乡建设主管部门的规定执行”有关的特殊用工争议，应当适用什么处理规则？",
+    "expected_citations": [
+      "《对外劳务合作管理条例》第四十九条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《对外劳务合作管理条例》第四十九条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=346",
+        "effective_on": "2012-08-01",
+        "excerpt": "第四十九条 对外承包工程项下外派人员赴国外工作的管理，依照《对外承包工程管理条例》以及国务院商务主管部门、国务院住房城乡建设主管部门的规定执行。\n外派海员类(不含渔业船员)对外劳务合作的管理办法，由国务院交通运输主管部门根据《中华人民共和国船员条例》以及本条例的有关规定另行制定。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "medium",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [
+        {
+          "title": "中华人民共和国船员条例",
+          "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=1691",
+          "status": "现行有效",
+          "verified_on": "2026-07-16"
+        },
+        {
+          "title": "对外承包工程管理条例",
+          "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=1061",
+          "status": "现行有效",
+          "verified_on": "2026-07-16"
+        }
+      ],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-bc28eaafc348",
+    "topic": "特殊用工",
+    "difficulty": "medium",
+    "query": "现实中遇到与“从事代理船员办理申请培训、考试、申领证书(包括外国海洋船舶船员证书)等有关手续，代理船员公司管理船员事务，提供船舶配员等船员服务业务的机构(以下”有关的特殊用工争议，应当适用什么处理规则？",
+    "expected_citations": [
+      "《中华人民共和国船员条例》第三十六条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《中华人民共和国船员条例》第三十六条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=1691",
+        "effective_on": "2023-07-20",
+        "excerpt": "第三十六条 从事代理船员办理申请培训、考试、申领证书(包括外国海洋船舶船员证书)等有关手续，代理船员用人单位管理船员事务，提供船舶配员等船员服务业务的机构(以下简称船员服务机构)应当建立船员档案，加强船舶配员管理，掌握船员的培训、任职资历、安全记录、健康状况等情况并将上述情况定期报监管机构备案。关于船员劳务派遣业务的信息报劳动保障行政部门备案，关于其他业务的信息报海事管理机构备案。\n船员用人单位直接招用船员的，应当遵守前款的规定。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-1d5c43f74d02",
+    "topic": "特殊用工",
+    "difficulty": "medium",
+    "query": "现实中遇到与“情节严重的，并给予暂扣船员适任证书6个月以上2年以下直至吊销船员适任证书的处罚：(一)未保证船舶和船员携带符合法定要求的文书以及有关航行资料的”有关的特殊用工争议，应当适用什么处理规则？",
+    "expected_citations": [
+      "《中华人民共和国船员条例》第五十二条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《中华人民共和国船员条例》第五十二条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=1691",
+        "effective_on": "2023-07-20",
+        "excerpt": "第五十二条 违反本条例的规定，船长有下列情形之一的，由海事管理机构处2000元以上2万元以下罚款；情节严重的，并给予暂扣船员适任证书6个月以上2年以下直至吊销船员适任证书的处罚：\n(一)未保证船舶和船员携带符合法定要求的文书以及有关航行资料的；\n(二)未保证船舶和船员在开航时处于适航、适任状态，或者未按照规定保障船舶的最低安全配员，或者未保证船舶的正常值班的；\n(三)未在船员服务簿内如实记载船员的履职情况的；\n(四)船舶进港、出港、靠泊"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-28ed76d434c4",
+    "topic": "劳动保护",
+    "difficulty": "medium",
+    "query": "处理劳动保护问题时，遇到“职业健康监护档案需要包括下列内容：(一)员工的职业史和职业中毒危害接触史”的情形，相关主体需要履行什么义务？",
+    "expected_citations": [
+      "《使用有毒物品作业场所劳动保护条例》第三十六条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《使用有毒物品作业场所劳动保护条例》第三十六条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=1748",
+        "effective_on": "2024-12-06",
+        "excerpt": "第三十六条 用人单位应当建立职业健康监护档案。\n职业健康监护档案应当包括下列内容：\n(一)劳动者的职业史和职业中毒危害接触史；\n(二)相应作业场所职业中毒危害因素监测结果；\n(三)职业健康检查结果及处理情况；\n(四)职业病诊疗等劳动者健康资料。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-103077d317f8",
+    "topic": "工资支付",
+    "difficulty": "medium",
+    "query": "现实中遇到与“对于建设资金不到位、违法违规开工建设的社会投资工程建设项目拖欠农民工工资的，由人力资源社会保障行政部门、其他主管部门按照职责依法对建设单位进行处”有关的工资支付争议，应当适用什么处理规则？",
+    "expected_citations": [
+      "《保障农民工工资支付条例》第六十一条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《保障农民工工资支付条例》第六十一条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=449",
+        "effective_on": "2020-05-01",
+        "excerpt": "第六十一条 对于建设资金不到位、违法违规开工建设的社会投资工程建设项目拖欠农民工工资的，由人力资源社会保障行政部门、其他有关部门按照职责依法对建设单位进行处罚；对建设单位负责人依法依规给予处分。相关部门工作人员未依法履行职责的，由有关机关依法依规给予处分。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-5be17e6609f4",
+    "topic": "劳动合同",
+    "difficulty": "medium",
+    "query": "现实中遇到与“劳务派遣单位违法解除或者终止被派遣员工的劳动合同的，依照劳动合同法相关条款的规定执行”有关的劳动合同争议，应当适用什么处理规则？",
+    "expected_citations": [
+      "《中华人民共和国劳动合同法实施条例》第三十二条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《中华人民共和国劳动合同法实施条例》第三十二条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=284",
+        "effective_on": "2008-09-18",
+        "excerpt": "第三十二条 劳务派遣单位违法解除或者终止被派遣劳动者的劳动合同的，依照劳动合同法第四十八条的规定执行。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-3d6adefde7b6",
+    "topic": "社会保险",
+    "difficulty": "medium",
+    "query": "现实中遇到与“基本医疗保险费的征缴范围：国有企业、城镇集体企业、外商投资企业、城镇私营企业和其他城镇企业及其员工，国家机关及其工作人员，事业单位及其员工，民办”有关的社会保险争议，应当适用什么处理规则？",
+    "expected_citations": [
+      "《社会保险费征缴暂行条例》第三条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《社会保险费征缴暂行条例》第三条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=518",
+        "effective_on": "2019-03-24",
+        "excerpt": "第三条 基本养老保险费的征缴范围：国有企业、城镇集体企业、外商投资企业、城镇私营企业和其他城镇企业及其职工，实行企业化管理的事业单位及其职工。\n基本医疗保险费的征缴范围：国有企业、城镇集体企业、外商投资企业、城镇私营企业和其他城镇企业及其职工，国家机关及其工作人员，事业单位及其职工，民办非企业单位及其职工，社会团体及其专职人员。\n失业保险费的征缴范围：国有企业、城镇集体企业、外商投资企业、城镇私营企业和其他城镇企业及其职工，事业单位及其"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-572b5f899ad5",
+    "topic": "特殊用工",
+    "difficulty": "medium",
+    "query": "现实中遇到与“情节严重的，并给予暂扣船员适任证书6个月以上2年以下直至吊销船员适任证书的处罚：(一)未遵守值班规定擅自离开工作岗位的”有关的特殊用工争议，应当适用什么处理规则？",
+    "expected_citations": [
+      "《中华人民共和国船员条例》第五十一条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《中华人民共和国船员条例》第五十一条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=1691",
+        "effective_on": "2023-07-20",
+        "excerpt": "第五十一条 违反本条例的规定，船员有下列情形之一的，由海事管理机构处1000元以上1万元以下罚款；情节严重的，并给予暂扣船员适任证书6个月以上2年以下直至吊销船员适任证书的处罚：\n(一)未遵守值班规定擅自离开工作岗位的；\n(二)未按照水上交通安全和防治船舶污染操作规则操纵、控制和管理船舶的；\n(三)发现或者发生险情、事故、保安事件或者影响航行安全的情况未及时报告的；\n(四)未如实填写或者记载有关船舶、船员法定文书的；\n(五)隐匿、篡改或"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-cf09330387c6",
+    "topic": "监督执法",
+    "difficulty": "medium",
+    "query": "现实中遇到与“任何组织或者个人对违反劳动保障法律、法规或者规章的行为，有权向劳动保障行政部门举报”有关的监督执法争议，应当适用什么处理规则？",
+    "expected_citations": [
+      "《劳动保障监察条例》第九条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《劳动保障监察条例》第九条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=128",
+        "effective_on": "2004-12-01",
+        "excerpt": "第九条 任何组织或者个人对违反劳动保障法律、法规或者规章的行为，有权向劳动保障行政部门举报。\n劳动者认为用人单位侵犯其劳动保障合法权益的，有权向劳动保障行政部门投诉。\n劳动保障行政部门应当为举报人保密；对举报属实，为查处重大违反劳动保障法律、法规或者规章的行为提供主要线索和证据的举报人，给予奖励。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-03298442f033",
+    "topic": "工伤保险",
+    "difficulty": "medium",
+    "query": "劳动能力鉴定中，劳动功能障碍和生活自理障碍分别如何分级？",
+    "expected_citations": [
+      "《工伤保险条例》第二十二条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《工伤保险条例》第二十二条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=610",
+        "effective_on": "2010-12-20",
+        "excerpt": "第二十二条 劳动能力鉴定是指劳动功能障碍程度和生活自理障碍程度的等级鉴定。\n劳动功能障碍分为十个伤残等级，最重的为一级，最轻的为十级。\n生活自理障碍分为三个等级：生活完全不能自理、生活大部分不能自理和生活部分不能自理。\n劳动能力鉴定标准由国务院社会保险行政部门会同国务院卫生行政部门等部门制定。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved_after_revision",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-cd57afa13f68",
+    "topic": "监督执法",
+    "difficulty": "medium",
+    "query": "现实中遇到与“劳动保障行政部门实施劳动保障监察，履行下列职责：(一)宣传劳动保障法律、法规和规章，督促公司贯彻执行”有关的监督执法争议，应当适用什么处理规则？",
+    "expected_citations": [
+      "《劳动保障监察条例》第十条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《劳动保障监察条例》第十条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=128",
+        "effective_on": "2004-12-01",
+        "excerpt": "第十条 劳动保障行政部门实施劳动保障监察，履行下列职责：\n(一)宣传劳动保障法律、法规和规章，督促用人单位贯彻执行；\n(二)检查用人单位遵守劳动保障法律、法规和规章的情况；\n(三)受理对违反劳动保障法律、法规或者规章的行为的举报、投诉；\n(四)依法纠正和查处违反劳动保障法律、法规或者规章的行为。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-74e31367e826",
+    "topic": "工资支付",
+    "difficulty": "medium",
+    "query": "处理工资支付问题时，遇到“公司被依法吊销营业执照或者登记证书、被责令关闭、被撤销或者依法解散的，需要在申请注销登记前依法清偿拖欠的农民工工资”的情形，相关主体需要履行什么义务？",
+    "expected_citations": [
+      "《保障农民工工资支付条例》第二十二条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《保障农民工工资支付条例》第二十二条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=449",
+        "effective_on": "2020-05-01",
+        "excerpt": "第二十二条 用人单位被依法吊销营业执照或者登记证书、被责令关闭、被撤销或者依法解散的，应当在申请注销登记前依法清偿拖欠的农民工工资。\n未依据前款规定清偿农民工工资的用人单位主要出资人，应当在注册新用人单位前清偿拖欠的农民工工资。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-a38d3afd6d2f",
+    "topic": "就业安置",
+    "difficulty": "medium",
+    "query": "现实中遇到与“自主就业退役军士和义务兵的一次性退役金由中央财政专项安排，具体标准由国务院退役军人工作主管部门、中央军事委员会政治工作部门会同国务院财政部门，根”有关的就业安置争议，应当适用什么处理规则？",
+    "expected_citations": [
+      "《退役军人安置条例》第二十一条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《退役军人安置条例》第二十一条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=1730",
+        "effective_on": "2024-09-01",
+        "excerpt": "第二十一条 对自主就业的退役军士和义务兵，根据其服现役年限发放一次性退役金。\n自主就业退役军士和义务兵的一次性退役金由中央财政专项安排，具体标准由国务院退役军人工作主管部门、中央军事委员会政治工作部门会同国务院财政部门，根据国民经济发展水平、国家财力情况、全国城镇单位就业人员平均工资和军人职业特殊性等因素确定，并适时调整。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-58ba3335bd5f",
+    "topic": "就业安置",
+    "difficulty": "medium",
+    "query": "现实中遇到与“以转业、逐月领取退役金、复员方式安置的退役军官和以逐月领取退役金方式安置的退役军士的人事档案，由中央军事委员会机关部委、中央军事委员会直属机构”有关的就业安置争议，应当适用什么处理规则？",
+    "expected_citations": [
+      "《退役军人安置条例》第五十条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《退役军人安置条例》第五十条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=1730",
+        "effective_on": "2024-09-01",
+        "excerpt": "第五十条 以转业、逐月领取退役金、复员方式安置的退役军官和以逐月领取退役金方式安置的退役军士的人事档案，由中央军事委员会机关部委、中央军事委员会直属机构、中央军事委员会联合作战指挥中心、战区、军兵种、中央军事委员会直属单位等单位的政治工作部门向安置地省军区(卫戍区、警备区)移交后，由安置地省军区(卫戍区、警备区)向省级人民政府退役军人工作主管部门进行移交。\n安排工作的退役军士和义务兵的人事档案，由中央军事委员会机关部委、中央军事委员会直"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-3a1410b75a1d",
+    "topic": "劳动合同",
+    "difficulty": "medium",
+    "query": "处理劳动合同问题时，遇到“自用工之日起一个月内，经公司书面通知后，员工不与公司订立书面劳动合同的，公司需要书面通知员工终止劳动关系，无需向员工支付经济补偿，但是需要依法向”的情形，相关主体需要履行什么义务？",
+    "expected_citations": [
+      "《中华人民共和国劳动合同法实施条例》第五条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《中华人民共和国劳动合同法实施条例》第五条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=284",
+        "effective_on": "2008-09-18",
+        "excerpt": "第五条 自用工之日起一个月内，经用人单位书面通知后，劳动者不与用人单位订立书面劳动合同的，用人单位应当书面通知劳动者终止劳动关系，无需向劳动者支付经济补偿，但是应当依法向劳动者支付其实际工作时间的劳动报酬。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-0fafab469af7",
+    "topic": "工资支付",
+    "difficulty": "medium",
+    "query": "发生工资支付争议时，针对“人力资源社会保障行政部门在查处拖欠农民工工资案件时，发生公司拒不配合调查、清偿责任主体及相关当事人无法联系等情形的，能否请求公安机关和其他主管部”的情况，可以采取哪些措施？",
+    "expected_citations": [
+      "《保障农民工工资支付条例》第四十一条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《保障农民工工资支付条例》第四十一条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=449",
+        "effective_on": "2020-05-01",
+        "excerpt": "第四十一条 人力资源社会保障行政部门在查处拖欠农民工工资案件时，发生用人单位拒不配合调查、清偿责任主体及相关当事人无法联系等情形的，可以请求公安机关和其他有关部门协助处理。\n人力资源社会保障行政部门发现拖欠农民工工资的违法行为涉嫌构成拒不支付劳动报酬罪的，应当按照有关规定及时移送公安机关审查并作出决定。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-90c92b6b306c",
+    "topic": "工伤保险",
+    "difficulty": "medium",
+    "query": "处理工伤保险问题时，遇到“员工发生工伤，经治疗伤情相对稳定后存在残疾、影响劳动能力的，需要进行劳动能力鉴定”的情形，相关主体需要履行什么义务？",
+    "expected_citations": [
+      "《工伤保险条例》第二十一条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《工伤保险条例》第二十一条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=610",
+        "effective_on": "2010-12-20",
+        "excerpt": "第二十一条 职工发生工伤，经治疗伤情相对稳定后存在残疾、影响劳动能力的，应当进行劳动能力鉴定。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-9831388b5007",
+    "topic": "工资支付",
+    "difficulty": "medium",
+    "query": "处理工资支付问题时，遇到“人力资源社会保障行政部门、相关行业工程建设主管部门和其他主管部门需要按照“谁执法谁普法”普法责任制的要求，通过以案释法等多种形式，加大对保障农民”的情形，相关主体需要履行什么义务？",
+    "expected_citations": [
+      "《保障农民工工资支付条例》第四十六条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《保障农民工工资支付条例》第四十六条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=449",
+        "effective_on": "2020-05-01",
+        "excerpt": "第四十六条 人力资源社会保障行政部门、相关行业工程建设主管部门和其他有关部门应当按照“谁执法谁普法”普法责任制的要求，通过以案释法等多种形式，加大对保障农民工工资支付相关法律法规的普及宣传。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-2bd4a99a0415",
+    "topic": "特殊用工",
+    "difficulty": "medium",
+    "query": "现实中遇到与“构成犯罪的，依法追究直接负责的主管人员和其他直接责任人员的刑事责任：(一)泄露在保安服务中获知的国家秘密、商业秘密以及客户单位明确要求保密的信息”有关的特殊用工争议，应当适用什么处理规则？",
+    "expected_citations": [
+      "《保安服务管理条例》第四十三条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《保安服务管理条例》第四十三条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=1458",
+        "effective_on": "2022-03-29",
+        "excerpt": "第四十三条 保安从业单位有下列情形之一的，责令限期改正，处2万元以上10万元以下的罚款；违反治安管理的，依法给予治安管理处罚；构成犯罪的，依法追究直接负责的主管人员和其他直接责任人员的刑事责任：\n(一)泄露在保安服务中获知的国家秘密、商业秘密以及客户单位明确要求保密的信息的；\n(二)使用监控设备侵犯他人合法权益或者个人隐私的；\n(三)删改或者扩散保安服务中形成的监控影像资料、报警记录的；\n(四)指使、纵容保安员阻碍依法执行公务、参与追索"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-38e2559c096a",
+    "topic": "社会保险",
+    "difficulty": "medium",
+    "query": "哪些社会保险费的征收缴纳适用该条例，哪些单位和个人属于缴费主体？",
+    "expected_citations": [
+      "《社会保险费征缴暂行条例》第二条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《社会保险费征缴暂行条例》第二条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=518",
+        "effective_on": "2019-03-24",
+        "excerpt": "第二条 基本养老保险费、基本医疗保险费、失业保险费(以下统称社会保险费)的征收、缴纳，适用本条例。\n本条例所称缴费单位、缴费个人，是指依照有关法律、行政法规和国务院的规定，应当缴纳社会保险费的单位和个人。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved_after_revision",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-ad8c7f2ebaa2",
+    "topic": "劳动保护",
+    "difficulty": "hard",
+    "query": "一次综合法律咨询包含两个独立问题：第一，造成严重职业中毒危害或者导致职业中毒事故发生的，对负有责任的主管人员和其他直接责任人员依照刑法关于重大劳动安全事故罪、危险物品肇事罪或者其他罪的；第二，构成犯罪的，依照刑法关于滥用职权罪、玩忽职守罪或者其他罪的规定，依法追究刑事责任：(一)劳动保障等主管部门工作人员在禁止使用童工的监督检查工作中。请分别说明适用规则。",
+    "expected_citations": [
+      "《使用有毒物品作业场所劳动保护条例》第六十五条",
+      "《禁止使用童工规定》第十二条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《使用有毒物品作业场所劳动保护条例》第六十五条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=1748",
+        "effective_on": "2024-12-06",
+        "excerpt": "第六十五条 用人单位违反本条例的规定，有下列情形之一的，由疾病预防控制部门给予警告，责令限期改正，处5000元以上2万元以下的罚款；逾期不改正的，责令停止使用有毒物品作业，或者提请有关人民政府按照国务院规定的权限予以关闭；造成严重职业中毒危害或者导致职业中毒事故发生的，对负有责任的主管人员和其他直接责任人员依照刑法关于重大劳动安全事故罪、危险物品肇事罪或者其他罪的规定，依法追究刑事责任：\n(一)使用有毒物品作业场所未与生活场所分开或者在"
+      },
+      {
+        "citation": "《禁止使用童工规定》第十二条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=604",
+        "effective_on": "2002-12-01",
+        "excerpt": "第十二条 国家行政机关工作人员有下列行为之一的，依法给予记大过或者降级的行政处分；情节严重的，依法给予撤职或者开除的行政处分；构成犯罪的，依照刑法关于滥用职权罪、玩忽职守罪或者其他罪的规定，依法追究刑事责任：\n(一)劳动保障等有关部门工作人员在禁止使用童工的监督检查工作中发现使用童工的情况，不予制止、纠正、查处的；\n(二)公安机关的人民警察违反规定发放身份证或者在身份证上登录虚假出生年月的；\n(三)工商行政管理部门工作人员发现申请人是不"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_cross_regulation_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved_after_revision",
+    "review_confidence": "medium",
+    "review_rationale": "问题与最低预期依据直接对应；跨法规题已改为两个独立问题的多意图检索，不再暗示条文属于同一争议。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-dad38060dcf6",
+    "topic": "工资支付",
+    "difficulty": "hard",
+    "query": "一次综合法律咨询包含两个独立问题：第一，公司允许个人、不具备合法经营资格或者未取得相应资质的单位以公司的名义对外经营，导致拖欠所招用农民工工资的，由公司清偿，并能否依法进行追偿；第二，有下列情形之一的，依照劳动合同法规定的条件、程序，员工能否与公司解除固定期限劳动合同、无固定期限劳动合同或者以完成一定工作任务为期限的劳动合同。请分别说明适用规则。",
+    "expected_citations": [
+      "《保障农民工工资支付条例》第十九条",
+      "《中华人民共和国劳动合同法实施条例》第十八条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《保障农民工工资支付条例》第十九条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=449",
+        "effective_on": "2020-05-01",
+        "excerpt": "第十九条 用人单位将工作任务发包给个人或者不具备合法经营资格的单位，导致拖欠所招用农民工工资的，依照有关法律规定执行。\n用人单位允许个人、不具备合法经营资格或者未取得相应资质的单位以用人单位的名义对外经营，导致拖欠所招用农民工工资的，由用人单位清偿，并可以依法进行追偿。"
+      },
+      {
+        "citation": "《中华人民共和国劳动合同法实施条例》第十八条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=284",
+        "effective_on": "2008-09-18",
+        "excerpt": "第十八条 有下列情形之一的，依照劳动合同法规定的条件、程序，劳动者可以与用人单位解除固定期限劳动合同、无固定期限劳动合同或者以完成一定工作任务为期限的劳动合同：\n(一)劳动者与用人单位协商一致的；\n(二)劳动者提前30日以书面形式通知用人单位的；\n(三)劳动者在试用期内提前3日通知用人单位的；\n(四)用人单位未按照劳动合同约定提供劳动保护或者劳动条件的；\n(五)用人单位未及时足额支付劳动报酬的；\n(六)用人单位未依法为劳动者缴纳社会保险"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_cross_regulation_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved_after_revision",
+    "review_confidence": "medium",
+    "review_rationale": "问题与最低预期依据直接对应；跨法规题已改为两个独立问题的多意图检索，不再暗示条文属于同一争议。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-08f8c071b492",
+    "topic": "就业安置",
+    "difficulty": "medium",
+    "query": "现实中遇到与“服现役期间因战、因公、因病致残被评定残疾等级和退役后补评或者重新评定残疾等级的残疾退役军人，有劳动能力和就业意愿的，优先享受国家规定的残疾人就业”有关的就业安置争议，应当适用什么处理规则？",
+    "expected_citations": [
+      "《退役军人安置条例》第七十一条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《退役军人安置条例》第七十一条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=1730",
+        "effective_on": "2024-09-01",
+        "excerpt": "第七十一条 服现役期间因战、因公、因病致残被评定残疾等级和退役后补评或者重新评定残疾等级的残疾退役军人，有劳动能力和就业意愿的，优先享受国家规定的残疾人就业优惠政策。退役军人所在单位不得因其残疾而辞退、解除聘用合同或者劳动合同。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-664768f6c000",
+    "topic": "社会保险",
+    "difficulty": "medium",
+    "query": "现实中遇到与“缴费单位违反有关财务、会计、统计的法律、行政法规和国家有关规定，伪造、变造、故意毁灭有关账册、材料，或者不设账册，致使社会保险费缴费基数无法确定”有关的社会保险争议，应当适用什么处理规则？",
+    "expected_citations": [
+      "《社会保险费征缴暂行条例》第二十四条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《社会保险费征缴暂行条例》第二十四条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=518",
+        "effective_on": "2019-03-24",
+        "excerpt": "第二十四条 缴费单位违反有关财务、会计、统计的法律、行政法规和国家有关规定，伪造、变造、故意毁灭有关账册、材料，或者不设账册，致使社会保险费缴费基数无法确定的，除依照有关法律、行政法规的规定给予行政处罚、纪律处分、刑事处罚外，依照本条例第十条的规定征缴；迟延缴纳的，由劳动保障行政部门或者税务机关依照本条例第十三条的规定决定加收滞纳金，并对直接负责的主管人员和其他直接责任人员处5000元以上20000元以下的罚款。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-85b4cc6fc857",
+    "topic": "劳动合同",
+    "difficulty": "medium",
+    "query": "处理劳动合同问题时，遇到“公司出具的解除、终止劳动合同的证明，需要写明劳动合同期限、解除或者终止劳动合同的日期、工作岗位、在本单位的工作年限”的情形，相关主体需要履行什么义务？",
+    "expected_citations": [
+      "《中华人民共和国劳动合同法实施条例》第二十四条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《中华人民共和国劳动合同法实施条例》第二十四条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=284",
+        "effective_on": "2008-09-18",
+        "excerpt": "第二十四条 用人单位出具的解除、终止劳动合同的证明，应当写明劳动合同期限、解除或者终止劳动合同的日期、工作岗位、在本单位的工作年限。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-c408de23fc27",
+    "topic": "就业安置",
+    "difficulty": "medium",
+    "query": "发生就业安置争议时，针对“退役义务兵和以自主就业、安排工作、供养方式安置的退役军士有下列情形之一的，能否易地安置：(一)服现役期间父母任何一方户口所在地变更的，能否在父母”的情况，可以采取哪些措施？",
+    "expected_citations": [
+      "《退役军人安置条例》第四十五条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《退役军人安置条例》第四十五条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=1730",
+        "effective_on": "2024-09-01",
+        "excerpt": "第四十五条 退役义务兵和以自主就业、安排工作、供养方式安置的退役军士的安置地为其入伍时户口所在地。但是，入伍时是普通高等学校在校学生，退出现役后不复学的，其安置地为入学前的户口所在地。\n退役义务兵和以自主就业、安排工作、供养方式安置的退役军士有下列情形之一的，可以易地安置：\n(一)服现役期间父母任何一方户口所在地变更的，可以在父母任何一方现户口所在地安置；\n(二)退役军士已婚的，可以在配偶或者配偶父母任何一方户口所在地安置；\n(三)退役"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-586543e10d85",
+    "topic": "社会保险",
+    "difficulty": "medium",
+    "query": "处理社会保险问题时，遇到“前款规定以外的缴费单位需要自成立之日起30日内，向当地社会保险经办机构申请办理社会保险登记”的情形，相关主体需要履行什么义务？",
+    "expected_citations": [
+      "《社会保险费征缴暂行条例》第八条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《社会保险费征缴暂行条例》第八条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=518",
+        "effective_on": "2019-03-24",
+        "excerpt": "第八条 企业在办理登记注册时，同步办理社会保险登记。\n前款规定以外的缴费单位应当自成立之日起30日内，向当地社会保险经办机构申请办理社会保险登记。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-afac2a8eb82d",
+    "topic": "监督执法",
+    "difficulty": "medium",
+    "query": "处理监督执法问题时，遇到“劳动保障行政部门对违反劳动保障法律、法规或者规章的行为，根据调查、检查的结果，作出以下处理：(一)对依法需要受到行政处罚的，依法作出行政处罚决定”的情形，相关主体需要履行什么义务？",
+    "expected_citations": [
+      "《劳动保障监察条例》第十八条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《劳动保障监察条例》第十八条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=128",
+        "effective_on": "2004-12-01",
+        "excerpt": "第十八条 劳动保障行政部门对违反劳动保障法律、法规或者规章的行为，根据调查、检查的结果，作出以下处理：\n(一)对依法应当受到行政处罚的，依法作出行政处罚决定；\n(二)对应当改正未改正的，依法责令改正或者作出相应的行政处理决定；\n(三)对情节轻微且已改正的，撤销立案。\n发现违法案件不属于劳动保障监察事项的，应当及时移送有关部门处理；涉嫌犯罪的，应当依法移送司法机关。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-2468f8019f96",
+    "topic": "就业安置",
+    "difficulty": "medium",
+    "query": "发生就业安置争议时，针对“对自主就业的退役军士和义务兵，地方人民政府能否根据当地实际情况给予一次性经济补助，补助标准及发放办法由省、自治区、直辖市人民政府制定”的情况，可以采取哪些措施？",
+    "expected_citations": [
+      "《退役军人安置条例》第二十三条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《退役军人安置条例》第二十三条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=1730",
+        "effective_on": "2024-09-01",
+        "excerpt": "第二十三条 对自主就业的退役军士和义务兵，地方人民政府可以根据当地实际情况给予一次性经济补助，补助标准及发放办法由省、自治区、直辖市人民政府制定。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-e30933cdb6b3",
+    "topic": "特殊用工",
+    "difficulty": "medium",
+    "query": "现实中遇到与“违反本条例规定，船员服务机构从事船员劳务派遣业务时未依法与相关员工或者船员公司订立合同的，由劳动保障行政部门按照相关劳动法律、行政法规的规定处罚”有关的特殊用工争议，应当适用什么处理规则？",
+    "expected_citations": [
+      "《中华人民共和国船员条例》第五十九条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《中华人民共和国船员条例》第五十九条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=1691",
+        "effective_on": "2023-07-20",
+        "excerpt": "第五十九条 违反本条例规定，船员服务机构从事船员劳务派遣业务时未依法与相关劳动者或者船员用人单位订立合同的，由劳动保障行政部门按照相关劳动法律、行政法规的规定处罚。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-11eca8dd9a92",
+    "topic": "就业安置",
+    "difficulty": "medium",
+    "query": "在就业安置纠纷中，如果有人主张“依法征收的残疾人就业保障金需要纳入财政预算，专项用于残疾人职业培训以及为残疾人提供就业服务和就业援助，任何组织或者个人不能贪污、挪用、截留或者私”，这种做法是否合法、限制是什么？",
+    "expected_citations": [
+      "《残疾人就业条例》第十六条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《残疾人就业条例》第十六条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=1556",
+        "effective_on": "2007-05-01",
+        "excerpt": "第十六条 依法征收的残疾人就业保障金应当纳入财政预算，专项用于残疾人职业培训以及为残疾人提供就业服务和就业援助，任何组织或者个人不得贪污、挪用、截留或者私分。残疾人就业保障金征收、使用、管理的具体办法，由国务院财政部门会同国务院有关部门规定。\n财政部门和审计机关应当依法加强对残疾人就业保障金使用情况的监督检查。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-aec5d158433e",
+    "topic": "监督执法",
+    "difficulty": "medium",
+    "query": "现实中遇到与“属于本条例规定的劳动保障监察事项，法律、其他行政法规对处罚另有规定的，从其规定”有关的监督执法争议，应当适用什么处理规则？",
+    "expected_citations": [
+      "《劳动保障监察条例》第三十二条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《劳动保障监察条例》第三十二条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=128",
+        "effective_on": "2004-12-01",
+        "excerpt": "第三十二条 属于本条例规定的劳动保障监察事项，法律、其他行政法规对处罚另有规定的，从其规定。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-49b4322840e9",
+    "topic": "劳动合同",
+    "difficulty": "hard",
+    "query": "一次综合法律咨询包含两个独立问题：第一，员工达到法定退休年龄的，劳动合同终止；第二，保安从业单位因保安员不执行违法指令而解除与保安员的劳动合同，降低其劳动报酬和其他待遇，或者停缴、少缴依法需要为其缴纳的社会保险费的，对保安从业单。请分别说明适用规则。",
+    "expected_citations": [
+      "《中华人民共和国劳动合同法实施条例》第二十一条",
+      "《保安服务管理条例》第四十四条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《中华人民共和国劳动合同法实施条例》第二十一条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=284",
+        "effective_on": "2008-09-18",
+        "excerpt": "第二十一条 劳动者达到法定退休年龄的，劳动合同终止。"
+      },
+      {
+        "citation": "《保安服务管理条例》第四十四条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=1458",
+        "effective_on": "2022-03-29",
+        "excerpt": "第四十四条 保安从业单位因保安员不执行违法指令而解除与保安员的劳动合同，降低其劳动报酬和其他待遇，或者停缴、少缴依法应当为其缴纳的社会保险费的，对保安从业单位的处罚和对保安员的赔偿依照有关劳动合同和社会保险的法律、行政法规的规定执行。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_cross_regulation_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved_after_revision",
+    "review_confidence": "medium",
+    "review_rationale": "问题与最低预期依据直接对应；跨法规题已改为两个独立问题的多意图检索，不再暗示条文属于同一争议。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-8f74db2015fc",
+    "topic": "工伤保险",
+    "difficulty": "medium",
+    "query": "在工伤保险纠纷中，如果有人主张“生活护理费按照生活完全不能自理、生活大部分不能自理或者生活部分不能自理3个不同等级支付，其标准分别为统筹地区上年度员工月平均工资的50%、40%”，这种做法是否合法、限制是什么？",
+    "expected_citations": [
+      "《工伤保险条例》第三十四条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《工伤保险条例》第三十四条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=610",
+        "effective_on": "2010-12-20",
+        "excerpt": "第三十四条 工伤职工已经评定伤残等级并经劳动能力鉴定委员会确认需要生活护理的，从工伤保险基金按月支付生活护理费。\n生活护理费按照生活完全不能自理、生活大部分不能自理或者生活部分不能自理3个不同等级支付，其标准分别为统筹地区上年度职工月平均工资的50%、40%或者30%。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-62fe1f6d901d",
+    "topic": "工伤保险",
+    "difficulty": "medium",
+    "query": "现实中遇到与“工伤保险基金存入社会保障基金财政专户，用于本条例规定的工伤保险待遇，劳动能力鉴定，工伤预防的宣传、培训等费用，以及法律、法规规定的用于工伤保险的”有关的工伤保险争议，应当适用什么处理规则？",
+    "expected_citations": [
+      "《工伤保险条例》第十二条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《工伤保险条例》第十二条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=610",
+        "effective_on": "2010-12-20",
+        "excerpt": "第十二条 工伤保险基金存入社会保障基金财政专户，用于本条例规定的工伤保险待遇，劳动能力鉴定，工伤预防的宣传、培训等费用，以及法律、法规规定的用于工伤保险的其他费用的支付。\n工伤预防费用的提取比例、使用和管理的具体办法，由国务院社会保险行政部门会同国务院财政、卫生行政、安全生产监督管理等部门规定。\n任何单位或者个人不得将工伤保险基金用于投资运营、兴建或者改建办公场所、发放奖金，或者挪作其他用途。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-43539e6abd5c",
+    "topic": "劳动保护",
+    "difficulty": "medium",
+    "query": "在劳动保护纠纷中，如果有人主张“公司不能安排未成年人和孕期、哺乳期的女员工从事使用有毒物品的作业”，这种做法是否合法、限制是什么？",
+    "expected_citations": [
+      "《使用有毒物品作业场所劳动保护条例》第七条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《使用有毒物品作业场所劳动保护条例》第七条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=1748",
+        "effective_on": "2024-12-06",
+        "excerpt": "第七条 禁止使用童工。\n用人单位不得安排未成年人和孕期、哺乳期的女职工从事使用有毒物品的作业。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-42a47ed70cb7",
+    "topic": "工伤保险",
+    "difficulty": "hard",
+    "query": "一次综合法律咨询包含两个独立问题：第一，省、自治区、直辖市劳动能力鉴定委员会和设区的市级劳动能力鉴定委员会分别由省、自治区、直辖市和设区的市级社会保险行政部门、卫生行政部门、工会组织；第二，公司按照国家规定参加工伤保险的，患职业病的员工有权按照国家有关工伤保险的规定，享受下列工伤保险待遇：(一)医疗费：因患职业病进行诊疗所需费用，由。请分别说明适用规则。",
+    "expected_citations": [
+      "《工伤保险条例》第二十四条",
+      "《使用有毒物品作业场所劳动保护条例》第四十一条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《工伤保险条例》第二十四条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=610",
+        "effective_on": "2010-12-20",
+        "excerpt": "第二十四条 省、自治区、直辖市劳动能力鉴定委员会和设区的市级劳动能力鉴定委员会分别由省、自治区、直辖市和设区的市级社会保险行政部门、卫生行政部门、工会组织、经办机构代表以及用人单位代表组成。\n劳动能力鉴定委员会建立医疗卫生专家库。列入专家库的医疗卫生专业技术人员应当具备下列条件：\n(一)具有医疗卫生高级专业技术职务任职资格；\n(二)掌握劳动能力鉴定的相关知识；\n(三)具有良好的职业品德。"
+      },
+      {
+        "citation": "《使用有毒物品作业场所劳动保护条例》第四十一条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=1748",
+        "effective_on": "2024-12-06",
+        "excerpt": "第四十一条 用人单位按照国家规定参加工伤保险的，患职业病的劳动者有权按照国家有关工伤保险的规定，享受下列工伤保险待遇：\n(一)医疗费：因患职业病进行诊疗所需费用，由工伤保险基金按照规定标准支付；\n(二)住院伙食补助费：由用人单位按照当地因公出差伙食标准的一定比例支付；\n(三)康复费：由工伤保险基金按照规定标准支付；\n(四)残疾用具费：因残疾需要配置辅助器具的，所需费用由工伤保险基金按照普及型辅助器具标准支付；\n(五)停工留薪期待遇：原工"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_cross_regulation_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved_after_revision",
+    "review_confidence": "medium",
+    "review_rationale": "问题与最低预期依据直接对应；跨法规题已改为两个独立问题的多意图检索，不再暗示条文属于同一争议。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-ec7718cf9f68",
+    "topic": "劳动合同",
+    "difficulty": "medium",
+    "query": "处理劳动合同问题时，遇到“以完成一定工作任务为期限的劳动合同因任务完成而终止的，公司需要依照劳动合同法相关条款的规定向员工支付经济补偿”的情形，相关主体需要履行什么义务？",
+    "expected_citations": [
+      "《中华人民共和国劳动合同法实施条例》第二十二条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《中华人民共和国劳动合同法实施条例》第二十二条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=284",
+        "effective_on": "2008-09-18",
+        "excerpt": "第二十二条 以完成一定工作任务为期限的劳动合同因任务完成而终止的，用人单位应当依照劳动合同法第四十七条的规定向劳动者支付经济补偿。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-ee8014d158a2",
+    "topic": "特殊用工",
+    "difficulty": "hard",
+    "query": "一次综合法律咨询包含两个独立问题：第一，引航员的培训依照本条例有关船员培训的规定执行；第二，保安服务活动需要文明、合法，不能损害社会公共利益或者侵犯他人合法权益。请分别说明适用规则。",
+    "expected_citations": [
+      "《中华人民共和国船员条例》第六十三条",
+      "《保安服务管理条例》第六条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《中华人民共和国船员条例》第六十三条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=1691",
+        "effective_on": "2023-07-20",
+        "excerpt": "第六十三条 引航员的培训依照本条例有关船员培训的规定执行。引航员管理的具体办法由国务院交通主管部门制订。"
+      },
+      {
+        "citation": "《保安服务管理条例》第六条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=1458",
+        "effective_on": "2022-03-29",
+        "excerpt": "第六条 保安服务活动应当文明、合法，不得损害社会公共利益或者侵犯他人合法权益。\n保安员依法从事保安服务活动，受法律保护。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_cross_regulation_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved_after_revision",
+    "review_confidence": "medium",
+    "review_rationale": "问题与最低预期依据直接对应；跨法规题已改为两个独立问题的多意图检索，不再暗示条文属于同一争议。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-7309e9b62d89",
+    "topic": "劳动保护",
+    "difficulty": "hard",
+    "query": "一次综合法律咨询包含两个独立问题：第一，卫生行政、疾病预防控制部门对举报、投诉、检举和控告需要及时核实，依法作出处理，并将处理结果予以公布；第二，矿山需要有保障安全生产、预防事故和职业危害的安全设施，并符合下列基本要求：(一)每个矿井至少有两个独立的能行人的直达地面的安全出口。请分别说明适用规则。",
+    "expected_citations": [
+      "《使用有毒物品作业场所劳动保护条例》第五十条",
+      "《中华人民共和国矿山安全法实施条例》第十条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《使用有毒物品作业场所劳动保护条例》第五十条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=1748",
+        "effective_on": "2024-12-06",
+        "excerpt": "第五十条 卫生行政、疾病预防控制部门应当采取措施，鼓励对用人单位的违法行为进行举报、投诉、检举和控告。\n卫生行政、疾病预防控制部门对举报、投诉、检举和控告应当及时核实，依法作出处理，并将处理结果予以公布。\n卫生行政、疾病预防控制部门对举报人、投诉人、检举人和控告人负有保密的义务。"
+      },
+      {
+        "citation": "《中华人民共和国矿山安全法实施条例》第十条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=473",
+        "effective_on": "1996-10-30",
+        "excerpt": "第十条 矿山应当有保障安全生产、预防事故和职业危害的安全设施，并符合下列基本要求：\n(一)每个矿井至少有两个独立的能行人的直达地面的安全出口。矿井的每个生产水平(中段)和各个采区(盘区)至少有两个能行人的安全出口，并与直达地面的出口相通。\n(二)每个矿井有独立的采用机械通风的通风系统，保证井下作业场所有足够的风量；但是，小型非沼气矿井在保证井下作业场所所需风量的前提下，可以采用自然通风。\n(三)井巷断面能满足行人、运输、通风和安全设施、"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_cross_regulation_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved_after_revision",
+    "review_confidence": "medium",
+    "review_rationale": "问题与最低预期依据直接对应；跨法规题已改为两个独立问题的多意图检索，不再暗示条文属于同一争议。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-cf215097ef86",
+    "topic": "工资支付",
+    "difficulty": "medium",
+    "query": "现实中遇到与“工程建设项目违反国土空间规划、工程建设等法律法规，导致拖欠农民工工资的，由建设单位清偿”有关的工资支付争议，应当适用什么处理规则？",
+    "expected_citations": [
+      "《保障农民工工资支付条例》第三十七条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《保障农民工工资支付条例》第三十七条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=449",
+        "effective_on": "2020-05-01",
+        "excerpt": "第三十七条 工程建设项目违反国土空间规划、工程建设等法律法规，导致拖欠农民工工资的，由建设单位清偿。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-0e8709a6231c",
+    "topic": "就业安置",
+    "difficulty": "medium",
+    "query": "现实中遇到与“以逐月领取退役金、自主就业、复员方式安置的退役军人，按照规定享受相应就业创业扶持政策”有关的就业安置争议，应当适用什么处理规则？",
+    "expected_citations": [
+      "《退役军人安置条例》第六十六条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《退役军人安置条例》第六十六条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=1730",
+        "effective_on": "2024-09-01",
+        "excerpt": "第六十六条 国家采取政府推动、市场引导、社会支持相结合的方式，鼓励和扶持退役军人就业创业。以逐月领取退役金、自主就业、复员方式安置的退役军人，按照规定享受相应就业创业扶持政策。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-20247a3f7476",
+    "topic": "监督执法",
+    "difficulty": "hard",
+    "query": "一次综合法律咨询包含两个独立问题：第一，各级工会依法维护员工的合法权益，对公司遵守劳动保障法律、法规和规章的情况进行监督；第二，各级农民负担监督管理部门负责检查有关农民负担管理的法律、法规和政策的执行情况。请分别说明适用规则。",
+    "expected_citations": [
+      "《劳动保障监察条例》第七条",
+      "《农民承担费用和劳务管理条例》第四条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《劳动保障监察条例》第七条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=128",
+        "effective_on": "2004-12-01",
+        "excerpt": "第七条 各级工会依法维护劳动者的合法权益，对用人单位遵守劳动保障法律、法规和规章的情况进行监督。\n劳动保障行政部门在劳动保障监察工作中应当注意听取工会组织的意见和建议。"
+      },
+      {
+        "citation": "《农民承担费用和劳务管理条例》第四条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=333",
+        "effective_on": "1991-12-07",
+        "excerpt": "第四条 各级农民负担监督管理部门负责检查有关农民负担管理的法律、法规和政策的执行情况；会同有关主管部门审核涉及农民负担的文件；协助有关机关处理涉及农民负担的案件；培训农民负担监督管理工作人员。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_cross_regulation_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved_after_revision",
+    "review_confidence": "medium",
+    "review_rationale": "问题与最低预期依据直接对应；跨法规题已改为两个独立问题的多意图检索，不再暗示条文属于同一争议。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-40561dec39fe",
+    "topic": "工伤保险",
+    "difficulty": "hard",
+    "query": "一次综合法律咨询包含两个独立问题：第一，员工有下列情形之一的，视同工伤：(一)在工作时间和工作岗位，突发疾病死亡或者在48小时之内经抢救无效死亡的；第二，各企业、事业单位必须贯彻执行职业病报告制度，按期向当地卫生行政部门、劳动部门、工会组织和本单位的主管部门报告员工尘肺病发生和死亡情况。请分别说明适用规则。",
+    "expected_citations": [
+      "《工伤保险条例》第十五条",
+      "《中华人民共和国尘肺病防治条例》第二十条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《工伤保险条例》第十五条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=610",
+        "effective_on": "2010-12-20",
+        "excerpt": "第十五条 职工有下列情形之一的，视同工伤：\n(一)在工作时间和工作岗位，突发疾病死亡或者在48小时之内经抢救无效死亡的；\n(二)在抢险救灾等维护国家利益、公共利益活动中受到伤害的；\n(三)职工原在军队服役，因战、因公负伤致残，已取得革命伤残军人证，到用人单位后旧伤复发的。\n职工有前款第(一)项、第(二)项情形的，按照本条例的有关规定享受工伤保险待遇；职工有前款第(三)项情形的，按照本条例的有关规定享受除一次性伤残补助金以外的工伤保险待遇"
+      },
+      {
+        "citation": "《中华人民共和国尘肺病防治条例》第二十条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=179",
+        "effective_on": "1987-12-03",
+        "excerpt": "第二十条 各企业、事业单位必须贯彻执行职业病报告制度，按期向当地卫生行政部门、劳动部门、工会组织和本单位的主管部门报告职工尘肺病发生和死亡情况。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_cross_regulation_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved_after_revision",
+    "review_confidence": "medium",
+    "review_rationale": "问题与最低预期依据直接对应；跨法规题已改为两个独立问题的多意图检索，不再暗示条文属于同一争议。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-bb4f146e3538",
+    "topic": "监督执法",
+    "difficulty": "medium",
+    "query": "在监督执法纠纷中，如果有人主张“劳动保障监察员进行调查、检查，不能少于2人，并需要佩戴劳动保障监察标志、出示劳动保障监察证件”，这种做法是否合法、限制是什么？",
+    "expected_citations": [
+      "《劳动保障监察条例》第十六条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《劳动保障监察条例》第十六条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=128",
+        "effective_on": "2004-12-01",
+        "excerpt": "第十六条 劳动保障监察员进行调查、检查，不得少于2人，并应当佩戴劳动保障监察标志、出示劳动保障监察证件。\n劳动保障监察员办理的劳动保障监察事项与本人或者其近亲属有直接利害关系的，应当回避。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-3e107611b046",
+    "topic": "就业安置",
+    "difficulty": "hard",
+    "query": "一次综合法律咨询包含两个独立问题：第一，对安排到企业事业单位的退役军人随调配偶，安置岗位需要签订聘用合同或者劳动合同的，公司需要与其签订不少于3年的中长期聘用合同或者劳动合同；第二，富余员工由企业自行安置有困难到社会待业的，在待业期间，依法享受待业保险待遇。请分别说明适用规则。",
+    "expected_citations": [
+      "《退役军人安置条例》第五十七条",
+      "《国有企业富余职工安置规定》第十四条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《退役军人安置条例》第五十七条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=1730",
+        "effective_on": "2024-09-01",
+        "excerpt": "第五十七条 退役军人随调配偶在机关或者事业单位工作，符合有关法律法规规定的，安置地人民政府负责安排到相应的工作单位。对在其他单位工作或者无工作单位的随调随迁配偶，安置地人民政府应当提供就业指导，协助实现就业。\n对安排到企业事业单位的退役军人随调配偶，安置岗位需要签订聘用合同或者劳动合同的，用人单位应当与其签订不少于3年的中长期聘用合同或者劳动合同。\n鼓励和支持退役军人随调随迁家属自主就业创业。对有自主就业创业意愿的随调配偶，可以采取发放"
+      },
+      {
+        "citation": "《国有企业富余职工安置规定》第十四条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=376",
+        "effective_on": "1993-04-20",
+        "excerpt": "第十四条 富余职工由企业自行安置有困难到社会待业的，在待业期间，依法享受待业保险待遇。劳动行政主管部门和有关行政主管部门应当创造条件，帮助职工再就业。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_cross_regulation_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved_after_revision",
+    "review_confidence": "medium",
+    "review_rationale": "问题与最低预期依据直接对应；跨法规题已改为两个独立问题的多意图检索，不再暗示条文属于同一争议。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-ed399d37ee31",
+    "topic": "工资支付",
+    "difficulty": "hard",
+    "query": "一次综合法律咨询包含两个独立问题：第一，公司一时难以支付拖欠的农民工工资或者拖欠农民工工资逃匿的，县级以上地方人民政府能否动用应急周转金，先行垫付公司拖欠的农民工部分工资或者基本生活费；第二，奖金是指支付给员工的超额劳动报酬和增收节支的劳动报酬。请分别说明适用规则。",
+    "expected_citations": [
+      "《保障农民工工资支付条例》第六十三条",
+      "《关于工资总额组成的规定》第七条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《保障农民工工资支付条例》第六十三条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=449",
+        "effective_on": "2020-05-01",
+        "excerpt": "第六十三条 用人单位一时难以支付拖欠的农民工工资或者拖欠农民工工资逃匿的，县级以上地方人民政府可以动用应急周转金，先行垫付用人单位拖欠的农民工部分工资或者基本生活费。对已经垫付的应急周转金，应当依法向拖欠农民工工资的用人单位进行追偿。"
+      },
+      {
+        "citation": "《关于工资总额组成的规定》第七条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=256",
+        "effective_on": "1990-01-01",
+        "excerpt": "第七条 奖金是指支付给职工的超额劳动报酬和增收节支的劳动报酬。包括：\n(一)生产奖；\n(二)节约奖；\n(三)劳动竞赛奖；\n(四)机关、事业单位的奖励工资；\n(五)其他奖金。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_cross_regulation_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved_after_revision",
+    "review_confidence": "medium",
+    "review_rationale": "问题与最低预期依据直接对应；跨法规题已改为两个独立问题的多意图检索，不再暗示条文属于同一争议。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-534f87d297e0",
+    "topic": "社会保险",
+    "difficulty": "medium",
+    "query": "现实中遇到与“缴费单位未按规定缴纳和代扣代缴社会保险费的，由劳动保障行政部门或者税务机关责令限期缴纳”有关的社会保险争议，应当适用什么处理规则？",
+    "expected_citations": [
+      "《社会保险费征缴暂行条例》第十三条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《社会保险费征缴暂行条例》第十三条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=518",
+        "effective_on": "2019-03-24",
+        "excerpt": "第十三条 缴费单位未按规定缴纳和代扣代缴社会保险费的，由劳动保障行政部门或者税务机关责令限期缴纳；逾期仍不缴纳的，除补缴欠缴数额外，从欠缴之日起，按日加收2‰的滞纳金。滞纳金并入社会保险基金。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-6f71804b1e46",
+    "topic": "工资支付",
+    "difficulty": "medium",
+    "query": "现实中遇到与“发现资金未按约定拨付等情况的，及时通知施工总承包单位，由施工总承包单位报告人力资源社会保障行政部门和相关行业工程建设主管部门，并纳入欠薪预警系统”有关的工资支付争议，应当适用什么处理规则？",
+    "expected_citations": [
+      "《保障农民工工资支付条例》第二十七条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《保障农民工工资支付条例》第二十七条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=449",
+        "effective_on": "2020-05-01",
+        "excerpt": "第二十七条 金融机构应当优化农民工工资专用账户开设服务流程，做好农民工工资专用账户的日常管理工作；发现资金未按约定拨付等情况的，及时通知施工总承包单位，由施工总承包单位报告人力资源社会保障行政部门和相关行业工程建设主管部门，并纳入欠薪预警系统。\n工程完工且未拖欠农民工工资的，施工总承包单位公示30日后，可以申请注销农民工工资专用账户，账户内余额归施工总承包单位所有。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-9f77f6007653",
+    "topic": "劳动合同",
+    "difficulty": "medium",
+    "query": "因劳动合同订立、履行、变更、解除或者终止发生争议，应当通过什么法律程序处理？",
+    "expected_citations": [
+      "《中华人民共和国劳动合同法实施条例》第三十七条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《中华人民共和国劳动合同法实施条例》第三十七条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=284",
+        "effective_on": "2008-09-18",
+        "excerpt": "第三十七条 劳动者与用人单位因订立、履行、变更、解除或者终止劳动合同发生争议的，依照《中华人民共和国劳动争议调解仲裁法》的规定处理。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved_after_revision",
+    "review_confidence": "medium",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [
+        {
+          "title": "中华人民共和国劳动争议调解仲裁法",
+          "source_url": "https://flk.npc.gov.cn/detail?id=2c909fdd678bf17901678bf64f28039d",
+          "status": "有效",
+          "verified_on": "2026-07-16"
+        }
+      ],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-17e4286c975f",
+    "topic": "劳动合同",
+    "difficulty": "medium",
+    "query": "现实中遇到与“公司违反劳动合同法的规定解除或者终止劳动合同，依照劳动合同法相关条款的规定支付了赔偿金的，不再支付经济补偿”有关的劳动合同争议，应当适用什么处理规则？",
+    "expected_citations": [
+      "《中华人民共和国劳动合同法实施条例》第二十五条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《中华人民共和国劳动合同法实施条例》第二十五条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=284",
+        "effective_on": "2008-09-18",
+        "excerpt": "第二十五条 用人单位违反劳动合同法的规定解除或者终止劳动合同，依照劳动合同法第八十七条的规定支付了赔偿金的，不再支付经济补偿。赔偿金的计算年限自用工之日起计算。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-25489c169ec2",
+    "topic": "劳动合同",
+    "difficulty": "medium",
+    "query": "处理劳动合同问题时，遇到“公司依法终止工伤员工的劳动合同的，除依照劳动合同法相关条款的规定支付经济补偿外，还需要依照国家有关工伤保险的规定支付一次性工伤医疗补助金和伤残就”的情形，相关主体需要履行什么义务？",
+    "expected_citations": [
+      "《中华人民共和国劳动合同法实施条例》第二十三条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《中华人民共和国劳动合同法实施条例》第二十三条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=284",
+        "effective_on": "2008-09-18",
+        "excerpt": "第二十三条 用人单位依法终止工伤职工的劳动合同的，除依照劳动合同法第四十七条的规定支付经济补偿外，还应当依照国家有关工伤保险的规定支付一次性工伤医疗补助金和伤残就业补助金。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-a1c5cf576757",
+    "topic": "工伤保险",
+    "difficulty": "medium",
+    "query": "现实中遇到与“无营业执照或者未经依法登记、备案的单位以及被依法吊销营业执照或者撤销登记、备案的单位的员工受到事故伤害或者患职业病的，由该单位向伤残员工或者死亡”有关的工伤保险争议，应当适用什么处理规则？",
+    "expected_citations": [
+      "《工伤保险条例》第六十六条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《工伤保险条例》第六十六条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=610",
+        "effective_on": "2010-12-20",
+        "excerpt": "第六十六条 无营业执照或者未经依法登记、备案的单位以及被依法吊销营业执照或者撤销登记、备案的单位的职工受到事故伤害或者患职业病的，由该单位向伤残职工或者死亡职工的近亲属给予一次性赔偿，赔偿标准不得低于本条例规定的工伤保险待遇；用人单位不得使用童工，用人单位使用童工造成童工伤残、死亡的，由该单位向童工或者童工的近亲属给予一次性赔偿，赔偿标准不得低于本条例规定的工伤保险待遇。具体办法由国务院社会保险行政部门规定。\n前款规定的伤残职工或者死亡"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-6c2e6c3bf2a7",
+    "topic": "工伤保险",
+    "difficulty": "medium",
+    "query": "发生工伤保险争议时，针对“申请鉴定的单位或者个人对设区的市级劳动能力鉴定委员会作出的鉴定结论不服的，能否在收到该鉴定结论之日起15日内向省、自治区、直辖市劳动能力鉴定委员”的情况，可以采取哪些措施？",
+    "expected_citations": [
+      "《工伤保险条例》第二十六条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《工伤保险条例》第二十六条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=610",
+        "effective_on": "2010-12-20",
+        "excerpt": "第二十六条 申请鉴定的单位或者个人对设区的市级劳动能力鉴定委员会作出的鉴定结论不服的，可以在收到该鉴定结论之日起15日内向省、自治区、直辖市劳动能力鉴定委员会提出再次鉴定申请。省、自治区、直辖市劳动能力鉴定委员会作出的劳动能力鉴定结论为最终结论。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-2df36539bca5",
+    "topic": "监督执法",
+    "difficulty": "medium",
+    "query": "现实中遇到与“违反劳动保障法律、法规或者规章的行为在2年内未被劳动保障行政部门发现，也未被举报、投诉的，劳动保障行政部门不再查处”有关的监督执法争议，应当适用什么处理规则？",
+    "expected_citations": [
+      "《劳动保障监察条例》第二十条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《劳动保障监察条例》第二十条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=128",
+        "effective_on": "2004-12-01",
+        "excerpt": "第二十条 违反劳动保障法律、法规或者规章的行为在2年内未被劳动保障行政部门发现，也未被举报、投诉的，劳动保障行政部门不再查处。\n前款规定的期限，自违反劳动保障法律、法规或者规章的行为发生之日起计算；违反劳动保障法律、法规或者规章的行为有连续或者继续状态的，自行为终了之日起计算。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-ae5d20385433",
+    "topic": "劳动合同",
+    "difficulty": "medium",
+    "query": "现实中遇到与“劳动合同法相关条款规定的经济补偿的月工资按照员工应得工资计算，包括计时工资或者计件工资以及奖金、津贴和补贴等货币性收入”有关的劳动合同争议，应当适用什么处理规则？",
+    "expected_citations": [
+      "《中华人民共和国劳动合同法实施条例》第二十七条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《中华人民共和国劳动合同法实施条例》第二十七条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=284",
+        "effective_on": "2008-09-18",
+        "excerpt": "第二十七条 劳动合同法第四十七条规定的经济补偿的月工资按照劳动者应得工资计算，包括计时工资或者计件工资以及奖金、津贴和补贴等货币性收入。劳动者在劳动合同解除或者终止前12个月的平均工资低于当地最低工资标准的，按照当地最低工资标准计算。劳动者工作不满12个月的，按照实际工作的月数计算平均工资。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-b9723545f341",
+    "topic": "就业安置",
+    "difficulty": "hard",
+    "query": "一次综合法律咨询包含两个独立问题：第一，以逐月领取退役金、安排工作、供养方式安置的退役军士和以安排工作、供养方式安置的退役义务兵，需要按照规定时间到安置地人民政府退役军人工作主管部门报；第二，企业、事业单位、机关、团体、部队等主办或者扶持单位(简称主办或者扶持单位，下同)对所主办或者扶持开办的劳动就业服务企业的职责是：(一)劳动就业服。请分别说明适用规则。",
+    "expected_citations": [
+      "《退役军人安置条例》第五十一条",
+      "《劳动就业服务企业管理规定》第十一条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《退役军人安置条例》第五十一条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=1730",
+        "effective_on": "2024-09-01",
+        "excerpt": "第五十一条 以转业、逐月领取退役金、复员方式安置的退役军官，由退役军人工作主管部门发出接收安置报到通知，所在部队应当及时为其办理相关手续，督促按时报到。\n以逐月领取退役金、安排工作、供养方式安置的退役军士和以安排工作、供养方式安置的退役义务兵，应当按照规定时间到安置地人民政府退役军人工作主管部门报到；自主就业的退役军士和义务兵，应当自被批准退出现役之日起30日内，到安置地人民政府退役军人工作主管部门报到。无正当理由不按照规定时间报到超过"
+      },
+      {
+        "citation": "《劳动就业服务企业管理规定》第十一条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=273",
+        "effective_on": "1990-11-22",
+        "excerpt": "第十一条 企业、事业单位、机关、团体、部队等主办或者扶持单位(简称主办或者扶持单位，下同)对所主办或者扶持开办的劳动就业服务企业的职责是：\n(一)劳动就业服务企业开办时，为企业筹措开办资金，帮助企业办理审批和工商登记手续；\n(二)为劳动就业服务企业安置待业人员提供一定的生产经营条件；\n(三)协调劳动就业服务企业与各方面的关系；\n(四)在劳动就业服务企业兴办初期，指导企业制定管理制度，任用、招聘或者组织民主选举企业的厂长(经理)；\n(五)"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_cross_regulation_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved_after_revision",
+    "review_confidence": "medium",
+    "review_rationale": "问题与最低预期依据直接对应；跨法规题已改为两个独立问题的多意图检索，不再暗示条文属于同一争议。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-8b77acb2ac76",
+    "topic": "工伤保险",
+    "difficulty": "medium",
+    "query": "处理工伤保险问题时，遇到“员工因工作遭受事故伤害或者患职业病需要暂停工作接受工伤医疗的，在停工留薪期内，原工资福利待遇不变，由所在单位按月支付”的情形，相关主体需要履行什么义务？",
+    "expected_citations": [
+      "《工伤保险条例》第三十三条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《工伤保险条例》第三十三条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=610",
+        "effective_on": "2010-12-20",
+        "excerpt": "第三十三条 职工因工作遭受事故伤害或者患职业病需要暂停工作接受工伤医疗的，在停工留薪期内，原工资福利待遇不变，由所在单位按月支付。\n停工留薪期一般不超过12个月。伤情严重或者情况特殊，经设区的市级劳动能力鉴定委员会确认，可以适当延长，但延长不得超过12个月。工伤职工评定伤残等级后，停发原待遇，按照本章的有关规定享受伤残待遇。工伤职工在停工留薪期满后仍需治疗的，继续享受工伤医疗待遇。\n生活不能自理的工伤职工在停工留薪期需要护理的，由所在单"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-4ccd2b9af1a2",
+    "topic": "社会保险",
+    "difficulty": "medium",
+    "query": "现实中遇到与“社会保险基金按照不同险种的统筹范围，分别建立基本养老保险基金、基本医疗保险基金、失业保险基金”有关的社会保险争议，应当适用什么处理规则？",
+    "expected_citations": [
+      "《社会保险费征缴暂行条例》第十四条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《社会保险费征缴暂行条例》第十四条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=518",
+        "effective_on": "2019-03-24",
+        "excerpt": "第十四条 征收的社会保险费存入财政部门在国有商业银行开设的社会保障基金财政专户。\n社会保险基金按照不同险种的统筹范围，分别建立基本养老保险基金、基本医疗保险基金、失业保险基金。各项社会保险基金分别单独核算。\n社会保险基金不计征税、费。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-265ea2635f33",
+    "topic": "劳动保护",
+    "difficulty": "medium",
+    "query": "现实中遇到与“公司违反本规定相关条款第二款、相关条款、相关条款第一款规定的，由县级以上人民政府人力资源社会保障行政部门责令限期改正，按照受侵害女员工每人100”有关的劳动保护争议，应当适用什么处理规则？",
+    "expected_citations": [
+      "《女职工劳动保护特别规定》第十三条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《女职工劳动保护特别规定》第十三条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=343",
+        "effective_on": "2012-04-28",
+        "excerpt": "第十三条 用人单位违反本规定第六条第二款、第七条、第九条第一款规定的，由县级以上人民政府人力资源社会保障行政部门责令限期改正，按照受侵害女职工每人1000元以上5000元以下的标准计算，处以罚款。\n用人单位违反本规定附录第一条、第二条规定的，由县级以上人民政府安全生产监督管理部门责令限期改正，按照受侵害女职工每人1000元以上5000元以下的标准计算，处以罚款。用人单位违反本规定附录第三条、第四条规定的，由县级以上人民政府安全生产监督管"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-85036a710a81",
+    "topic": "就业安置",
+    "difficulty": "medium",
+    "query": "现实中遇到与“退役军士不符合逐月领取退役金、安排工作、退休、供养条件的，退役义务兵不符合安排工作、供养条件的，以自主就业方式安置”有关的就业安置争议，应当适用什么处理规则？",
+    "expected_citations": [
+      "《退役军人安置条例》第二十条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《退役军人安置条例》第二十条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=1730",
+        "effective_on": "2024-09-01",
+        "excerpt": "第二十条 退役军士不符合逐月领取退役金、安排工作、退休、供养条件的，退役义务兵不符合安排工作、供养条件的，以自主就业方式安置。\n退役军士符合逐月领取退役金、安排工作条件的，退役义务兵符合安排工作条件的，可以选择以自主就业方式安置。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-99f959243e7e",
+    "topic": "劳动保护",
+    "difficulty": "medium",
+    "query": "处理劳动保护问题时，遇到“公司需要将本单位属于女员工禁忌从事的劳动范围的岗位书面告知女员工”的情形，相关主体需要履行什么义务？",
+    "expected_citations": [
+      "《女职工劳动保护特别规定》第四条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《女职工劳动保护特别规定》第四条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=343",
+        "effective_on": "2012-04-28",
+        "excerpt": "第四条 用人单位应当遵守女职工禁忌从事的劳动范围的规定。用人单位应当将本单位属于女职工禁忌从事的劳动范围的岗位书面告知女职工。\n女职工禁忌从事的劳动范围由本规定附录列示。国务院安全生产监督管理部门会同国务院人力资源社会保障行政部门、国务院卫生行政部门根据经济社会发展情况，对女职工禁忌从事的劳动范围进行调整。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-9344baee2801",
+    "topic": "劳动合同",
+    "difficulty": "medium",
+    "query": "处理劳动合同问题时，遇到“有下列情形之一，公司与员工解除约定服务期的劳动合同的，员工需要按照劳动合同的约定向公司支付违约金：(一)员工严重违反公司的规章制度的”的情形，相关主体需要履行什么义务？",
+    "expected_citations": [
+      "《中华人民共和国劳动合同法实施条例》第二十六条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《中华人民共和国劳动合同法实施条例》第二十六条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=284",
+        "effective_on": "2008-09-18",
+        "excerpt": "第二十六条 用人单位与劳动者约定了服务期，劳动者依照劳动合同法第三十八条的规定解除劳动合同的，不属于违反服务期的约定，用人单位不得要求劳动者支付违约金。\n有下列情形之一，用人单位与劳动者解除约定服务期的劳动合同的，劳动者应当按照劳动合同的约定向用人单位支付违约金：\n(一)劳动者严重违反用人单位的规章制度的；\n(二)劳动者严重失职，营私舞弊，给用人单位造成重大损害的；\n(三)劳动者同时与其他用人单位建立劳动关系，对完成本单位的工作任务造成"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-3a84c9b242ec",
+    "topic": "工伤保险",
+    "difficulty": "hard",
+    "query": "一次综合法律咨询包含两个独立问题：第一，(三)医疗诊断证明或者职业病诊断证明书(或者职业病诊断鉴定书)；第二，对因病或者伤残不能承担农村义务工、劳动积累工的，经村集体经济组织成员大会或者成员代表会议讨论通过，能否减免。请分别说明适用规则。",
+    "expected_citations": [
+      "《工伤保险条例》第十八条",
+      "《农民承担费用和劳务管理条例》第十五条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《工伤保险条例》第十八条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=610",
+        "effective_on": "2010-12-20",
+        "excerpt": "第十八条 提出工伤认定申请应当提交下列材料：\n(一)工伤认定申请表；\n(二)与用人单位存在劳动关系(包括事实劳动关系)的证明材料；\n(三)医疗诊断证明或者职业病诊断证明书(或者职业病诊断鉴定书)。\n工伤认定申请表应当包括事故发生的时间、地点、原因以及职工伤害程度等基本情况。\n工伤认定申请人提供材料不完整的，社会保险行政部门应当一次性书面告知工伤认定申请人需要补正的全部材料。申请人按照书面告知要求补正材料后，社会保险行政部门应当受理。"
+      },
+      {
+        "citation": "《农民承担费用和劳务管理条例》第十五条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=333",
+        "effective_on": "1991-12-07",
+        "excerpt": "第十五条 农村义务工和劳动积累工以出劳为主，本人要求以资代劳的，须经村集体经济组织批准。\n对因病或者伤残不能承担农村义务工、劳动积累工的，经村集体经济组织成员大会或者成员代表会议讨论通过，可以减免。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_cross_regulation_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved_after_revision",
+    "review_confidence": "medium",
+    "review_rationale": "问题与最低预期依据直接对应；跨法规题已改为两个独立问题的多意图检索，不再暗示条文属于同一争议。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-020218e96bf9",
+    "topic": "就业安置",
+    "difficulty": "hard",
+    "query": "一次综合法律咨询包含两个独立问题：第一，自主就业的退役军士和义务兵入伍前是机关、群团组织、事业单位或者国有企业人员的，退出现役后能否选择复职复工，其工资、福利待遇不能低于本单位同等条件；第二，公司需要按照一定比例安排残疾人就业，并为其提供适当的工种、岗位。请分别说明适用规则。",
+    "expected_citations": [
+      "《退役军人安置条例》第六十九条",
+      "《残疾人就业条例》第八条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《退役军人安置条例》第六十九条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=1730",
+        "effective_on": "2024-09-01",
+        "excerpt": "第六十九条 自主就业的退役军士和义务兵入伍前是机关、群团组织、事业单位或者国有企业人员的，退出现役后可以选择复职复工，其工资、福利待遇不得低于本单位同等条件人员的平均水平。"
+      },
+      {
+        "citation": "《残疾人就业条例》第八条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=1556",
+        "effective_on": "2007-05-01",
+        "excerpt": "第八条 用人单位应当按照一定比例安排残疾人就业，并为其提供适当的工种、岗位。\n用人单位安排残疾人就业的比例不得低于本单位在职职工总数的1.5%。具体比例由省、自治区、直辖市人民政府根据本地区的实际情况规定。\n用人单位跨地区招用残疾人的，应当计入所安排的残疾人职工人数之内。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_cross_regulation_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved_after_revision",
+    "review_confidence": "medium",
+    "review_rationale": "问题与最低预期依据直接对应；跨法规题已改为两个独立问题的多意图检索，不再暗示条文属于同一争议。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-cb52833edb1c",
+    "topic": "工资支付",
+    "difficulty": "hard",
+    "query": "一次综合法律咨询包含两个独立问题：第一，实行月、周、日、小时工资制的，按照月、周、日、小时为周期支付工资；第二，本条例所称本人工资，是指工伤员工因工作遭受事故伤害或者患职业病前12个月平均月缴费工资。请分别说明适用规则。",
+    "expected_citations": [
+      "《保障农民工工资支付条例》第十三条",
+      "《工伤保险条例》第六十四条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《保障农民工工资支付条例》第十三条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=449",
+        "effective_on": "2020-05-01",
+        "excerpt": "第十三条 实行月、周、日、小时工资制的，按照月、周、日、小时为周期支付工资；实行计件工资制的，工资支付周期由双方依法约定。"
+      },
+      {
+        "citation": "《工伤保险条例》第六十四条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=610",
+        "effective_on": "2010-12-20",
+        "excerpt": "第六十四条 本条例所称工资总额，是指用人单位直接支付给本单位全部职工的劳动报酬总额。\n本条例所称本人工资，是指工伤职工因工作遭受事故伤害或者患职业病前12个月平均月缴费工资。本人工资高于统筹地区职工平均工资300%的，按照统筹地区职工平均工资的300%计算；本人工资低于统筹地区职工平均工资60%的，按照统筹地区职工平均工资的60%计算。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_cross_regulation_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved_after_revision",
+    "review_confidence": "medium",
+    "review_rationale": "问题与最低预期依据直接对应；跨法规题已改为两个独立问题的多意图检索，不再暗示条文属于同一争议。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-fac62036e246",
+    "topic": "监督执法",
+    "difficulty": "medium",
+    "query": "用人单位抗拒劳动监察、不报送材料、拒不改正或者报复举报人，会承担什么行政责任？",
+    "expected_citations": [
+      "《劳动保障监察条例》第三十条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《劳动保障监察条例》第三十条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=128",
+        "effective_on": "2004-12-01",
+        "excerpt": "第三十条 有下列行为之一的，由劳动保障行政部门责令改正；对有第(一)项、第(二)项或者第(三)项规定的行为的，处2000元以上2万元以下的罚款：\n(一)无理抗拒、阻挠劳动保障行政部门依照本条例的规定实施劳动保障监察的；\n(二)不按照劳动保障行政部门的要求报送书面材料，隐瞒事实真相，出具伪证或者隐匿、毁灭证据的；\n(三)经劳动保障行政部门责令改正拒不改正，或者拒不履行劳动保障行政部门的行政处理决定的；\n(四)打击报复举报人、投诉人的。\n违"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved_after_revision",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-6e8fe938fb2c",
+    "topic": "工资支付",
+    "difficulty": "medium",
+    "query": "处理工资支付问题时，遇到“公司拖欠农民工工资的，需要依法予以清偿”的情形，相关主体需要履行什么义务？",
+    "expected_citations": [
+      "《保障农民工工资支付条例》第十六条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《保障农民工工资支付条例》第十六条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=449",
+        "effective_on": "2020-05-01",
+        "excerpt": "第十六条 用人单位拖欠农民工工资的，应当依法予以清偿。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-40f77ac28ae0",
+    "topic": "监督执法",
+    "difficulty": "hard",
+    "query": "一次综合法律咨询包含两个独立问题：第一，公司有下列行为之一的，由劳动保障行政部门责令改正，按照受侵害的员工每人1000元以上5000元以下的标准计算，处以罚款：(一)安排女员工从事矿山；第二，造成职业中毒危害但尚未导致职业中毒事故发生，不够刑事处罚的，根据不同情节，依法给予降级、撤职或者开除的处分：(一)对公司不履行监督检查职责，或者。请分别说明适用规则。",
+    "expected_citations": [
+      "《劳动保障监察条例》第二十三条",
+      "《使用有毒物品作业场所劳动保护条例》第五十七条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《劳动保障监察条例》第二十三条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=128",
+        "effective_on": "2004-12-01",
+        "excerpt": "第二十三条 用人单位有下列行为之一的，由劳动保障行政部门责令改正，按照受侵害的劳动者每人1000元以上5000元以下的标准计算，处以罚款：\n(一)安排女职工从事矿山井下劳动、国家规定的第四级体力劳动强度的劳动或者其他禁忌从事的劳动的；\n(二)安排女职工在经期从事高处、低温、冷水作业或者国家规定的第三级体力劳动强度的劳动的；\n(三)安排女职工在怀孕期间从事国家规定的第三级体力劳动强度的劳动或者孕期禁忌从事的劳动的；\n(四)安排怀孕7个月以"
+      },
+      {
+        "citation": "《使用有毒物品作业场所劳动保护条例》第五十七条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=1748",
+        "effective_on": "2024-12-06",
+        "excerpt": "第五十七条 卫生行政、疾病预防控制部门的工作人员有下列行为之一，导致职业中毒事故发生的，依照刑法关于滥用职权罪、玩忽职守罪或者其他罪的规定，依法追究刑事责任；造成职业中毒危害但尚未导致职业中毒事故发生，不够刑事处罚的，根据不同情节，依法给予降级、撤职或者开除的处分：\n(一)对用人单位不履行监督检查职责，或者发现用人单位存在违反本条例的行为不予查处的；\n(二)发现用人单位存在职业中毒危害，可能造成职业中毒事故，不及时依法采取控制措施的。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_cross_regulation_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved_after_revision",
+    "review_confidence": "medium",
+    "review_rationale": "问题与最低预期依据直接对应；跨法规题已改为两个独立问题的多意图检索，不再暗示条文属于同一争议。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-708316db1901",
+    "topic": "特殊用工",
+    "difficulty": "medium",
+    "query": "在特殊用工纠纷中，如果有人主张“(三)遵守船舶的管理制度和值班规定，按照水上交通安全和防治船舶污染的操作规则操纵、控制和管理船舶，如实填写有关船舶法定文书，不能隐匿、篡改或者销”，这种做法是否合法、限制是什么？",
+    "expected_citations": [
+      "《中华人民共和国船员条例》第十六条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《中华人民共和国船员条例》第十六条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=1691",
+        "effective_on": "2023-07-20",
+        "excerpt": "第十六条 船员在船工作期间，应当符合下列要求：\n(一)携带本条例规定的有效证件；\n(二)掌握船舶的适航状况和航线的通航保障情况，以及有关航区气象、海况等必要的信息；\n(三)遵守船舶的管理制度和值班规定，按照水上交通安全和防治船舶污染的操作规则操纵、控制和管理船舶，如实填写有关船舶法定文书，不得隐匿、篡改或者销毁有关船舶法定证书、文书；\n(四)参加船舶应急训练、演习，按照船舶应急部署的要求，落实各项应急预防措施；\n(五)遵守船舶报告制度，"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-82be835cd13d",
+    "topic": "监督执法",
+    "difficulty": "medium",
+    "query": "现实中遇到与“劳动保障行政部门实施劳动保障监察，有权采取下列调查、检查措施：(一)进入公司的劳动场所进行检查”有关的监督执法争议，应当适用什么处理规则？",
+    "expected_citations": [
+      "《劳动保障监察条例》第十五条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《劳动保障监察条例》第十五条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=128",
+        "effective_on": "2004-12-01",
+        "excerpt": "第十五条 劳动保障行政部门实施劳动保障监察，有权采取下列调查、检查措施：\n(一)进入用人单位的劳动场所进行检查；\n(二)就调查、检查事项询问有关人员；\n(三)要求用人单位提供与调查、检查事项相关的文件资料，并作出解释和说明，必要时可以发出调查询问书；\n(四)采取记录、录音、录像、照像或者复制等方式收集有关情况和资料；\n(五)委托会计师事务所对用人单位工资支付、缴纳社会保险费的情况进行审计；\n(六)法律、法规规定可以由劳动保障行政部门采取"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  },
+  {
+    "id": "pilot-ac195f1aa4d7",
+    "topic": "特殊用工",
+    "difficulty": "medium",
+    "query": "处理特殊用工问题时，遇到“从事船员培训业务的机构，需要按照国务院交通主管部门规定的船员培训大纲和水上交通安全、防治船舶污染、船舶保安等要求，在核定的范围内开展船员培训，确”的情形，相关主体需要履行什么义务？",
+    "expected_citations": [
+      "《中华人民共和国船员条例》第三十四条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《中华人民共和国船员条例》第三十四条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=1691",
+        "effective_on": "2023-07-20",
+        "excerpt": "第三十四条 从事船员培训业务的机构，应当按照国务院交通主管部门规定的船员培训大纲和水上交通安全、防治船舶污染、船舶保安等要求，在核定的范围内开展船员培训，确保船员培训质量。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "approved",
+    "review_confidence": "high",
+    "review_rationale": "问题与法条规范对象、行为或法律后果直接对应，可作为最低预期引用。",
+    "legal_review": {
+      "official_source_verified": true,
+      "effective_on_or_before_review_date": true,
+      "citation_scope": "minimum_expected_not_exhaustive",
+      "verified_external_authorities": [],
+      "referenced_authorities_requiring_completeness_review": [],
+      "completeness_limitation": "当前试点主要覆盖行政法规；上位法、司法解释、部门规章和地方规则未被穷尽，因此不得把最低预期引用解释为完整法律意见。",
+      "reviewer": "Codex AI legal evidence audit"
+    },
+    "reviewed_on": "2026-07-16",
+    "split": "dev"
+  }
+]

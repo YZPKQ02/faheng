@@ -1,0 +1,14 @@
+{
+  "schema_version": "pilot_retrieval_gold_v1",
+  "corpus": "data/legal/pilot/corpus.jsonl",
+  "candidate_count": 120,
+  "dev_count": 80,
+  "frozen_test_count": 40,
+  "review_status": "pending",
+  "sha256": {
+    "candidates.json": "1beb46474790551e4c128af658fca6ed520113b150f56b15552d44c1876085e3",
+    "dev.json": "6f162920589d93acf5d6641d8878b166d12b799cb4c771bb5c89e13ad7e5f4e7",
+    "test.json": "08329b3b5ece073417390c40a95f0a914745f7a5f1f07333c1eea0e9d0bdc273",
+    "quality_report.json": "0904192d6eb743755df40ec122a2e9fe244b6368dff31878b8f575068154e289"
+  }
+}

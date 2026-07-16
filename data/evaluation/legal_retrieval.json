@@ -1,0 +1,25 @@
+[
+  {
+    "id": "written-contract",
+    "query": "公司一直没有和我签书面劳动合同，可以主张双倍工资吗",
+    "expected_citations": ["《中华人民共和国劳动合同法》第十条"]
+  },
+  {
+    "id": "illegal-termination",
+    "query": "公司违法辞退，应当如何计算赔偿金",
+    "expected_citations": [
+      "《中华人民共和国劳动合同法》第八十七条",
+      "《中华人民共和国劳动合同法》第四十七条"
+    ]
+  },
+  {
+    "id": "arbitration-limitation",
+    "query": "劳动仲裁申请时效是一年吗，从什么时候开始计算",
+    "expected_citations": ["《中华人民共和国劳动争议调解仲裁法》第二十七条"]
+  },
+  {
+    "id": "overtime-pay",
+    "query": "休息日和法定节假日加班费分别按什么标准支付",
+    "expected_citations": ["《中华人民共和国劳动法》第四十四条"]
+  }
+]

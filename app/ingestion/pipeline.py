@@ -24,6 +24,7 @@ SOURCE_ALLOWLIST = {
     "www.gov.cn": "中国政府网",
     "mohrss.gov.cn": "人力资源和社会保障部",
     "www.mohrss.gov.cn": "人力资源和社会保障部",
+    "xzfg.moj.gov.cn": "国家行政法规库（司法部）",
 }
 
 

@@ -43,6 +43,10 @@ class SafetyReview(BaseModel):
 class ConversationOutput(BaseModel):
     answer: str
     follow_up_questions: list[str]
+    authority_ids: list[str] = Field(
+        default_factory=list,
+        description="只能填写 retrieval_observation 提供的 authority_id",
+    )
     should_escalate: bool = False
     escalation_reason: str | None = None
 

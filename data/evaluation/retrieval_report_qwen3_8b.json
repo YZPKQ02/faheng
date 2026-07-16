@@ -1,0 +1,166 @@
+{
+  "lexical": {
+    "retriever": "versioned_lexical_v1",
+    "case_count": 4,
+    "aggregate": {
+      "recall_at_5": 0.875,
+      "recall_at_10": 0.875,
+      "mrr": 1.0,
+      "ndcg_at_10": 0.9033,
+      "citation_validity": 1.0,
+      "version_violations": 0,
+      "region_violations": 0,
+      "empty_result_rate": 0.0
+    },
+    "cases": [
+      {
+        "id": "written-contract",
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "empty_result": false,
+        "citation_validity": 1.0,
+        "version_violations": 0,
+        "region_violations": 0,
+        "returned": [
+          "《中华人民共和国劳动合同法》第十条",
+          "《中华人民共和国劳动合同法》第四十七条",
+          "《中华人民共和国劳动合同法》第八十七条"
+        ]
+      },
+      {
+        "id": "illegal-termination",
+        "recall_at_5": 0.5,
+        "recall_at_10": 0.5,
+        "mrr": 1.0,
+        "ndcg_at_10": 0.6131471927654584,
+        "empty_result": false,
+        "citation_validity": 1.0,
+        "version_violations": 0,
+        "region_violations": 0,
+        "returned": [
+          "《中华人民共和国劳动合同法》第八十七条",
+          "《中华人民共和国劳动争议调解仲裁法》第二十七条"
+        ]
+      },
+      {
+        "id": "arbitration-limitation",
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "empty_result": false,
+        "citation_validity": 1.0,
+        "version_violations": 0,
+        "region_violations": 0,
+        "returned": [
+          "《中华人民共和国劳动争议调解仲裁法》第二十七条"
+        ]
+      },
+      {
+        "id": "overtime-pay",
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "empty_result": false,
+        "citation_validity": 1.0,
+        "version_violations": 0,
+        "region_violations": 0,
+        "returned": [
+          "《中华人民共和国劳动法》第四十四条"
+        ]
+      }
+    ]
+  },
+  "hybrid": {
+    "retriever": "hybrid_rrf_v1",
+    "case_count": 4,
+    "aggregate": {
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_10": 0.9799,
+      "citation_validity": 1.0,
+      "version_violations": 0,
+      "region_violations": 0,
+      "empty_result_rate": 0.0
+    },
+    "cases": [
+      {
+        "id": "written-contract",
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "empty_result": false,
+        "citation_validity": 1.0,
+        "version_violations": 0,
+        "region_violations": 0,
+        "returned": [
+          "《中华人民共和国劳动合同法》第十条",
+          "《中华人民共和国劳动合同法》第八十七条",
+          "《中华人民共和国劳动合同法》第四十七条",
+          "《中华人民共和国劳动争议调解仲裁法》第二十七条",
+          "《中华人民共和国劳动法》第四十四条"
+        ]
+      },
+      {
+        "id": "illegal-termination",
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 0.9197207891481876,
+        "empty_result": false,
+        "citation_validity": 1.0,
+        "version_violations": 0,
+        "region_violations": 0,
+        "returned": [
+          "《中华人民共和国劳动合同法》第八十七条",
+          "《中华人民共和国劳动争议调解仲裁法》第二十七条",
+          "《中华人民共和国劳动合同法》第四十七条",
+          "《中华人民共和国劳动法》第四十四条",
+          "《中华人民共和国劳动合同法》第十条"
+        ]
+      },
+      {
+        "id": "arbitration-limitation",
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "empty_result": false,
+        "citation_validity": 1.0,
+        "version_violations": 0,
+        "region_violations": 0,
+        "returned": [
+          "《中华人民共和国劳动争议调解仲裁法》第二十七条",
+          "《中华人民共和国劳动合同法》第十条",
+          "《中华人民共和国劳动法》第四十四条",
+          "《中华人民共和国劳动合同法》第四十七条",
+          "《中华人民共和国劳动合同法》第八十七条"
+        ]
+      },
+      {
+        "id": "overtime-pay",
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "empty_result": false,
+        "citation_validity": 1.0,
+        "version_violations": 0,
+        "region_violations": 0,
+        "returned": [
+          "《中华人民共和国劳动法》第四十四条",
+          "《中华人民共和国劳动合同法》第八十七条",
+          "《中华人民共和国劳动争议调解仲裁法》第二十七条",
+          "《中华人民共和国劳动合同法》第四十七条",
+          "《中华人民共和国劳动合同法》第十条"
+        ]
+      }
+    ]
+  },
+  "hybrid_not_below_lexical": true
+}

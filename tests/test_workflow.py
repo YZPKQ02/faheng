@@ -128,3 +128,37 @@ def test_bounded_react_stops_after_retrieval_budget(client, monkeypatch):
     assert state["authority_ids"] == []
     assert validation.payload["budget_ok"] is True
     assert validation.payload["replans_used"] == 0
+
+
+def test_model_citation_ids_are_revalidated_against_rag_candidates(client):
+    class InvalidCitationGateway(RecordingGateway):
+        def structured(self, *, system: str, user: str, schema: type, authorization=None):
+            if schema is ConversationOutput:
+                return ConversationOutput(
+                    answer="需要结合解除理由和证据判断。",
+                    follow_up_questions=[],
+                    authority_ids=["not-a-retrieved-authority"],
+                )
+            return super().structured(
+                system=system,
+                user=user,
+                schema=schema,
+                authorization=authorization,
+            )
+
+    case_payload = client.post("/cases", json={"title": "引用校验测试"}).json()
+    with SessionLocal() as db:
+        case = db.get(CaseFile, case_payload["id"])
+        message, _ = run_intake(
+            db,
+            case,
+            "公司违法解除，我能否要求赔偿？",
+            gateway=InvalidCitationGateway(),
+        )
+        rejected = db.query(AuditEvent).filter(
+            AuditEvent.case_id == case.id,
+            AuditEvent.event_type == "citation_validation_rejected",
+        ).one()
+
+    assert rejected.payload["rejected_authority_ids"] == ["not-a-retrieved-authority"]
+    assert "not-a-retrieved-authority" not in message.content

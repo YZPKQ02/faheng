@@ -1,12 +1,25 @@
+from dataclasses import dataclass
 from datetime import date
-import re
+import hashlib
+import math
 import time
 
-from sqlalchemy import select
+from sqlalchemy import or_, select
+from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 
 from app.config import get_settings
-from app.models import AuditEvent, LegalAuthority
+from app.legal_ingestion import canonical_document_key
+from app.legal_text import tokenize
+from app.models import (
+    AuditEvent,
+    LegalAuthority,
+    LegalChunk,
+    LegalChunkEmbedding,
+    LegalDocument,
+    LegalDocumentVersion,
+    ModelDataConsent,
+)
 from app.observability import query_fingerprint
 
 
@@ -60,19 +73,170 @@ SEED_AUTHORITIES = [
 
 
 def seed_authorities(db: Session) -> None:
-    if db.scalar(select(LegalAuthority.id).limit(1)):
-        return
-    db.add_all([LegalAuthority(**item) for item in SEED_AUTHORITIES])
+    if not db.scalar(select(LegalAuthority.id).limit(1)):
+        db.add_all([LegalAuthority(**item) for item in SEED_AUTHORITIES])
+        db.flush()
+    _backfill_versioned_knowledge(db)
+    db.flush()
+    settings = get_settings()
+    if settings.embedding_provider == "deterministic":
+        from app.embeddings import index_legal_chunks
+
+        index_legal_chunks(db)
     db.commit()
+
+
+def _backfill_versioned_knowledge(db: Session) -> None:
+    """Populate the versioned layer for legacy rows created outside Alembic."""
+    linked_ids = set(db.scalars(select(LegalChunk.authority_id)).all())
+    authorities = db.scalars(select(LegalAuthority)).all()
+    versions: dict[tuple[str, date, date | None], LegalDocumentVersion] = {}
+    for authority in authorities:
+        if authority.id in linked_ids:
+            continue
+        key = canonical_document_key(authority.title)
+        document = db.scalar(select(LegalDocument).where(LegalDocument.canonical_key == key))
+        if document is None:
+            document = LegalDocument(
+                canonical_key=key,
+                title=authority.title,
+                level=authority.level,
+                jurisdiction=authority.region,
+                source_url=authority.source_url,
+            )
+            db.add(document)
+            db.flush()
+        version_key = (document.id, authority.effective_on, authority.expired_on)
+        version = versions.get(version_key)
+        if version is None:
+            version = db.scalar(
+                select(LegalDocumentVersion).where(
+                    LegalDocumentVersion.document_id == document.id,
+                    LegalDocumentVersion.effective_on == authority.effective_on,
+                    LegalDocumentVersion.expired_on == authority.expired_on,
+                )
+            )
+        if version is None:
+            fingerprint = f"{authority.title}|{authority.effective_on}|{authority.expired_on}"
+            version = LegalDocumentVersion(
+                document_id=document.id,
+                version_label="内置演示版本",
+                status="expired" if authority.expired_on else "active",
+                effective_on=authority.effective_on,
+                expired_on=authority.expired_on,
+                source_url=authority.source_url,
+                content_hash=hashlib.sha256(fingerprint.encode("utf-8")).hexdigest(),
+                review_status="pending",
+            )
+            db.add(version)
+            db.flush()
+        versions[version_key] = version
+        db.add(
+            LegalChunk(
+                version_id=version.id,
+                authority_id=authority.id,
+                locator=authority.article,
+                content=authority.content,
+                keywords=authority.keywords,
+                content_hash=hashlib.sha256(authority.content.encode("utf-8")).hexdigest(),
+            )
+        )
 
 
 LEVEL_WEIGHT = {"法律": 5, "行政法规": 4, "司法解释": 4, "部门规章": 3, "地方规定": 2}
 
 
-def tokenize(text: str) -> set[str]:
-    """Generate deterministic lexical features for Chinese legal hybrid retrieval."""
-    normalized = re.sub(r"[^\w\u4e00-\u9fff]", "", text.lower())
-    return {normalized[i : i + size] for size in (2, 3, 4) for i in range(len(normalized) - size + 1)}
+@dataclass(frozen=True)
+class AuthorityHit:
+    authority: LegalAuthority
+    lexical_score: float
+    rank: int
+    matched_keywords: tuple[str, ...]
+    semantic_score: float | None = None
+    fusion_score: float | None = None
+
+
+def retrieve_authority_hits(
+    db: Session,
+    query: str,
+    as_of: date | None = None,
+    limit: int = 10,
+    region: str = "中国大陆",
+    *,
+    case_id: str | None = None,
+    tenant_id: str | None = None,
+) -> list[AuthorityHit]:
+    started = time.perf_counter()
+    as_of = as_of or date.today()
+    rows = db.execute(
+        select(LegalAuthority, LegalChunk, LegalDocumentVersion, LegalDocument)
+        .join(LegalChunk, LegalChunk.authority_id == LegalAuthority.id)
+        .join(LegalDocumentVersion, LegalDocumentVersion.id == LegalChunk.version_id)
+        .join(LegalDocument, LegalDocument.id == LegalDocumentVersion.document_id)
+        .where(
+            LegalDocumentVersion.effective_on <= as_of,
+            or_(
+                LegalDocumentVersion.expired_on.is_(None),
+                LegalDocumentVersion.expired_on > as_of,
+            ),
+            LegalDocumentVersion.status.in_(("active", "expired")),
+            LegalDocument.jurisdiction.in_(("全国", "中国大陆", region)),
+        )
+    ).all()
+    query_tokens = tokenize(query)
+
+    def relevance(row: tuple) -> tuple[float, tuple[str, ...]]:
+        authority, chunk, _version, document = row
+        keywords = tuple(keyword for keyword in chunk.keywords if keyword in query)
+        haystack = document.title + chunk.locator + chunk.content + " ".join(chunk.keywords)
+        keyword_hits = len(keywords) * 8
+        overlap = len(query_tokens & tokenize(haystack)) / max(1, len(query_tokens))
+        title_locator_bonus = 4 if document.title in query or chunk.locator in query else 0
+        return keyword_hits + overlap * 10 + title_locator_bonus, keywords
+
+    scored = []
+    for row in rows:
+        lexical_score, matched_keywords = relevance(row)
+        if lexical_score < 0.5:
+            continue
+        authority, _chunk, _version, document = row
+        jurisdiction_bonus = 2 if document.jurisdiction == region else 1
+        final_score = lexical_score + LEVEL_WEIGHT.get(document.level, 1) + jurisdiction_bonus
+        scored.append((final_score, authority.id, authority, lexical_score, matched_keywords))
+
+    ranked = sorted(scored, key=lambda item: (-item[0], item[1]))[:limit]
+    result = [
+        AuthorityHit(
+            authority=item[2],
+            lexical_score=round(item[3], 4),
+            rank=index,
+            matched_keywords=item[4],
+        )
+        for index, item in enumerate(ranked, start=1)
+    ]
+    if case_id and tenant_id:
+        settings = get_settings()
+        db.add(
+            AuditEvent(
+                case_id=case_id,
+                event_type="authority_retrieval_metric",
+                agent="observability",
+                duration_ms=round((time.perf_counter() - started) * 1000, 2),
+                payload={
+                    "candidate_count": len(rows),
+                    "valid_count": len(rows),
+                    "result_count": len(result),
+                    "retriever": "versioned_lexical_v1",
+                    "top_hit_ids": [hit.authority.id for hit in result[:5]],
+                    "query_fingerprint": query_fingerprint(
+                        query,
+                        secret=settings.observability_hmac_secret,
+                        tenant_id=tenant_id,
+                    ),
+                },
+            )
+        )
+    return result
 
 
 def search_authorities(
@@ -85,24 +249,180 @@ def search_authorities(
     case_id: str | None = None,
     tenant_id: str | None = None,
 ) -> list[LegalAuthority]:
+    return [
+        hit.authority
+        for hit in retrieve_hybrid_authority_hits(
+            db,
+            query,
+            as_of,
+            limit,
+            region,
+            case_id=case_id,
+            tenant_id=tenant_id,
+        )
+    ]
+
+
+def _cosine_similarity(left: list[float], right: list[float]) -> float:
+    numerator = sum(a * b for a, b in zip(left, right, strict=False))
+    left_norm = math.sqrt(sum(value * value for value in left))
+    right_norm = math.sqrt(sum(value * value for value in right))
+    return numerator / (left_norm * right_norm) if left_norm and right_norm else 0.0
+
+
+def _external_embedding_allowed(
+    db: Session,
+    *,
+    case_id: str | None,
+    tenant_id: str | None,
+    consent_provider: str,
+) -> bool:
+    if case_id is None:
+        return True
+    if tenant_id is None:
+        return False
+    consents = db.scalars(
+        select(ModelDataConsent).where(
+            ModelDataConsent.case_id == case_id,
+            ModelDataConsent.tenant_id == tenant_id,
+            ModelDataConsent.status == "active",
+            ModelDataConsent.provider == consent_provider,
+        )
+    ).all()
+    return any("analysis" in consent.purposes for consent in consents)
+
+
+def retrieve_hybrid_authority_hits(
+    db: Session,
+    query: str,
+    as_of: date | None = None,
+    limit: int = 10,
+    region: str = "中国大陆",
+    *,
+    case_id: str | None = None,
+    tenant_id: str | None = None,
+    lexical_weight: float = 1.0,
+    semantic_weight: float = 1.0,
+    rrf_k: int = 60,
+    _semantic_only: bool = False,
+) -> list[AuthorityHit]:
+    """Fuse lexical and semantic ranks while preserving legal scope filters."""
+    from app.embeddings import EmbeddingError, embed_query, get_embedding_provider
+
     started = time.perf_counter()
     as_of = as_of or date.today()
-    candidates = db.scalars(select(LegalAuthority)).all()
-    query_tokens = tokenize(query)
+    if lexical_weight < 0 or semantic_weight < 0 or rrf_k < 1:
+        raise ValueError("RRF 权重必须非负且 rrf_k 必须大于 0")
+    lexical_hits = []
+    if not _semantic_only:
+        lexical_hits = retrieve_authority_hits(
+            db,
+            query,
+            as_of=as_of,
+            limit=max(40, limit),
+            region=region,
+        )
+    provider = None
+    fallback_reason = None
+    semantic_rows: list[tuple[LegalAuthority, float]] = []
+    try:
+        provider = get_embedding_provider()
+        settings = get_settings()
+        if provider.name == "deterministic":
+            raise EmbeddingError("deterministic_provider_has_no_semantic_capability")
+        if (
+            provider.name == "http"
+            and settings.embedding_consent_required
+            and not _external_embedding_allowed(
+                db,
+                case_id=case_id,
+                tenant_id=tenant_id,
+                consent_provider=settings.embedding_consent_provider,
+            )
+        ):
+            raise EmbeddingError("external_embedding_consent_missing")
+        query_vector = embed_query(
+            provider,
+            query,
+            instruction=settings.embedding_query_instruction,
+        )
+        statement = (
+            select(LegalAuthority, LegalChunkEmbedding)
+            .join(LegalChunk, LegalChunk.authority_id == LegalAuthority.id)
+            .join(LegalDocumentVersion, LegalDocumentVersion.id == LegalChunk.version_id)
+            .join(LegalDocument, LegalDocument.id == LegalDocumentVersion.document_id)
+            .join(LegalChunkEmbedding, LegalChunkEmbedding.chunk_id == LegalChunk.id)
+            .where(
+                LegalDocumentVersion.effective_on <= as_of,
+                or_(
+                    LegalDocumentVersion.expired_on.is_(None),
+                    LegalDocumentVersion.expired_on > as_of,
+                ),
+                LegalDocumentVersion.status.in_(("active", "expired")),
+                LegalDocument.jurisdiction.in_(("全国", "中国大陆", region)),
+                LegalChunkEmbedding.provider == provider.name,
+                LegalChunkEmbedding.model == provider.model,
+                LegalChunkEmbedding.dimensions == provider.dimensions,
+            )
+        )
+        if db.bind is not None and db.bind.dialect.name == "postgresql":
+            distance = LegalChunkEmbedding.embedding.cosine_distance(query_vector)
+            rows = db.execute(statement.add_columns(distance).order_by(distance).limit(40)).all()
+            semantic_rows = [
+                (authority, 1 - float(distance_value))
+                for authority, _embedding, distance_value in rows
+                if 1 - float(distance_value) >= 0.25
+            ]
+        else:
+            rows = db.execute(statement).all()
+            semantic_rows = sorted(
+                (
+                    (authority, _cosine_similarity(query_vector, list(embedding.embedding)))
+                    for authority, embedding in rows
+                ),
+                key=lambda item: (-item[1], item[0].id),
+            )
+            semantic_rows = [item for item in semantic_rows if item[1] >= 0.25][:40]
+    except (EmbeddingError, SQLAlchemyError, TypeError, ValueError) as exc:
+        fallback_reason = type(exc).__name__
 
-    def relevance(authority: LegalAuthority) -> float:
-        haystack = authority.title + authority.article + authority.content + " ".join(authority.keywords)
-        keyword_hits = sum(8 for keyword in authority.keywords if keyword in query)
-        overlap = len(query_tokens & tokenize(haystack)) / max(1, len(query_tokens))
-        return keyword_hits + overlap * 10
-
-    def score(authority: LegalAuthority) -> float:
-        region_bonus = 2 if authority.region in ("全国", region, "中国大陆") else -10
-        return relevance(authority) + LEVEL_WEIGHT.get(authority.level, 1) + region_bonus
-
-    valid = [a for a in candidates if a.effective_on <= as_of and (a.expired_on is None or a.expired_on > as_of)]
-    relevant = [authority for authority in valid if relevance(authority) >= 0.5]
-    result = sorted(relevant, key=score, reverse=True)[:limit]
+    fused: dict[str, dict] = {}
+    for rank, hit in enumerate(lexical_hits, start=1):
+        fused[hit.authority.id] = {
+            "authority": hit.authority,
+            "lexical_score": hit.lexical_score,
+            "semantic_score": None,
+            "matched_keywords": hit.matched_keywords,
+            "rrf": lexical_weight / (rrf_k + rank),
+        }
+    for rank, (authority, similarity) in enumerate(semantic_rows, start=1):
+        item = fused.setdefault(
+            authority.id,
+            {
+                "authority": authority,
+                "lexical_score": 0.0,
+                "semantic_score": None,
+                "matched_keywords": (),
+                "rrf": 0.0,
+            },
+        )
+        item["semantic_score"] = round(similarity, 4)
+        item["rrf"] += semantic_weight / (rrf_k + rank)
+    ranked = sorted(
+        fused.values(),
+        key=lambda item: (-item["rrf"], -item["lexical_score"], item["authority"].id),
+    )[:limit]
+    result = [
+        AuthorityHit(
+            authority=item["authority"],
+            lexical_score=item["lexical_score"],
+            semantic_score=item["semantic_score"],
+            fusion_score=round(item["rrf"], 6),
+            rank=rank,
+            matched_keywords=item["matched_keywords"],
+        )
+        for rank, item in enumerate(ranked, start=1)
+    ]
     if case_id and tenant_id:
         settings = get_settings()
         db.add(
@@ -112,9 +432,13 @@ def search_authorities(
                 agent="observability",
                 duration_ms=round((time.perf_counter() - started) * 1000, 2),
                 payload={
-                    "candidate_count": len(candidates),
-                    "valid_count": len(valid),
+                    "candidate_count": len(fused),
+                    "valid_count": len(fused),
                     "result_count": len(result),
+                    "retriever": "hybrid_rrf_v1",
+                    "embedding_provider": provider.name if provider else settings.embedding_provider,
+                    "semantic_fallback": fallback_reason,
+                    "top_hit_ids": [hit.authority.id for hit in result[:5]],
                     "query_fingerprint": query_fingerprint(
                         query,
                         secret=settings.observability_hmac_secret,
@@ -124,3 +448,21 @@ def search_authorities(
             )
         )
     return result
+
+
+def retrieve_semantic_authority_hits(
+    db: Session,
+    query: str,
+    as_of: date | None = None,
+    limit: int = 10,
+    region: str = "中国大陆",
+) -> list[AuthorityHit]:
+    """Return semantic-only ranks for offline evaluation and diagnostics."""
+    return retrieve_hybrid_authority_hits(
+        db,
+        query,
+        as_of=as_of,
+        limit=limit,
+        region=region,
+        _semantic_only=True,
+    )

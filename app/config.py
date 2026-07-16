@@ -21,6 +21,19 @@ class Settings(BaseSettings):
     deepseek_model: str = "deepseek-v4-flash"
     deepseek_timeout_seconds: float = 45.0
     deepseek_max_retries: int = 2
+    embedding_provider: str = "deterministic"
+    embedding_base_url: str | None = None
+    embedding_api_key: str | None = None
+    embedding_model: str = "legal-hash-v1"
+    embedding_dimensions: int = 1536
+    embedding_timeout_seconds: float = 30.0
+    embedding_batch_size: int = 8
+    embedding_consent_provider: str = "embedding"
+    embedding_consent_required: bool = True
+    embedding_query_instruction: str = (
+        "Given a Chinese labor dispute query, retrieve authoritative legal provisions "
+        "that answer the query"
+    )
     cors_origins: str = "http://localhost:3001,http://127.0.0.1:3001"
     auth_enabled: bool = False
     oidc_issuer: str | None = None
@@ -31,7 +44,7 @@ class Settings(BaseSettings):
     oidc_tenant_claim: str = "tenant_id"
     oidc_roles_claim: str = "roles"
 
-    model_config = SettingsConfigDict(env_file=".env", extra="ignore")
+    model_config = SettingsConfigDict(env_file=(".env", ".env.local"), extra="ignore")
 
     @property
     def cors_origin_list(self) -> list[str]:

@@ -2,8 +2,9 @@ from datetime import date, datetime, timezone
 from enum import StrEnum
 from uuid import uuid4
 
-from sqlalchemy import JSON, Date, DateTime, Float, ForeignKey, String, Text, UniqueConstraint
+from sqlalchemy import JSON, Date, DateTime, Float, ForeignKey, Index, String, Text, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
+from pgvector.sqlalchemy import Vector
 
 from app.database import Base
 
@@ -88,6 +89,100 @@ class LegalAuthority(Base):
     expired_on: Mapped[date | None] = mapped_column(Date, nullable=True)
     source_url: Mapped[str] = mapped_column(String(500))
     keywords: Mapped[list[str]] = mapped_column(JSON, default=list)
+
+
+class LegalDocument(Base):
+    """Stable identity for an official legal instrument across versions."""
+
+    __tablename__ = "legal_documents"
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=uid)
+    canonical_key: Mapped[str] = mapped_column(String(200), unique=True, index=True)
+    title: Mapped[str] = mapped_column(String(300))
+    authority_type: Mapped[str] = mapped_column(String(50), default="statute")
+    level: Mapped[str] = mapped_column(String(50))
+    jurisdiction: Mapped[str] = mapped_column(String(100), default="全国")
+    issuing_body: Mapped[str | None] = mapped_column(String(200), nullable=True)
+    source_url: Mapped[str] = mapped_column(String(500))
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
+
+
+class LegalDocumentVersion(Base):
+    """Effective-dated, content-addressed version of a legal document."""
+
+    __tablename__ = "legal_document_versions"
+    __table_args__ = (
+        UniqueConstraint("document_id", "content_hash", name="uq_legal_version_document_hash"),
+    )
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=uid)
+    document_id: Mapped[str] = mapped_column(
+        ForeignKey("legal_documents.id", ondelete="CASCADE"), index=True
+    )
+    version_label: Mapped[str] = mapped_column(String(100), default="现行版本")
+    status: Mapped[str] = mapped_column(String(30), default="active", index=True)
+    promulgated_on: Mapped[date | None] = mapped_column(Date, nullable=True)
+    effective_on: Mapped[date] = mapped_column(Date, index=True)
+    expired_on: Mapped[date | None] = mapped_column(Date, nullable=True, index=True)
+    source_url: Mapped[str] = mapped_column(String(500))
+    content_hash: Mapped[str] = mapped_column(String(64), index=True)
+    review_status: Mapped[str] = mapped_column(String(30), default="pending", index=True)
+    supersedes_id: Mapped[str | None] = mapped_column(
+        ForeignKey("legal_document_versions.id", ondelete="SET NULL"), nullable=True
+    )
+    ingested_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
+
+
+class LegalChunk(Base):
+    """Article/clause retrieval unit with a compatibility reference for citations."""
+
+    __tablename__ = "legal_chunks"
+    __table_args__ = (
+        UniqueConstraint("version_id", "locator", name="uq_legal_chunk_version_locator"),
+    )
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=uid)
+    version_id: Mapped[str] = mapped_column(
+        ForeignKey("legal_document_versions.id", ondelete="CASCADE"), index=True
+    )
+    authority_id: Mapped[str | None] = mapped_column(
+        ForeignKey("legal_authorities.id", ondelete="SET NULL"), nullable=True, index=True
+    )
+    locator: Mapped[str] = mapped_column(String(120))
+    sequence: Mapped[int] = mapped_column(default=0)
+    heading: Mapped[str | None] = mapped_column(String(300), nullable=True)
+    content: Mapped[str] = mapped_column(Text)
+    keywords: Mapped[list[str]] = mapped_column(JSON, default=list)
+    content_hash: Mapped[str] = mapped_column(String(64), index=True)
+
+
+class LegalChunkEmbedding(Base):
+    __tablename__ = "legal_chunk_embeddings"
+    __table_args__ = (
+        UniqueConstraint(
+            "chunk_id",
+            "provider",
+            "model",
+            name="uq_legal_chunk_embedding_model",
+        ),
+    )
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=uid)
+    chunk_id: Mapped[str] = mapped_column(
+        ForeignKey("legal_chunks.id", ondelete="CASCADE"), index=True
+    )
+    provider: Mapped[str] = mapped_column(String(50), index=True)
+    model: Mapped[str] = mapped_column(String(100), index=True)
+    dimensions: Mapped[int]
+    embedding: Mapped[list[float]] = mapped_column(
+        Vector(1536).with_variant(JSON(), "sqlite")
+    )
+    content_hash: Mapped[str] = mapped_column(String(64), index=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
+
+
+Index(
+    "ix_legal_chunk_embeddings_hnsw_cosine",
+    LegalChunkEmbedding.embedding,
+    postgresql_using="hnsw",
+    postgresql_ops={"embedding": "vector_cosine_ops"},
+).ddl_if(dialect="postgresql")
 
 
 class LegalCase(Base):

@@ -1,0 +1,27 @@
+{
+  "schema_version": "pilot_retrieval_gold_ai_reviewed_v2",
+  "reviewed_count": 120,
+  "approved_count": 116,
+  "rejected_count": 4,
+  "disposition_counts": {
+    "approved": 88,
+    "approved_after_revision": 28,
+    "rejected": 4
+  },
+  "confidence_counts": {
+    "high": 95,
+    "medium": 25
+  },
+  "dev_count": 76,
+  "test_count": 40,
+  "official_source_check_passed": true,
+  "version_check_passed": true,
+  "reviewer_type": "AI evidence and legal-consistency review; not lawyer sign-off",
+  "reviewed_on": "2026-07-16",
+  "sha256": {
+    "reviewed_candidates.json": "b055419125f68c28b02f333c88cb79c60a1a728126007b363917a2928c64bf8b",
+    "approved.json": "01ba92b8969b3106f68870c6f32403140293361e47f113dfc00e7c2b43d81f4c",
+    "dev.json": "7798ee67f6309c8ea8286de9ba6465baf19a5689b14c0ebe042bb3344662e5a4",
+    "test.json": "b7ef16d3b1445948ddf03f2c27d6cca611d815ce095415c99a7d10791c2f875d"
+  }
+}

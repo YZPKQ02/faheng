@@ -1,0 +1,219 @@
+{
+  "lexical": {
+    "retriever": "versioned_lexical_v1",
+    "case_count": 4,
+    "aggregate": {
+      "recall_at_5": 0.875,
+      "recall_at_10": 0.875,
+      "mrr": 1.0,
+      "ndcg_at_10": 0.9033,
+      "citation_validity": 1.0,
+      "version_violations": 0,
+      "region_violations": 0,
+      "empty_result_rate": 0.0
+    },
+    "cases": [
+      {
+        "id": "written-contract",
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "empty_result": false,
+        "citation_validity": 1.0,
+        "version_violations": 0,
+        "region_violations": 0,
+        "returned": [
+          "《中华人民共和国劳动合同法》第十条",
+          "《中华人民共和国劳动合同法实施条例》第六条",
+          "《中华人民共和国劳动合同法实施条例》第五条",
+          "《中华人民共和国劳动合同法实施条例》第七条",
+          "《国有企业富余职工安置规定》第十二条",
+          "《中华人民共和国劳动合同法实施条例》第十八条",
+          "《中华人民共和国船员条例》第二十七条",
+          "《工人考核条例》第七条",
+          "《使用有毒物品作业场所劳动保护条例》第六十七条",
+          "《中华人民共和国劳动合同法实施条例》第四条"
+        ]
+      },
+      {
+        "id": "illegal-termination",
+        "recall_at_5": 0.5,
+        "recall_at_10": 0.5,
+        "mrr": 1.0,
+        "ndcg_at_10": 0.6131471927654584,
+        "empty_result": false,
+        "citation_validity": 1.0,
+        "version_violations": 0,
+        "region_violations": 0,
+        "returned": [
+          "《中华人民共和国劳动合同法》第八十七条",
+          "《中华人民共和国劳动争议调解仲裁法》第二十七条",
+          "《禁止使用童工规定》第十条",
+          "《中华人民共和国劳动合同法实施条例》第二十五条",
+          "《中华人民共和国劳动合同法实施条例》第三十四条",
+          "《劳动保障监察条例》第二十六条",
+          "《保安服务管理条例》第二十一条",
+          "《保安服务管理条例》第四十四条",
+          "《中华人民共和国船员条例》第四十五条",
+          "《使用有毒物品作业场所劳动保护条例》第四十条"
+        ]
+      },
+      {
+        "id": "arbitration-limitation",
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "empty_result": false,
+        "citation_validity": 1.0,
+        "version_violations": 0,
+        "region_violations": 0,
+        "returned": [
+          "《中华人民共和国劳动争议调解仲裁法》第二十七条",
+          "《保障农民工工资支付条例》第三十四条",
+          "《工伤保险条例》第十七条",
+          "《中华人民共和国中外合作办学条例》第四十五条",
+          "《女职工劳动保护特别规定》第十四条",
+          "《农民承担费用和劳务管理条例》第六条",
+          "《保障农民工工资支付条例》第十条",
+          "《中华人民共和国船员条例》第五条",
+          "《劳动保障监察条例》第二十一条",
+          "《国有企业富余职工安置规定》第九条"
+        ]
+      },
+      {
+        "id": "overtime-pay",
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "empty_result": false,
+        "citation_validity": 1.0,
+        "version_violations": 0,
+        "region_violations": 0,
+        "returned": [
+          "《中华人民共和国劳动法》第四十四条",
+          "《保障农民工工资支付条例》第十四条",
+          "《中华人民共和国船员条例》第二十六条",
+          "《工伤保险条例》第六十二条",
+          "《关于工资总额组成的规定》第五条",
+          "《使用有毒物品作业场所劳动保护条例》第四十一条",
+          "《保障农民工工资支付条例》第六条",
+          "《中华人民共和国矿山安全法实施条例》第五十二条",
+          "《失业保险条例》第十一条",
+          "《工伤保险条例》第三十四条"
+        ]
+      }
+    ]
+  },
+  "hybrid": {
+    "retriever": "hybrid_rrf_v1",
+    "case_count": 4,
+    "aggregate": {
+      "recall_at_5": 0.875,
+      "recall_at_10": 0.875,
+      "mrr": 0.875,
+      "ndcg_at_10": 0.811,
+      "citation_validity": 1.0,
+      "version_violations": 0,
+      "region_violations": 0,
+      "empty_result_rate": 0.0
+    },
+    "cases": [
+      {
+        "id": "written-contract",
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "mrr": 0.5,
+        "ndcg_at_10": 0.6309297535714575,
+        "empty_result": false,
+        "citation_validity": 1.0,
+        "version_violations": 0,
+        "region_violations": 0,
+        "returned": [
+          "《中华人民共和国劳动合同法实施条例》第六条",
+          "《中华人民共和国劳动合同法》第十条",
+          "《中华人民共和国劳动合同法实施条例》第七条",
+          "《中华人民共和国劳动合同法实施条例》第五条",
+          "《中华人民共和国劳动合同法实施条例》第二十条",
+          "《中华人民共和国劳动合同法实施条例》第十一条",
+          "《中华人民共和国劳动合同法实施条例》第二十五条",
+          "《中华人民共和国劳动合同法实施条例》第九条",
+          "《中华人民共和国劳动合同法实施条例》第三十四条",
+          "《中华人民共和国劳动合同法实施条例》第十八条"
+        ]
+      },
+      {
+        "id": "illegal-termination",
+        "recall_at_5": 0.5,
+        "recall_at_10": 0.5,
+        "mrr": 1.0,
+        "ndcg_at_10": 0.6131471927654584,
+        "empty_result": false,
+        "citation_validity": 1.0,
+        "version_violations": 0,
+        "region_violations": 0,
+        "returned": [
+          "《中华人民共和国劳动合同法》第八十七条",
+          "《中华人民共和国劳动合同法实施条例》第二十五条",
+          "《中华人民共和国劳动合同法实施条例》第三十四条",
+          "《劳动保障监察条例》第二十六条",
+          "《中华人民共和国劳动争议调解仲裁法》第二十七条",
+          "《中华人民共和国劳动合同法实施条例》第九条",
+          "《使用有毒物品作业场所劳动保护条例》第四十三条",
+          "《禁止使用童工规定》第十条",
+          "《中华人民共和国劳动合同法实施条例》第二十七条",
+          "《中华人民共和国劳动合同法实施条例》第二十条"
+        ]
+      },
+      {
+        "id": "arbitration-limitation",
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "empty_result": false,
+        "citation_validity": 1.0,
+        "version_violations": 0,
+        "region_violations": 0,
+        "returned": [
+          "《中华人民共和国劳动争议调解仲裁法》第二十七条",
+          "《工伤保险条例》第十七条",
+          "《劳动保障监察条例》第二十一条",
+          "《中华人民共和国乡村集体所有制企业条例》第三十一条",
+          "《劳动保障监察条例》第二十五条",
+          "《中华人民共和国劳动合同法实施条例》第二十五条",
+          "《工伤保险条例》第十八条",
+          "《工伤保险条例》第二十八条",
+          "《保障农民工工资支付条例》第三十四条",
+          "《劳动保障监察条例》第二十条"
+        ]
+      },
+      {
+        "id": "overtime-pay",
+        "recall_at_5": 1.0,
+        "recall_at_10": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "empty_result": false,
+        "citation_validity": 1.0,
+        "version_violations": 0,
+        "region_violations": 0,
+        "returned": [
+          "《中华人民共和国劳动法》第四十四条",
+          "《保障农民工工资支付条例》第十四条",
+          "《关于工资总额组成的规定》第五条",
+          "《劳动保障监察条例》第二十六条",
+          "《保障农民工工资支付条例》第六条",
+          "《中华人民共和国船员条例》第二十六条",
+          "《保障农民工工资支付条例》第十三条",
+          "《工伤保险条例》第六十二条",
+          "《关于工资总额组成的规定》第十条",
+          "《劳动保障监察条例》第二十五条"
+        ]
+      }
+    ]
+  },
+  "hybrid_not_below_lexical": true
+}
