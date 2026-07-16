@@ -197,7 +197,7 @@ class HumanReviewDecision(BaseModel):
 
 
 class ModelConsentCreate(BaseModel):
-    provider: Literal["deepseek"] = "deepseek"
+    provider: Literal["deepseek", "embedding"] = "deepseek"
     purposes: list[Literal["intake", "analysis", "simulation"]] = Field(min_length=1)
     data_categories: list[
         Literal["conversation", "facts", "evidence_metadata", "legal_analysis"]

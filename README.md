@@ -10,7 +10,7 @@
 - LangGraph 混合接待流程：观察上下文 → 生成粗粒度计划 → 分步执行 → 有界 ReAct 法律检索 → 校验并回答
 - 当前问题、初始诉求、最近 12 条消息、事实状态与证据摘要分层装配，避免长对话丢失焦点
 - 用户陈述、已确认事实、模型推断分级存储
-- 内置现行劳动法律样本及按生效/失效日期过滤的混合关键词检索
+- 内置现行劳动法律样本、文档/版本/条款三级知识结构及按日期和地域硬过滤的关键词检索
 - 对方抗辩、证据缺口、置信度、待核实事项和行动建议
 - 响应式 Next.js 案件工作台与仲裁沙盘
 - SQLite 零配置开发；SQLAlchemy 数据层可切换 PostgreSQL
@@ -68,6 +68,82 @@ POST   /cases/{case_id}/pseudonyms
 ```
 
 导入内容按来源 URL 和正文哈希去重，默认状态为 `pending`。只有经专业人员复核并改为 `approved` 的案例才应进入生产检索。`GET /knowledge/stats` 可查看法条、案例和审核状态数量。
+
+## 版本化法律知识库与检索基线
+
+法律材料采用 `LegalDocument → LegalDocumentVersion → LegalChunk` 三级结构：文档保存稳定身份，版本保存生效/失效区间和内容哈希，条款块保存条文定位、关键词及兼容引用 ID。现有 `LegalAuthority` 暂时保留为 API 与分析结果的引用兼容层。迁移会把内置 5 条演示法条自动回填到新结构。
+
+将已经核对官方来源的法律材料整理成 JSONL（每行一个文档版本）后导入：
+
+```powershell
+.\.venv\Scripts\python.exe scripts\import_legal_knowledge.py data\legal\your-authorities.jsonl
+```
+
+每条记录至少包含 `title`、`level`、`source_url`、`effective_on` 和非空 `chunks`；每个条款块至少包含 `locator` 与 `content`。导入器执行官方域名白名单校验、版本内容哈希去重、条款定位冲突校验和生效区间重叠告警，并写入不含法律正文的 `legal_knowledge_import` 审计事件。新材料默认 `pending`，需专业复核后才能作为生产级法律依据。
+
+运行关键词检索回归基线：
+
+```powershell
+.\.venv\Scripts\python.exe scripts\evaluate_retrieval.py --output data\evaluation\retrieval_report.json
+```
+
+报告同时运行关键词基线和混合检索，包含 Recall@5/10、MRR、nDCG@10、引用有效性、空结果率以及日期/地域越界数，并明确输出混合 Recall@10 是否低于关键词基线。内置数据只用于防止检索链路回归，不代表真实法律问答准确率。
+
+混合检索使用关键词 Top 40 与语义 Top 40，通过 RRF 融合后返回。SQLite 和测试环境把向量保存为 JSON 并在 Python 中计算余弦相似度；PostgreSQL 使用 `pgvector` 的 `vector` 类型和距离运算。生产迁移前必须由数据库管理员安装或授权创建 `vector` 扩展，然后执行 Alembic：
+
+```powershell
+.\.venv\Scripts\python.exe -m alembic upgrade head
+```
+
+默认 `EMBEDDING_PROVIDER=deterministic` 只是可重复、无外部调用的哈希向量回退，用于验证链路和测试，不能声称具备生产语义理解。配置兼容 HTTP Embedding 接口后，先离线生成法律条款向量：
+
+```powershell
+.\.venv\Scripts\python.exe scripts\index_legal_embeddings.py
+```
+
+HTTP 接口约定为 `POST {EMBEDDING_BASE_URL}/embeddings`，请求包含 `model` 和 `input`，响应包含按 `index` 排列的 `data[].embedding`。案件查询在发送到外部 Embedding 服务前会执行规则脱敏，并要求案件存在有效 `analysis` 模型授权，且授权供应商必须等于 `EMBEDDING_CONSENT_PROVIDER`；未授权或调用失败时只回退关键词检索。不得把真实密钥写入仓库。
+
+### 本机 Qwen3-Embedding-8B 配置
+
+当前开发机使用 Qwen 官方 `Qwen3-Embedding-8B-Q4_K_M.gguf` 和 llama.cpp CUDA 12 服务。模型原始输出为 4096 维；项目利用 Qwen3 的 MRL 能力截断并重新归一化为 1536 维入库，以满足 pgvector HNSW 的维度上限。模型与运行时安装在 `D:\AIModels`，不属于仓库内容。启动或确认本地服务：
+
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts\start_local_embedding.ps1
+```
+
+服务只监听 `127.0.0.1:8080`，使用 Embedding-only、last pooling、4096 上下文和单并发。项目专用的非敏感连接参数保存在被 Git 忽略的 `.env.local`；它覆盖 `.env` 中的同名配置，但不会读取或修改已有密钥。由于服务完全位于本机回环地址，本地配置设置 `EMBEDDING_CONSENT_REQUIRED=false`；切换为远程服务时必须恢复为 `true` 并配置匹配的授权供应商。
+
+Qwen3 Embedding 的查询侧会自动添加面向中国劳动争议法条检索的英文 instruction，法律条文入库侧不添加 instruction。首次导入新法条后重新生成向量：
+
+```powershell
+.\.venv\Scripts\python.exe scripts\index_legal_embeddings.py
+```
+
+当前 5 条演示法条上的真实 Qwen 基线报告位于 `data/evaluation/retrieval_report_qwen3_8b.json`：混合 Recall@10 为 1.0，关键词为 0.875。样本量极小，且 Top 5 已接近全部语料，该结果只能用于连接与回归验证，不能作为生产检索准确率。
+
+### 1000 条级官方法规试点库
+
+试点数据库使用 `compose.trial.yml`，只监听本机 `127.0.0.1:5433`，不得复用其免密配置到生产环境。规范化语料和来源清单位于 `data/legal/pilot/`，原始网页缓存在被 Git 忽略的 `data/raw/xzfg/`。重新构建、导入和索引：
+
+```powershell
+docker compose -f compose.trial.yml up -d
+.\.venv\Scripts\python.exe scripts\build_xzfg_pilot.py --target-min 1000 --target-max 1500
+$env:DATABASE_URL='postgresql+psycopg://legal_trial@127.0.0.1:5433/legal_trial'
+.\.venv\Scripts\python.exe scripts\import_legal_knowledge.py data\legal\pilot\corpus.jsonl
+.\.venv\Scripts\python.exe scripts\index_legal_embeddings.py
+```
+
+当前清单包含司法部国家行政法规库的 25 部现行行政法规、1092 个自然法条块；同名历史版本和无法可靠解析的页面只进入失败/人工复核清单。所有记录初始 `review_status=pending`，完成法律专业复核前不能标记为生产可用。
+
+### 120 题检索金标准草案
+
+运行 `scripts/build_retrieval_gold.py` 可从试点语料生成可追溯的待审草案。输出位于 `data/evaluation/pilot_gold/`：80 题开发集、40 题冻结测试集，8 个主题各 15 题，并包含证据摘录、官方链接和数据集 SHA-256。`scripts/tune_hybrid_retrieval.py` 只能用开发集选参，选定后才读取一次冻结集；`scripts/analyze_retrieval_errors.py` 生成逐题漏检报告。
+
+当前开发集仍选择默认 RRF 参数（关键词 1.0、语义 1.0、k=60）。冻结集 Recall@10 为：关键词 0.925、纯语义 0.925、混合 0.900。该结果表明现有等权 RRF 在跨法规问题上可能把一条正确依据挤出 Top 10，不能假定“混合必然优于关键词”。草案全部为 `review_status=pending`，正式发布前按 `REVIEW_GUIDE.md` 进行法律专业审核。
+
+AI 法律证据审核后的 v2 位于 `data/evaluation/pilot_gold/reviewed_v2/`。120 题中通过 116 题（88 题原样通过、28 题修改后通过），剔除 4 题；其中包括一题因附录被错误归入第十六条而拒绝。v2 保留 76 题开发集和重新冻结的 40 题测试集。冻结集 Recall@10：关键词 0.950、纯语义 0.9875、混合 0.975；混合相对关键词 39 题持平、1 题更好、0 题更差。该审核属于 AI 证据与法律一致性审核，不构成执业律师签署，也不表示已穷尽上位法、司法解释、部门规章和地方规则。
+
+最终回答的 RAG 上下文只来自通过日期、地域和版本状态校验的条款块，包含可核验来源、版本标签和生效区间。模型只能返回候选 `authority_id`；应用会再次校验 ID 是否属于本轮候选及当前有效范围，拒绝项写入审计且不会成为“可核验依据”。
 
 ## 本地运行
 
@@ -183,6 +259,6 @@ POST /reviews/{review_id}/decision
 
 - 接入真实模型前，实现供应商适配器、结构化输出重试、成本限制和密钥托管。
 - 用官方来源替换演示法条，增加版本、地区、条文定位、抓取审计和专业复核。
-- PostgreSQL 部署需配置迁移、pgvector、中文全文检索、reranker 和备份。
+- PostgreSQL 部署需验证迁移、pgvector 扩展权限与向量查询；中文全文索引、专用法律 reranker 和备份恢复仍待生产化。
 - 增加认证、租户隔离、加密对象存储、删除/导出数据和日志脱敏。
 - 建立 100–200 个律师审核案例，再进入封闭试用。

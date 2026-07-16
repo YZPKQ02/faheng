@@ -1,0 +1,23 @@
+name: ai-legal-advisor-trial
+
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: ai-legal-advisor-trial-postgres
+    environment:
+      POSTGRES_DB: legal_trial
+      POSTGRES_USER: legal_trial
+      POSTGRES_HOST_AUTH_METHOD: trust
+    ports:
+      - "127.0.0.1:5433:5432"
+    volumes:
+      - legal_trial_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U legal_trial -d legal_trial"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    restart: unless-stopped
+
+volumes:
+  legal_trial_pgdata:

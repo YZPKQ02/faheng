@@ -1,0 +1,481 @@
+{
+  "source": "国家行政法规库（司法部）",
+  "source_url": "https://xzfg.moj.gov.cn/",
+  "query_counts": {
+    "劳动": 119,
+    "工伤": 23,
+    "社会保险": 40,
+    "工资": 80,
+    "就业": 47
+  },
+  "document_count": 25,
+  "chunk_count": 1092,
+  "target_min": 1000,
+  "target_max": 1500,
+  "review_status": "pending",
+  "documents": [
+    {
+      "law_id": "284",
+      "title": "中华人民共和国劳动合同法实施条例",
+      "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=284",
+      "matched_queries": [
+        "劳动",
+        "工伤",
+        "工资",
+        "就业"
+      ],
+      "chunk_count": 38,
+      "promulgated_on": "2008-09-18",
+      "effective_on": "2008-09-18",
+      "sha256": "6fe06f6d0b5dd600f90fcc9165e95040e1d7bd4c475319cb5c30f8a0bd3995f2",
+      "review_status": "pending"
+    },
+    {
+      "law_id": "128",
+      "title": "劳动保障监察条例",
+      "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=128",
+      "matched_queries": [
+        "劳动",
+        "社会保险",
+        "工资"
+      ],
+      "chunk_count": 36,
+      "promulgated_on": "2004-12-01",
+      "effective_on": "2004-12-01",
+      "sha256": "2c9f439f7f9fc08cf8c4b09bf0286795f7fd97d7397b37068e22b8dd6344ca3f",
+      "review_status": "pending"
+    },
+    {
+      "law_id": "1748",
+      "title": "使用有毒物品作业场所劳动保护条例",
+      "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=1748",
+      "matched_queries": [
+        "劳动",
+        "工伤",
+        "工资"
+      ],
+      "chunk_count": 70,
+      "promulgated_on": "2024-12-06",
+      "effective_on": "2024-12-06",
+      "sha256": "a9730e1ce3fb9a71925a81f216f80b29dcfa747470119f809c5150edec2be136",
+      "review_status": "pending"
+    },
+    {
+      "law_id": "273",
+      "title": "劳动就业服务企业管理规定",
+      "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=273",
+      "matched_queries": [
+        "劳动",
+        "就业"
+      ],
+      "chunk_count": 30,
+      "promulgated_on": "1990-11-22",
+      "effective_on": "1990-11-22",
+      "sha256": "d874763e601587f79afc975ed14f91f42a3f00cb4615aafdeb0760cbfa2623b9",
+      "review_status": "pending"
+    },
+    {
+      "law_id": "346",
+      "title": "对外劳务合作管理条例",
+      "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=346",
+      "matched_queries": [
+        "劳动",
+        "社会保险"
+      ],
+      "chunk_count": 53,
+      "promulgated_on": "2012-08-01",
+      "effective_on": "2012-08-01",
+      "sha256": "6ee7937b09cf6c6025d4bba8702137c297d282ab95557b4bd736ff937f108c17",
+      "review_status": "pending"
+    },
+    {
+      "law_id": "343",
+      "title": "女职工劳动保护特别规定",
+      "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=343",
+      "matched_queries": [
+        "劳动",
+        "工资"
+      ],
+      "chunk_count": 16,
+      "promulgated_on": "2012-04-28",
+      "effective_on": "2012-04-28",
+      "sha256": "364bafdc40b6b5ee272bad9438c5cfc63c0ee5c0e5574455ae16e9f640cf97a7",
+      "review_status": "pending"
+    },
+    {
+      "law_id": "610",
+      "title": "工伤保险条例",
+      "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=610",
+      "matched_queries": [
+        "劳动",
+        "工伤",
+        "社会保险",
+        "工资",
+        "就业"
+      ],
+      "chunk_count": 67,
+      "promulgated_on": "2010-12-20",
+      "effective_on": "2010-12-20",
+      "sha256": "1a724c5f3939502a82c90d19f96dd5b06e1a13b1552a9cb07bc4243943f8ef5f",
+      "review_status": "pending"
+    },
+    {
+      "law_id": "449",
+      "title": "保障农民工工资支付条例",
+      "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=449",
+      "matched_queries": [
+        "劳动",
+        "工资"
+      ],
+      "chunk_count": 64,
+      "promulgated_on": "2020-05-01",
+      "effective_on": "2020-05-01",
+      "sha256": "d41fd74387d1dc895b0393cd7c2b8a908411f3f2ca589fd42559bca2d5dacda2",
+      "review_status": "pending"
+    },
+    {
+      "law_id": "733",
+      "title": "全国中小学勤工俭学暂行工作条例",
+      "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=733",
+      "matched_queries": [
+        "劳动",
+        "工资"
+      ],
+      "chunk_count": 27,
+      "promulgated_on": "1983-02-20",
+      "effective_on": "1983-02-20",
+      "sha256": "f213bd856ab864a0ba7e7102eea1a9a9bb1048e843a1c6c0abb22c87e2fe1898",
+      "review_status": "pending"
+    },
+    {
+      "law_id": "329",
+      "title": "中华人民共和国城镇集体所有制企业条例",
+      "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=329",
+      "matched_queries": [
+        "劳动",
+        "工资",
+        "就业"
+      ],
+      "chunk_count": 69,
+      "promulgated_on": "2016-02-06",
+      "effective_on": "2016-02-06",
+      "sha256": "c6380a0081f97c4b43d0991770f4b1d82676ebbcce23cf4a1a3d89532d25f386",
+      "review_status": "pending"
+    },
+    {
+      "law_id": "604",
+      "title": "禁止使用童工规定",
+      "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=604",
+      "matched_queries": [
+        "劳动",
+        "工伤",
+        "就业"
+      ],
+      "chunk_count": 14,
+      "promulgated_on": "2002-12-01",
+      "effective_on": "2002-12-01",
+      "sha256": "f9225f4c41c456902f46205690356686d3633a1f93e1109a1e532c88e5599003",
+      "review_status": "pending"
+    },
+    {
+      "law_id": "473",
+      "title": "中华人民共和国矿山安全法实施条例",
+      "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=473",
+      "matched_queries": [
+        "劳动"
+      ],
+      "chunk_count": 59,
+      "promulgated_on": "1996-10-30",
+      "effective_on": "1996-10-30",
+      "sha256": "b927b52d67fc017aaf30d1f8b03e03ca7388835ddb8808943cfb155d12c233af",
+      "review_status": "pending"
+    },
+    {
+      "law_id": "268",
+      "title": "工人考核条例",
+      "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=268",
+      "matched_queries": [
+        "劳动",
+        "工资",
+        "就业"
+      ],
+      "chunk_count": 32,
+      "promulgated_on": "1990-07-12",
+      "effective_on": "1990-07-12",
+      "sha256": "43fdb93ffbb6f977956c9b8d6c0ece5b71f276ae5d537fcc061c40bfb0ac3753",
+      "review_status": "pending"
+    },
+    {
+      "law_id": "1691",
+      "title": "中华人民共和国船员条例",
+      "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=1691",
+      "matched_queries": [
+        "劳动",
+        "工伤",
+        "社会保险",
+        "工资"
+      ],
+      "chunk_count": 66,
+      "promulgated_on": "2023-07-20",
+      "effective_on": "2023-07-20",
+      "sha256": "f8f926425fadb6c23177683e8583475db026952fa63c5da62d695cae9b873449",
+      "review_status": "pending"
+    },
+    {
+      "law_id": "256",
+      "title": "关于工资总额组成的规定",
+      "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=256",
+      "matched_queries": [
+        "劳动",
+        "工伤",
+        "工资"
+      ],
+      "chunk_count": 16,
+      "promulgated_on": "1990-01-01",
+      "effective_on": "1990-01-01",
+      "sha256": "df1a21ccae3da91667be068cd856b54922d07bc807da1d10e557948f9735ea0e",
+      "review_status": "pending"
+    },
+    {
+      "law_id": "518",
+      "title": "社会保险费征缴暂行条例",
+      "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=518",
+      "matched_queries": [
+        "劳动",
+        "社会保险"
+      ],
+      "chunk_count": 31,
+      "promulgated_on": "2019-03-24",
+      "effective_on": "2019-03-24",
+      "sha256": "96d8423be44996b88e0d276f3c7e2f247d2d74973531c022335d6818907978f8",
+      "review_status": "pending"
+    },
+    {
+      "law_id": "608",
+      "title": "中华人民共和国中外合作办学条例",
+      "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=608",
+      "matched_queries": [
+        "劳动",
+        "社会保险",
+        "工资"
+      ],
+      "chunk_count": 64,
+      "promulgated_on": "2019-03-02",
+      "effective_on": "2019-03-02",
+      "sha256": "f382ca435c475f5a681849ed0bdc29745c25371bd260c2ae6fdece6a1f744d9d",
+      "review_status": "pending"
+    },
+    {
+      "law_id": "517",
+      "title": "失业保险条例",
+      "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=517",
+      "matched_queries": [
+        "劳动",
+        "社会保险",
+        "就业"
+      ],
+      "chunk_count": 33,
+      "promulgated_on": "1999-01-22",
+      "effective_on": "1999-01-22",
+      "sha256": "7192af79599e54eb3af3f6c7ad7e5f2c5272065b21517660828a194585533f47",
+      "review_status": "pending"
+    },
+    {
+      "law_id": "179",
+      "title": "中华人民共和国尘肺病防治条例",
+      "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=179",
+      "matched_queries": [
+        "劳动"
+      ],
+      "chunk_count": 28,
+      "promulgated_on": "1987-12-03",
+      "effective_on": "1987-12-03",
+      "sha256": "d04dc37e804454697568ec06426e9be1bb4556d72af3736324abb8c7ddad74a3",
+      "review_status": "pending"
+    },
+    {
+      "law_id": "333",
+      "title": "农民承担费用和劳务管理条例",
+      "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=333",
+      "matched_queries": [
+        "劳动"
+      ],
+      "chunk_count": 41,
+      "promulgated_on": "1991-12-07",
+      "effective_on": "1991-12-07",
+      "sha256": "bf66aee993cdf0c94475bf5709b8443c7f129b4274cd85e01e80a0782847002c",
+      "review_status": "pending"
+    },
+    {
+      "law_id": "1556",
+      "title": "残疾人就业条例",
+      "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=1556",
+      "matched_queries": [
+        "劳动",
+        "就业"
+      ],
+      "chunk_count": 30,
+      "promulgated_on": "2007-05-01",
+      "effective_on": "2007-05-01",
+      "sha256": "9314f9acb518ebf316262f0f42030571e09d820311b7a2c85257c51343356ee4",
+      "review_status": "pending"
+    },
+    {
+      "law_id": "376",
+      "title": "国有企业富余职工安置规定",
+      "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=376",
+      "matched_queries": [
+        "劳动",
+        "工资",
+        "就业"
+      ],
+      "chunk_count": 18,
+      "promulgated_on": "1993-04-20",
+      "effective_on": "1993-04-20",
+      "sha256": "3c35f2dc6062902d1b320e2de18d56f3e54735502be56611e373caa11632c8e1",
+      "review_status": "pending"
+    },
+    {
+      "law_id": "1458",
+      "title": "保安服务管理条例",
+      "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=1458",
+      "matched_queries": [
+        "劳动",
+        "工伤",
+        "社会保险"
+      ],
+      "chunk_count": 52,
+      "promulgated_on": "2022-03-29",
+      "effective_on": "2022-03-29",
+      "sha256": "8fd0613e7e18b14beec2e5e0baa9fb8b524cc05bb28af8ca140947f763aef1a6",
+      "review_status": "pending"
+    },
+    {
+      "law_id": "264",
+      "title": "中华人民共和国乡村集体所有制企业条例",
+      "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=264",
+      "matched_queries": [
+        "劳动"
+      ],
+      "chunk_count": 45,
+      "promulgated_on": "2011-01-08",
+      "effective_on": "2011-01-08",
+      "sha256": "de5fbf189f12694998c8b4bcaed6fe88cd8cd555a7fd35305645658495571358",
+      "review_status": "pending"
+    },
+    {
+      "law_id": "1730",
+      "title": "退役军人安置条例",
+      "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=1730",
+      "matched_queries": [
+        "劳动",
+        "工伤",
+        "社会保险",
+        "工资",
+        "就业"
+      ],
+      "chunk_count": 93,
+      "promulgated_on": "2024-09-01",
+      "effective_on": "2024-09-01",
+      "sha256": "90146335ea43a5f7a16523f9bc3c11477e750277b655f7c73eb007eaef91302d",
+      "review_status": "pending"
+    }
+  ],
+  "failures": [
+    {
+      "law_id": "592",
+      "title": "使用有毒物品作业场所劳动保护条例",
+      "error": "同名法规版本已收录，等待版本沿革人工复核"
+    },
+    {
+      "law_id": "950",
+      "title": "工伤保险条例",
+      "error": "同名法规版本已收录，等待版本沿革人工复核"
+    },
+    {
+      "law_id": "1373",
+      "error": "官方正文未包含可解析的公布或施行日期"
+    },
+    {
+      "law_id": "1372",
+      "error": "官方正文未包含可解析的公布或施行日期"
+    },
+    {
+      "law_id": "1268",
+      "title": "中华人民共和国船员条例",
+      "error": "同名法规版本已收录，等待版本沿革人工复核"
+    },
+    {
+      "law_id": "1269",
+      "title": "中华人民共和国船员条例",
+      "error": "同名法规版本已收录，等待版本沿革人工复核"
+    },
+    {
+      "law_id": "1270",
+      "title": "中华人民共和国船员条例",
+      "error": "同名法规版本已收录，等待版本沿革人工复核"
+    },
+    {
+      "law_id": "1271",
+      "title": "中华人民共和国船员条例",
+      "error": "同名法规版本已收录，等待版本沿革人工复核"
+    },
+    {
+      "law_id": "1272",
+      "title": "中华人民共和国船员条例",
+      "error": "同名法规版本已收录，等待版本沿革人工复核"
+    },
+    {
+      "law_id": "1334",
+      "title": "中华人民共和国船员条例",
+      "error": "同名法规版本已收录，等待版本沿革人工复核"
+    },
+    {
+      "law_id": "196",
+      "title": "中华人民共和国船员条例",
+      "error": "同名法规版本已收录，等待版本沿革人工复核"
+    },
+    {
+      "law_id": "1219",
+      "title": "社会保险费征缴暂行条例",
+      "error": "同名法规版本已收录，等待版本沿革人工复核"
+    },
+    {
+      "law_id": "947",
+      "title": "中华人民共和国中外合作办学条例",
+      "error": "同名法规版本已收录，等待版本沿革人工复核"
+    },
+    {
+      "law_id": "948",
+      "title": "中华人民共和国中外合作办学条例",
+      "error": "同名法规版本已收录，等待版本沿革人工复核"
+    },
+    {
+      "law_id": "1111",
+      "title": "保安服务管理条例",
+      "error": "同名法规版本已收录，等待版本沿革人工复核"
+    },
+    {
+      "law_id": "1285",
+      "title": "保安服务管理条例",
+      "error": "同名法规版本已收录，等待版本沿革人工复核"
+    },
+    {
+      "law_id": "1589",
+      "title": "中华人民共和国乡村集体所有制企业条例",
+      "error": "同名法规版本已收录，等待版本沿革人工复核"
+    },
+    {
+      "law_id": "1647",
+      "error": "LawID=1647 未解析出法条"
+    },
+    {
+      "law_id": "1646",
+      "error": "LawID=1646 未解析出法条"
+    },
+    {
+      "law_id": "1648",
+      "error": "LawID=1648 未解析出法条"
+    }
+  ]
+}

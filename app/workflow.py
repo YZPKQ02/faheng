@@ -16,8 +16,9 @@ from app.authorities import search_authorities
 from app.conversation_memory import ConversationMemory, build_conversation_memory
 from app.model_gateway import ModelGateway, ModelGatewayError
 from app.observability import record_model_call_metric
+from app.legal_rag import build_rag_observations, render_citations, validate_authority_ids
 from app.privacy_governance import build_model_authorization
-from app.models import AuditEvent, CaseFile, Fact, LegalAuthority, Message
+from app.models import AuditEvent, CaseFile, Fact, Message
 
 
 class AdvisorState(TypedDict, total=False):
@@ -421,11 +422,12 @@ def build_workflow(db: Session, gateway: ModelGateway | None = None):
         }
 
     def validate_execution(state: AdvisorState) -> AdvisorState:
-        valid_ids = [
-            authority_id
-            for authority_id in state.get("authority_ids", [])
-            if db.get(LegalAuthority, authority_id) is not None
-        ]
+        current_case = db.get(CaseFile, state["case_id"])
+        valid_ids = validate_authority_ids(
+            db,
+            state.get("authority_ids", []),
+            region=current_case.region if current_case else "中国大陆",
+        )
         step = next(
             item
             for item in state["execution_plan"]["steps"]
@@ -450,20 +452,11 @@ def build_workflow(db: Session, gateway: ModelGateway | None = None):
         return {"authority_ids": valid_ids}
 
     def respond(state: AdvisorState) -> AdvisorState:
-        authorities = [db.get(LegalAuthority, aid) for aid in state.get("authority_ids", [])]
-        citations = "；".join(f"《{item.title}》{item.article}" for item in authorities if item)
+        current_case = db.get(CaseFile, state["case_id"])
+        current_region = current_case.region if current_case else "中国大陆"
+        authority_context = build_rag_observations(db, state.get("authority_ids", []))
+        citations = render_citations(authority_context)
         missing = "、".join(state.get("missing_information", [])[:4])
-        authority_context = [
-            {
-                "id": item.id,
-                "title": item.title,
-                "article": item.article,
-                "content": item.content,
-                "source_url": item.source_url,
-            }
-            for item in authorities
-            if item
-        ]
         focus = _strip_list_prefix(state["plan"]["question_focus"]).strip("：:。 ")
         try:
             output = gateway.structured(
@@ -472,6 +465,7 @@ def build_workflow(db: Session, gateway: ModelGateway | None = None):
                     "确定性事实处理和有界法律检索。现在只输出最终答复，不展示详细思维链。"
                     "必须先直接回应当前用户消息，不得转而回答更早的问题；历史消息只用于消解指代。"
                     "说明基于哪些用户陈述，并区分陈述与已确认事实。仅使用候选法律依据，不得凭记忆补充法条。"
+                    "authority_ids 只能填写检索观察提供的 authority_id；没有可靠依据时返回空列表。"
                     "信息不足时提出最多三个有明确目的的追问，追问文本不要自带序号。"
                     "不得承诺胜诉或使用伪精确概率。高风险时建议尽快咨询真人律师。"
                 ),
@@ -501,6 +495,24 @@ def build_workflow(db: Session, gateway: ModelGateway | None = None):
                 response += (
                     "\n\n建议尽快咨询真人律师："
                     f"{output.escalation_reason or '本事项存在较高法律风险'}。"
+                )
+            requested_ids = output.authority_ids or state.get("authority_ids", [])
+            cited_ids = validate_authority_ids(db, requested_ids, region=current_region)
+            cited_ids = [
+                authority_id
+                for authority_id in cited_ids
+                if authority_id in state.get("authority_ids", [])
+            ]
+            rejected_ids = [item for item in output.authority_ids if item not in cited_ids]
+            citations = render_citations(build_rag_observations(db, cited_ids))
+            if rejected_ids:
+                db.add(
+                    AuditEvent(
+                        case_id=state["case_id"],
+                        event_type="citation_validation_rejected",
+                        agent="intake_coordinator",
+                        payload={"rejected_authority_ids": rejected_ids},
+                    )
                 )
             response += f"\n\n可核验依据：{citations or '当前没有检索到可靠依据'}。"
         except ModelGatewayError as exc:

@@ -1,0 +1,120 @@
+[
+  {
+    "id": "pilot-e800f25f999c",
+    "topic": "特殊用工",
+    "difficulty": "hard",
+    "query": "在同一项特殊用工争议中，如果同时涉及“为了加强船员管理，提高船员素质，维护船员的合法权益，保障水上交通安全，保护水域环境，制定本条例”以及“申请对外劳务合作经营资格的企业，需要向所在地省级或者设区的市级人民政府商务主管部门(以下称负责审批的商务主管部门)提交其符合本条例相关条款规定条”，两方面应分别适用什么规则？",
+    "expected_citations": [
+      "《中华人民共和国船员条例》第一条",
+      "《对外劳务合作管理条例》第七条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《中华人民共和国船员条例》第一条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=1691",
+        "effective_on": "2023-07-20",
+        "excerpt": "第一条 为了加强船员管理，提高船员素质，维护船员的合法权益，保障水上交通安全，保护水域环境，制定本条例。"
+      },
+      {
+        "citation": "《对外劳务合作管理条例》第七条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=346",
+        "effective_on": "2012-08-01",
+        "excerpt": "第七条 申请对外劳务合作经营资格的企业，应当向所在地省级或者设区的市级人民政府商务主管部门(以下称负责审批的商务主管部门)提交其符合本条例第六条规定条件的证明材料。负责审批的商务主管部门应当自收到证明材料之日起20个工作日内进行审查，作出批准或者不予批准的决定。予以批准的，颁发对外劳务合作经营资格证书；不予批准的，书面通知申请人并说明理由。\n申请人持对外劳务合作经营资格证书，依法向工商行政管理部门办理登记。\n负责审批的商务主管部门应当将"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_cross_regulation_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "rejected",
+    "review_confidence": "high",
+    "review_rationale": "船员条例目的条款与对外劳务经营资格缺少实质共同法律问题",
+    "reviewed_on": "2026-07-16"
+  },
+  {
+    "id": "pilot-94f20a1a6550",
+    "topic": "劳动保护",
+    "difficulty": "hard",
+    "query": "在同一项劳动保护争议中，如果同时涉及“需要进入存在高毒物品的设备、容器或者狭窄封闭场所作业时，公司需要事先采取下列措施：(一)保持作业场所良好的通风状态，确保作业场所职业中毒危害因素”以及“为了减少和解决女员工在劳动中因生理特点造成的特殊困难，保护女员工健康，制定本规定”，两方面应分别适用什么规则？",
+    "expected_citations": [
+      "《使用有毒物品作业场所劳动保护条例》第二十五条",
+      "《女职工劳动保护特别规定》第一条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《使用有毒物品作业场所劳动保护条例》第二十五条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=1748",
+        "effective_on": "2024-12-06",
+        "excerpt": "第二十五条 需要进入存在高毒物品的设备、容器或者狭窄封闭场所作业时，用人单位应当事先采取下列措施：\n(一)保持作业场所良好的通风状态，确保作业场所职业中毒危害因素浓度符合国家职业卫生标准；\n(二)为劳动者配备符合国家职业卫生标准的防护用品；\n(三)设置现场监护人员和现场救援设备。\n未采取前款规定措施或者采取的措施不符合要求的，用人单位不得安排劳动者进入存在高毒物品的设备、容器或者狭窄封闭场所作业。"
+      },
+      {
+        "citation": "《女职工劳动保护特别规定》第一条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=343",
+        "effective_on": "2012-04-28",
+        "excerpt": "第一条 为了减少和解决女职工在劳动中因生理特点造成的特殊困难，保护女职工健康，制定本规定。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_cross_regulation_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "rejected",
+    "review_confidence": "high",
+    "review_rationale": "女职工保护目的条款不是高毒作业场景的直接裁判或合规依据",
+    "reviewed_on": "2026-07-16"
+  },
+  {
+    "id": "pilot-a815c9ceafc0",
+    "topic": "特殊用工",
+    "difficulty": "medium",
+    "query": "现实中遇到与“村提留包括公积金、公益金和管理费：(一)公积金，用于农田水利基本建设、植树造林、购置生产性固定资产和兴办集体企业”有关的特殊用工争议，应当适用什么处理规则？",
+    "expected_citations": [
+      "《农民承担费用和劳务管理条例》第七条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《农民承担费用和劳务管理条例》第七条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=333",
+        "effective_on": "1991-12-07",
+        "excerpt": "第七条 村提留包括公积金、公益金和管理费：\n(一)公积金，用于农田水利基本建设、植树造林、购置生产性固定资产和兴办集体企业。\n(二)公益金，用于五保户供养、特别困难户补助、合作医疗保健以及其他集体福利事业。\n(三)管理费，用于村干部报酬和管理开支。\n村干部报酬实行定额补助和误工补贴两种形式。具体定额补助人数、标准和误工补贴办法，由乡人民政府根据村规模、经济发展水平和实际工作需要制定，报县级人民政府农民负担监督管理部门备案。"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "rejected",
+    "review_confidence": "high",
+    "review_rationale": "村提留用途不属于本项目劳动争议检索核心范围",
+    "reviewed_on": "2026-07-16"
+  },
+  {
+    "id": "pilot-49268c89e61e",
+    "topic": "劳动保护",
+    "difficulty": "medium",
+    "query": "现实中遇到与“附录：女员工禁忌从事的劳动范围一、女员工禁忌从事的劳动范围：(一)矿山井下作业”有关的劳动保护争议，应当适用什么处理规则？",
+    "expected_citations": [
+      "《女职工劳动保护特别规定》第十六条"
+    ],
+    "as_of": "2026-07-16",
+    "region": "中国大陆",
+    "evidence": [
+      {
+        "citation": "《女职工劳动保护特别规定》第十六条",
+        "source_url": "https://xzfg.moj.gov.cn/front/law/detail?LawID=343",
+        "effective_on": "2012-04-28",
+        "excerpt": "第十六条 本规定自公布之日起施行。1988年7月21日国务院发布的《女职工劳动保护规定》同时废止。\n附录：\n女职工禁忌从事的劳动范围\n一、女职工禁忌从事的劳动范围：\n(一)矿山井下作业；\n(二)体力劳动强度分级标准中规定的第四级体力劳动强度的作业；\n(三)每小时负重6次以上、每次负重超过20公斤的作业，或者间断负重、每次负重超过25公斤的作业。\n二、女职工在经期禁忌从事的劳动范围：\n(一)冷水作业分级标准中规定的第二级、第三级、第四级冷"
+      }
+    ],
+    "source_kind": "official_moj_regulation",
+    "generation_method": "rule_based_scenario_paraphrase_v1",
+    "review_status": "ai_reviewed",
+    "review_disposition": "rejected",
+    "review_confidence": "high",
+    "review_rationale": "附录被采集器并入第十六条，法条定位不准确，不能作为金标准",
+    "reviewed_on": "2026-07-16"
+  }
+]

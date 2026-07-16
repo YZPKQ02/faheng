@@ -1,0 +1,27 @@
+{
+  "candidate_count": 120,
+  "passed_count": 120,
+  "failed_count": 0,
+  "citation_count": 144,
+  "citation_validity": 1.0,
+  "topic_counts": {
+    "社会保险": 15,
+    "监督执法": 15,
+    "劳动保护": 15,
+    "劳动合同": 15,
+    "工资支付": 15,
+    "特殊用工": 15,
+    "就业安置": 15,
+    "工伤保险": 15
+  },
+  "split_counts": {
+    "dev": 80,
+    "test": 40
+  },
+  "difficulty_counts": {
+    "medium": 96,
+    "hard": 24
+  },
+  "review_status": "pending",
+  "errors": []
+}
