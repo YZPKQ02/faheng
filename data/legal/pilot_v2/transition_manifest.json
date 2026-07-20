@@ -1,0 +1,13 @@
+{
+  "corpus_version": "pilot_v2",
+  "target_corpus_sha256": "1d5b322c7977619db610c5fc3f9f8e0c10cdfd20f051aabc51c7de709c16e3c6",
+  "predecessor_corpus_sha256": "dc0ab4392b6ce67102d50dfcfd6f91815896e291e043d06c45b854d7254c6db2",
+  "transitions": [
+    {
+      "title": "女职工劳动保护特别规定",
+      "supersedes_content_hash": "f941ca3d481ce18147c2fcc649b0f98a8b1ea1e7c733e949fc4accc88141b1d1",
+      "transition_kind": "correction",
+      "reason": "法规采集器曾将附录错误并入第十六条；pilot_v2 将附录拆为独立 locator。"
+    }
+  ]
+}

@@ -135,6 +135,36 @@ $env:DATABASE_URL='postgresql+psycopg://legal_trial@127.0.0.1:5433/legal_trial'
 
 当前清单包含司法部国家行政法规库的 25 部现行行政法规、1092 个自然法条块；同名历史版本和无法可靠解析的页面只进入失败/人工复核清单。所有记录初始 `review_status=pending`，完成法律专业复核前不能标记为生产可用。
 
+解析器勘误后的非覆盖式语料版本位于 `data/legal/pilot_v2/`，包含相同 25 部法规和 1093 个自然块；《女职工劳动保护特别规定》的“附录”已从第十六条拆为独立 locator。导入已有试点库时必须同时提供与语料 SHA-256 绑定的转换清单：
+
+```powershell
+.\.venv\Scripts\python.exe scripts\import_legal_knowledge.py data\legal\pilot_v2\corpus.jsonl --transition-manifest data\legal\pilot_v2\transition_manifest.json
+```
+
+版本转换只接受两种显式类型：`correction` 用于采集或解析勘误，旧版本标记为 `superseded` 且不再参与任何日期的检索；`amendment` 用于正式修订，旧版本在新版生效日转为 `expired`，仍可按历史日期检索。未提供精确旧内容哈希和转换类型的重叠版本会被拒绝，不会只告警后继续产生多个 active 版本。PostgreSQL 导入前必须先执行并检查 Alembic 迁移；导入脚本不会对 PostgreSQL 调用 `create_all`。
+
+### 全国人大现行法律首批语料
+
+`data/legal/npc_laws_v1/` 包含国家法律法规数据库中的 8 部劳动相关现行法律、658 个自然法条块：劳动法、劳动合同法、劳动争议调解仲裁法、社会保险法、就业促进法、工会法、妇女权益保障法和职业病防治法。构建器使用全国人大公开搜索/详情接口核验唯一现行版本，下载官方 DOCX，并同时校验标题、第一条、预期末条和法条总数；原始文件缓存在 Git 忽略的 `data/raw/npc_laws/`。
+
+```powershell
+.\.venv\Scripts\python.exe scripts\build_npc_laws.py
+.\.venv\Scripts\python.exe scripts\import_legal_knowledge.py data\legal\npc_laws_v1\corpus.jsonl --transition-manifest data\legal\npc_laws_v1\transition_manifest.json
+.\.venv\Scripts\python.exe scripts\index_legal_embeddings.py
+```
+
+转换清单将内置演示版本与官方全文显式衔接。所有新版本仍为 `pending`，在完成专业复核前不得标记为生产可用，也不得据此修改现有冻结检索测试集。
+
+### 跨阶段劳动者代理记忆
+
+- 对外统一角色为 `worker_counsel`（劳动者代理），诉求收集和仲裁场外辅导使用同一身份。
+- `GET /cases/{case_id}/worker-counsel-memory` 返回当前代理档案及版本号；档案包含诉求、事实及其状态、证据、当前分析、待补问题和来源引用。
+- 新建仲裁模拟时会固定一份代理档案快照和版本号。案件后续更新不会静默改写已经开始的模拟。
+- 当前仅开放 `coach` 场外辅导模式：劳动者仍由用户本人扮演，代理不得确认、推测或陈述用户未确认的新事实。
+- 仲裁阶段每轮最多展示 4 条表达/举证重点和 4 条可直接填入回答框的建议回答；填入只替换草稿，不会自动发送，方括号占位内容必须由用户核对。
+- 仲裁庭中的单位代理、仲裁员等可见发言通过 SSE 按角色逐段推送；每个结构化模型结果通过校验后才进入庭审记录。
+- 升级既有数据库后可运行 `python scripts/backfill_worker_counsel_memory.py` 为历史案件建立首版档案，并为尚未绑定档案的 active 模拟固定一次交接快照；已完成的历史模拟不会被追溯改写。
+
 ### 120 题检索金标准草案
 
 运行 `scripts/build_retrieval_gold.py` 可从试点语料生成可追溯的待审草案。输出位于 `data/evaluation/pilot_gold/`：80 题开发集、40 题冻结测试集，8 个主题各 15 题，并包含证据摘录、官方链接和数据集 SHA-256。`scripts/tune_hybrid_retrieval.py` 只能用开发集选参，选定后才读取一次冻结集；`scripts/analyze_retrieval_errors.py` 生成逐题漏检报告。

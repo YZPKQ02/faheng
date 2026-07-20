@@ -19,6 +19,7 @@ from app.observability import record_model_call_metric
 from app.legal_rag import build_rag_observations, render_citations, validate_authority_ids
 from app.privacy_governance import build_model_authorization
 from app.models import AuditEvent, CaseFile, Fact, Message
+from app.worker_counsel import refresh_worker_counsel_memory
 
 
 class AdvisorState(TypedDict, total=False):
@@ -461,12 +462,16 @@ def build_workflow(db: Session, gateway: ModelGateway | None = None):
         try:
             output = gateway.structured(
                 system=(
-                    "你是面向中国大陆法律小白的劳动争议咨询协调智能体。系统已完成粗粒度规划、"
+                    "你是贯穿本案诉求收集、案件准备和仲裁训练的劳动者代理。当前处于诉求收集阶段。"
+                    "系统已完成粗粒度规划、"
                     "确定性事实处理和有界法律检索。现在只输出最终答复，不展示详细思维链。"
                     "必须先直接回应当前用户消息，不得转而回答更早的问题；历史消息只用于消解指代。"
                     "说明基于哪些用户陈述，并区分陈述与已确认事实。仅使用候选法律依据，不得凭记忆补充法条。"
                     "authority_ids 只能填写检索观察提供的 authority_id；没有可靠依据时返回空列表。"
                     "信息不足时提出最多三个有明确目的的追问，追问文本不要自带序号。"
+                    "需要分点时，每一点必须单独占一行，不得把多个编号或项目挤在同一段。"
+                    "只用 Markdown 的 **加粗** 适度突出关键结论、金额、期限和下一步动作，"
+                    "不要整段加粗，也不要使用复杂表格。"
                     "不得承诺胜诉或使用伪精确概率。高风险时建议尽快咨询真人律师。"
                 ),
                 user=json.dumps(
@@ -487,13 +492,16 @@ def build_workflow(db: Session, gateway: ModelGateway | None = None):
                 schema=ConversationOutput,
                 authorization=model_authorization(state),
             )
-            response = f"问题焦点：{focus or state['memory']['current_user_message'][:160]}\n\n{output.answer.strip()}"
+            response = (
+                f"**问题焦点**：{focus or state['memory']['current_user_message'][:160]}"
+                f"\n\n{output.answer.strip()}"
+            )
             questions = _format_follow_up_questions(output.follow_up_questions)
             if questions:
-                response += f"\n\n为了进一步判断，请补充：\n{questions}"
+                response += f"\n\n**为了进一步判断，请补充**：\n{questions}"
             if output.should_escalate:
                 response += (
-                    "\n\n建议尽快咨询真人律师："
+                    "\n\n**建议尽快咨询真人律师**："
                     f"{output.escalation_reason or '本事项存在较高法律风险'}。"
                 )
             requested_ids = output.authority_ids or state.get("authority_ids", [])
@@ -514,16 +522,16 @@ def build_workflow(db: Session, gateway: ModelGateway | None = None):
                         payload={"rejected_authority_ids": rejected_ids},
                     )
                 )
-            response += f"\n\n可核验依据：{citations or '当前没有检索到可靠依据'}。"
+            response += f"\n\n**可核验依据**：{citations or '当前没有检索到可靠依据'}。"
         except ModelGatewayError as exc:
             response = (
-                f"问题焦点：{focus or state['memory']['current_user_message'][:160]}\n\n"
+                f"**问题焦点**：{focus or state['memory']['current_user_message'][:160]}\n\n"
                 f"初步分诊为“{state['category']}”。目前仅根据你的陈述记录事实，"
-                "尚未将任何推测视为已确认事实。"
-                f"可能相关的依据包括：{citations or '暂无可靠依据'}。"
-                f"下一步需要确认：{missing or '当前关键信息是否完整'}。"
+                "尚未将任何推测视为已确认事实。\n\n"
+                f"**可能相关的依据**：{citations or '暂无可靠依据'}。\n\n"
+                f"**下一步需要确认**：{missing or '当前关键信息是否完整'}。\n\n"
                 "你可以继续补充，也可以登记证据后生成完整分析。"
-                "结果仅供决策辅助，不能替代律师针对原始材料的审查。"
+                "\n\n**提示**：结果仅供决策辅助，不能替代律师针对原始材料的审查。"
             )
             db.add(
                 AuditEvent(
@@ -595,10 +603,17 @@ def run_intake(
     message = Message(
         case_id=case.id,
         role="assistant",
-        agent="intake_coordinator_plan_execute_react_v1",
+        agent="worker_counsel",
         content=result["response"],
     )
     db.add(message)
+    db.flush()
+    refresh_worker_counsel_memory(
+        db,
+        case,
+        trigger="intake_turn_completed",
+        pending_questions=result.get("missing_information", []),
+    )
     db.commit()
     db.refresh(message)
     return message, result

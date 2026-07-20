@@ -167,11 +167,18 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px
 .bubble-row { display: flex; gap: 11px; max-width: 78%; margin: 25px 0; }
 .bubble-row > span { display: grid; place-items: center; flex: 0 0 32px; height: 32px; border-radius: 10px; background: var(--navy-900); color: #dec28d; font: 12px "Songti SC", serif; }
 .bubble-row small { display: block; margin-bottom: 6px; color: var(--muted); font-size: 11px; }
-.bubble-row p { margin: 0; padding: 14px 17px; border: 1px solid var(--line); border-radius: 4px 14px 14px 14px; background: #fff; color: var(--ink); font-size: 14px; line-height: 1.85; white-space: pre-wrap; box-shadow: var(--shadow-sm); }
+.bubble-row > div > p, .bubble-row .structured-text { margin: 0; padding: 14px 17px; border: 1px solid var(--line); border-radius: 4px 14px 14px 14px; background: #fff; color: var(--ink); font-size: 14px; line-height: 1.85; box-shadow: var(--shadow-sm); }
+.structured-text p { margin: 0; white-space: pre-wrap; }
+.structured-text p + p { margin-top: 9px; }
+.structured-text strong { color: #173f59; font-weight: 750; background: linear-gradient(transparent 66%, rgba(207, 173, 112, .28) 0); }
+.structured-text .structured-heading { color: var(--navy-800); font-weight: 750; }
+.structured-text .structured-point { display: grid; grid-template-columns: 24px minmax(0, 1fr); gap: 5px; align-items: start; }
+.structured-text .structured-point + .structured-point { margin-top: 11px; }
+.structured-text .structured-point > i { color: #9a7843; font-size: 12px; font-style: normal; font-weight: 800; }
 .bubble-row.user { flex-direction: row-reverse; margin-left: auto; }
 .bubble-row.user > span { background: #dfe5e8; color: #415463; }
 .bubble-row.user small { text-align: right; }
-.bubble-row.user p { border-color: var(--navy-800); border-radius: 14px 4px 14px 14px; background: var(--navy-800); color: #fff; }
+.bubble-row.user > div > p { border-color: var(--navy-800); border-radius: 14px 4px 14px 14px; background: var(--navy-800); color: #fff; }
 .thinking { display: flex; align-items: center; gap: 11px; margin: 25px 0; }
 .thinking .mini-orb { flex-basis: 34px; height: 34px; font-size: 13px; }
 .thinking > div { padding: 11px 14px; border: 1px solid var(--line); border-radius: 4px 13px 13px 13px; background: #fff; }
@@ -366,21 +373,21 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px
 .avatar-stack > span em { position: absolute; z-index: 0; font-style: normal; }
 .avatar-stack > span img { position: relative; z-index: 1; width: 100%; height: 100%; object-fit: cover; }
 .message-card > b { display: block; color: #82939e; font-size: 10px; font-weight: 600; letter-spacing: .02em; }
-.hearing-stream article p { margin: 7px 0 0; padding: 13px 16px; border-left: 3px solid #c4a366; border-radius: 0 10px 10px 0; background: #f6f7f7; color: var(--ink-soft); font-size: 14px; line-height: 1.75; white-space: pre-wrap; }
+.hearing-stream article .structured-text { margin: 7px 0 0; padding: 13px 16px; border-left: 3px solid #c4a366; border-radius: 0 10px 10px 0; background: #f6f7f7; color: var(--ink-soft); font-size: 14px; line-height: 1.75; }
 .message-card { flex: 0 1 auto; width: fit-content; min-width: 0; max-width: 74%; }
 .hearing-stream article.arbitrator .avatar-stack > span { background: linear-gradient(145deg, #fff7df, #ddc484); color: #82662f; }
 .hearing-stream article.employer .avatar-stack > span { background: linear-gradient(145deg, #fff0ed, #dba9a1); color: #9d493f; }
-.hearing-stream article.employer p { border-left-color: #b65e54; background: #fbf4f3; }
+.hearing-stream article.employer .structured-text { border-left-color: #b65e54; background: #fbf4f3; }
 .hearing-stream article.worker { flex-direction: row-reverse; }
 .hearing-stream article.worker .avatar-stack > span { background: linear-gradient(145deg, #eef7ff, #b8d2e8); color: #315f89; }
 .hearing-stream article.worker .message-card { margin-left: auto; }
 .hearing-stream article.worker .message-card > b { text-align: right; }
-.hearing-stream article.worker p { border-right: 2px solid #5f8eb7; border-left: 0; background: #f0f6fb; }
+.hearing-stream article.worker .structured-text { border-right: 2px solid #5f8eb7; border-left: 0; background: #f0f6fb; }
 .hearing-stream article.system { max-width: 680px; }
 .hearing-stream article.system .avatar-stack > span { background: linear-gradient(145deg, #effbf7, #acd7cb); color: #267566; }
-.hearing-stream article.system p { border-left-color: #4b9a89; background: #f0f8f6; font-size: 12px; }
-.hearing-stream article.question p { border-color: #b88b3e; background: #fff9ed; box-shadow: 0 0 0 1px rgba(184,139,62,.12); }
-.hearing-stream article.question p::before { content: "请你回答 · "; color: #956c28; font-size: 11px; font-weight: 800; }
+.hearing-stream article.system .structured-text { border-left-color: #4b9a89; background: #f0f8f6; font-size: 12px; }
+.hearing-stream article.question .structured-text { border-color: #b88b3e; background: #fff9ed; box-shadow: 0 0 0 1px rgba(184,139,62,.12); }
+.hearing-stream article.question .structured-text::before { content: "请你回答 · "; color: #956c28; font-size: 11px; font-weight: 800; }
 .hearing-thinking { display: flex; align-items: center; gap: 5px; max-width: 780px; margin: 10px auto; color: var(--muted); font-size: 12px; }
 .hearing-thinking span { margin-left: 5px; }
 .inline-error { flex: 0 0 auto; margin: 8px 0 0; color: var(--red); font-size: 12px; }
@@ -398,10 +405,20 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px
 .coach-identity > i img { position: relative; z-index: 1; width: 100%; height: 100%; object-fit: cover; }
 .coach-identity h2 { margin-top: 4px !important; font-size: 19px !important; }
 .simulation-overlay > main > aside > p { flex: 0 0 auto; color: var(--muted); font-size: 13px; line-height: 1.7; }
-.simulation-overlay > main > aside ul { flex: 1 1 auto; min-height: 0; margin: 12px 0 0; padding: 0 5px 0 0; overflow-y: auto; overscroll-behavior: contain; list-style: none; scrollbar-gutter: stable; }
+.simulation-overlay > main > aside ul { min-height: 0; margin: 12px 0 0; padding: 0 5px 0 0; overflow-y: auto; overscroll-behavior: contain; list-style: none; scrollbar-gutter: stable; }
+.simulation-overlay > main > aside .coach-tips { flex: 0 1 auto; max-height: 31%; }
 .simulation-overlay > main > aside li { margin: 0 0 9px; padding: 12px; border-radius: 10px; background: #f3f6f5; color: var(--ink-soft); font-size: 13px; line-height: 1.65; }
 .simulation-overlay > main > aside li::before { content: "✓"; margin-right: 7px; color: var(--green); }
 .simulation-overlay > main > aside button { flex: 0 0 auto; width: 100%; min-height: 44px; margin-top: 12px; border: 0; border-radius: 10px; background: var(--navy-900); color: #fff; font-size: 13px; }
+.suggested-answers { flex: 1 1 auto; min-height: 0; margin-top: 14px; padding-top: 13px; overflow-y: auto; border-top: 1px solid var(--line); scrollbar-gutter: stable; }
+.suggested-answers > header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 9px; }
+.suggested-answers > header b { font-size: 12px; }
+.suggested-answers > header span { display: grid; place-items: center; min-width: 22px; height: 22px; border-radius: 50%; background: var(--green-soft); color: var(--green); font-size: 10px; }
+.suggested-answers article { margin-bottom: 9px; padding: 11px; border: 1px solid #dce8e4; border-radius: 10px; background: #f7fbfa; }
+.suggested-answers article .structured-text { color: var(--ink-soft); font-size: 12px; line-height: 1.6; }
+.simulation-overlay > main > aside .suggested-answers article button { min-height: 32px; margin-top: 8px; border: 1px solid #b9d8ce; background: #fff; color: #247262; font-size: 11px; }
+.simulation-overlay > main > aside .suggested-answers article button:hover { background: #eaf6f2; }
+.simulation-overlay > main > aside .complete-simulation { margin-top: 10px; }
 .stream-cursor { display: inline-block; width: 2px; height: 1em; margin-left: 3px; vertical-align: -2px; background: #537897; animation: blink .8s steps(1) infinite; }
 @keyframes blink { 50% { opacity: 0; } }
 

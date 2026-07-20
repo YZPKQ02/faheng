@@ -1,6 +1,7 @@
 from app.agent_contracts import (
     SimulationAgentReply,
     SimulationArbitratorReply,
+    SimulationCoachReply,
     SimulationRouterOutput,
 )
 from app.database import SessionLocal
@@ -30,6 +31,72 @@ def test_intake_keeps_user_statements_unconfirmed(client):
     saved = client.get(f"/cases/{case['id']}").json()
     assert saved["facts"]
     assert all(fact["status"] == "user_stated" for fact in saved["facts"])
+
+
+def test_worker_counsel_memory_is_inherited_and_pinned_by_simulation(client):
+    case = client.post(
+        "/cases",
+        json={"title": "违法解除咨询", "goal": "要求公司支付违法解除赔偿金"},
+    ).json()
+    initial_memory = client.get(f"/cases/{case['id']}/worker-counsel-memory").json()
+
+    intake = client.post(
+        f"/cases/{case['id']}/messages",
+        json={"content": "公司昨天口头辞退我，我工作了三年，还没有书面通知。"},
+    )
+    assert intake.status_code == 200
+    assert intake.json()["message"]["agent"] == "worker_counsel"
+    evidence = client.post(
+        f"/cases/{case['id']}/evidence",
+        json={
+            "name": "工资流水",
+            "evidence_type": "document",
+            "purpose": "证明工资标准和劳动关系",
+        },
+    )
+    assert evidence.status_code == 201
+    analysis = client.post(f"/cases/{case['id']}/analysis", json={})
+    assert analysis.status_code == 200
+
+    memory = client.get(f"/cases/{case['id']}/worker-counsel-memory").json()
+    assert memory["agent_id"] == "worker_counsel"
+    assert memory["version"] > initial_memory["version"]
+    assert memory["snapshot"]["identity"]["role"] == "劳动者代理"
+    assert "口头辞退" in memory["snapshot"]["case"]["initial_issue"]
+    assert any(
+        "工作了三年" in fact["content"] and fact["status"] == "user_stated"
+        for fact in memory["snapshot"]["facts"]
+    )
+    assert any(item["name"] == "工资流水" for item in memory["snapshot"]["evidence"])
+    assert memory["snapshot"]["legal_strategy"]["analysis_id"] == analysis.json()[
+        "conclusions"
+    ][0]["id"]
+    assert memory["snapshot"]["legal_strategy"]["expected_opposition"]
+    assert memory["snapshot"]["fact_boundary"]["may_invent_or_confirm_new_facts"] is False
+
+    simulation = client.post(
+        f"/cases/{case['id']}/simulations",
+        json={"scenario": "arbitration", "user_role": "worker"},
+    ).json()
+    pinned_version = simulation["counsel_memory_version"]
+    assert simulation["assistance_mode"] == "coach"
+    assert simulation["counsel_agent_id"] == "worker_counsel"
+    assert pinned_version == memory["version"]
+    assert simulation["counsel_memory_snapshot"] == memory["snapshot"]
+    assert simulation["transcript"][0]["counsel_agent_id"] == "worker_counsel"
+
+    client.post(
+        f"/cases/{case['id']}/messages",
+        json={"content": "我补充说明，公司没有给出任何解除理由。"},
+    )
+    updated_memory = client.get(f"/cases/{case['id']}/worker-counsel-memory").json()
+    assert updated_memory["version"] > pinned_version
+    resumed = client.put(
+        f"/cases/{case['id']}/simulations/active",
+        json={"scenario": "arbitration", "user_role": "worker"},
+    ).json()
+    assert resumed["id"] == simulation["id"]
+    assert resumed["counsel_memory_version"] == pinned_version
 
 
 def test_intake_records_model_fallback_without_breaking_conversation(client):
@@ -196,6 +263,8 @@ def test_evidence_simulation_document_and_feedback(client):
     simulation = client.post(f"/cases/{case['id']}/simulations", json={"scenario": "arbitration", "user_role": "worker"})
     assert simulation.status_code == 201
     assert simulation.json()["feedback"]
+    assert 1 <= len(simulation.json()["feedback"]) <= 4
+    assert 1 <= len(simulation.json()["suggested_answers"]) <= 4
     assert simulation.json()["transcript"][0]["mode"] == "rule"
     assert simulation.json()["transcript"][0]["mode_reason"] == "model_disabled"
     simulation_turn = client.post(
@@ -240,6 +309,95 @@ def test_evidence_simulation_document_and_feedback(client):
     assert feedback.status_code == 201
 
 
+def test_multiround_short_answer_keeps_employer_and_skips_repeated_coach(client):
+    case = create_case(client)
+    simulation = client.post(
+        f"/cases/{case['id']}/simulations",
+        json={"scenario": "arbitration", "user_role": "worker"},
+    ).json()
+
+    first = client.post(
+        f"/simulations/{simulation['id']}/messages",
+        json={"content": "我请求公司支付违法解除赔偿金。"},
+    ).json()
+    first_feedback = first["feedback"]
+    first_answers = first["suggested_answers"]
+    first_employer_count = sum(
+        item.get("agent_id") == "employer_advocate" for item in first["transcript"]
+    )
+
+    second_response = client.post(
+        f"/simulations/{simulation['id']}/messages",
+        json={"content": "我不同意单位的说法。"},
+    )
+
+    assert second_response.status_code == 200
+    second = second_response.json()
+    metadata = second["transcript"][0]
+    assert metadata["last_execution"] == ["employer_advocate", "arbitrator"]
+    assert metadata["last_response_plan"] == [
+        "employer_advocate",
+        "arbitrator",
+        "worker_coach",
+    ]
+    assert metadata["counsel_update_reason"] == "repeated_arbitrator_question"
+    assert sum(
+        item.get("agent_id") == "employer_advocate" for item in second["transcript"]
+    ) == first_employer_count + 1
+    assert second["feedback"] == first_feedback
+    assert second["suggested_answers"] == first_answers
+
+    with SessionLocal() as db:
+        second_round_calls = [
+            event.agent
+            for event in db.query(AuditEvent)
+            .filter(AuditEvent.event_type == "simulation_agent_call")
+            .all()
+            if event.payload["session_id"] == simulation["id"]
+            and event.payload["round_number"] == 2
+        ]
+        router_calls = [
+            event
+            for event in db.query(AuditEvent)
+            .filter(AuditEvent.event_type == "simulation_router_call")
+            .all()
+            if event.payload["session_id"] == simulation["id"]
+            and event.payload["round_number"] == 2
+        ]
+    assert second_round_calls == ["employer_advocate", "arbitrator"]
+    assert router_calls == []
+
+
+def test_simulation_streams_each_visible_agent_and_counsel_suggestions(client):
+    case = create_case(client)
+    simulation = client.post(
+        f"/cases/{case['id']}/simulations",
+        json={"scenario": "arbitration", "user_role": "worker"},
+    ).json()
+
+    with client.stream(
+        "POST",
+        f"/simulations/{simulation['id']}/messages/stream",
+        json={"content": "我的请求是公司支付违法解除赔偿金。"},
+    ) as response:
+        body = "".join(response.iter_text())
+
+    assert response.status_code == 200
+    assert "event: agent_start" in body
+    assert "event: agent_token" in body
+    assert "event: agent_complete" in body
+    assert "event: counsel" in body
+    assert body.count("event: counsel") > 2
+    assert "event: complete" in body
+    assert body.index("用人单位代理人") < body.index("仲裁员")
+    active = client.put(
+        f"/cases/{case['id']}/simulations/active",
+        json={"scenario": "arbitration", "user_role": "worker"},
+    ).json()
+    assert 1 <= len(active["feedback"]) <= 4
+    assert 1 <= len(active["suggested_answers"]) <= 4
+
+
 def test_simulation_rule_mode_answers_role_question(client):
     case = create_case(client)
     simulation = client.post(
@@ -258,7 +416,7 @@ def test_simulation_rule_mode_answers_role_question(client):
     assert transcript[0]["last_execution"] == ["arbitrator"]
     assert transcript[-1]["agent_id"] == "arbitrator"
     assert "用人单位代理人" in transcript[-1]["content"]
-    assert "仲裁助手" in transcript[-1]["content"]
+    assert "劳动者代理" in transcript[-1]["content"]
     assert "你本人扮演劳动者" in transcript[-1]["content"]
 
 
@@ -424,7 +582,7 @@ def test_simulation_semantic_router_low_confidence_only_clarifies(client, monkey
     assert metadata["last_execution"] == ["arbitrator"]
 
 
-def test_semantically_routed_full_turn_keeps_three_model_node_limit(client, monkeypatch):
+def test_pending_worker_answer_keeps_three_model_node_limit_without_router(client, monkeypatch):
     case = create_case(client)
     simulation = client.post(
         f"/cases/{case['id']}/simulations",
@@ -435,14 +593,6 @@ def test_semantically_routed_full_turn_keeps_three_model_node_limit(client, monk
     def fake_structured(self, *, schema, **kwargs):
         called_schemas.append(schema)
         self.last_telemetry = ModelCallTelemetry("success", 1, 1, 0)
-        if schema is SimulationRouterOutput:
-            return SimulationRouterOutput(
-                speech_act="answer_or_substantive",
-                addressed_to="unspecified",
-                response_plan=["employer_advocate", "arbitrator", "worker_coach"],
-                confidence=0.9,
-                needs_clarification=False,
-            )
         if schema is SimulationAgentReply:
             return SimulationAgentReply(reply="单位方不同意该项陈述。")
         if schema is SimulationArbitratorReply:
@@ -450,6 +600,11 @@ def test_semantically_routed_full_turn_keeps_three_model_node_limit(client, monk
                 reply="双方对该项事实存在争议。",
                 next_question="请说明能够支持该陈述的材料。",
                 next_stage="fact_investigation",
+            )
+        if schema is SimulationCoachReply:
+            return SimulationCoachReply(
+                feedback=["说明单位说法与事实不符的具体原因。"],
+                suggested_answers=["我不同意单位意见，具体原因是：[填写原因]。"],
             )
         raise AssertionError(f"unexpected schema: {schema}")
 
@@ -462,12 +617,16 @@ def test_semantically_routed_full_turn_keeps_three_model_node_limit(client, monk
     assert response.status_code == 200
     metadata = response.json()["transcript"][0]
     assert called_schemas == [
-        SimulationRouterOutput,
         SimulationAgentReply,
         SimulationArbitratorReply,
+        SimulationCoachReply,
     ]
-    assert metadata["last_execution"] == ["employer_advocate", "arbitrator"]
-    assert metadata["fallback_agents"] == ["worker_coach"]
+    assert metadata["last_execution"] == [
+        "employer_advocate",
+        "arbitrator",
+        "worker_coach",
+    ]
+    assert metadata["fallback_agents"] == []
     with SessionLocal() as db:
         turn_event = next(
             event
@@ -478,6 +637,7 @@ def test_semantically_routed_full_turn_keeps_three_model_node_limit(client, monk
         )
         assert turn_event.payload["model_node_count"] == 3
         assert turn_event.payload["max_model_nodes"] == 3
+        assert turn_event.payload["router_attempted"] is False
 
 
 def test_active_simulation_is_resumed_until_explicitly_completed(client):

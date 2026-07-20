@@ -107,7 +107,8 @@ class SimulationArbitratorReply(BaseModel):
 
 
 class SimulationCoachReply(BaseModel):
-    feedback: list[str] = Field(min_length=1, max_length=3)
+    feedback: list[str] = Field(default_factory=list, max_length=4)
+    suggested_answers: list[str] = Field(default_factory=list, max_length=4)
 
 
 class SimulationTurnDecision(BaseModel):

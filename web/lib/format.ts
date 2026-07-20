@@ -1,5 +1,7 @@
 export function normalizeConsultationContent(content: string) {
-  let normalized = content;
+  let normalized = content
+    .replace(/\*\*(\d{1,2}[.、．])\*\*/g, "$1")
+    .replace(/[\u200B-\u200D\uFEFF]/g, "");
   let previous = "";
   while (normalized !== previous) {
     previous = normalized;
@@ -10,5 +12,8 @@ export function normalizeConsultationContent(content: string) {
       ),
     );
   }
-  return normalized;
+  return normalized
+    .replace(/([：:。；;！？!?])\s*(?=\d{1,2}[.、．](?:\s|[\u4E00-\u9FFF]))/g, "$1\n")
+    .replace(/([^\n])\s+(?=\d{1,2}[.、．](?:\s|[\u4E00-\u9FFF]))/g, "$1\n")
+    .replace(/([^\n])\s+(?=[•·-]\s+)/g, "$1\n");
 }

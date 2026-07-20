@@ -12,6 +12,12 @@ SEARCH_URL = "https://xzfg.moj.gov.cn/SearchFront"
 DETAIL_URL = "https://xzfg.moj.gov.cn/front/law/detail?LawID={law_id}"
 USER_AGENT = "AI-Legal-Advisor-Research/0.1 (low-frequency pilot corpus)"
 ARTICLE_RE = re.compile(r"^(第[一二三四五六七八九十百千零〇两\d]+条)\s*(.*)$", re.S)
+SUPPLEMENT_RE = re.compile(
+    r"^(?P<label>附\s*[录件])"
+    r"(?P<number>\s*(?:[一二三四五六七八九十百千零〇两\d]+|[（(][一二三四五六七八九十百千零〇两\d]+[）)]))?"
+    r"(?:\s*[：:]\s*.*|\s*)$",
+    re.S,
+)
 DATE_RE = re.compile(r"(\d{4})年(\d{1,2})月(\d{1,2})日")
 
 
@@ -69,6 +75,15 @@ def _extract_dates(preamble: str) -> tuple[date | None, date]:
     return promulgated, effective
 
 
+def _supplement_locator(block: str) -> str | None:
+    match = SUPPLEMENT_RE.match(block)
+    if not match:
+        return None
+    label = re.sub(r"\s+", "", match.group("label"))
+    number = re.sub(r"\s+", "", match.group("number") or "")
+    return f"{label}{number}"
+
+
 def parse_law_page(html: str, law_id: str, *, keywords: list[str]) -> RawLegalDocument:
     parser = _LawPageParser()
     parser.feed(html)
@@ -78,6 +93,18 @@ def parse_law_page(html: str, law_id: str, *, keywords: list[str]) -> RawLegalDo
     heading: str | None = None
     preamble: list[str] = []
     for kind, block in parser.blocks:
+        supplement_locator = _supplement_locator(block)
+        if supplement_locator:
+            chunks.append(
+                RawLegalChunk(
+                    locator=supplement_locator,
+                    content=block,
+                    heading=heading,
+                    keywords=keywords,
+                    sequence=len(chunks),
+                )
+            )
+            continue
         if kind in {"h1", "h2", "h3"}:
             heading = block
             continue

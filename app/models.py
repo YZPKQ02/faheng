@@ -293,6 +293,22 @@ class CasePseudonym(Base):
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
 
 
+class WorkerCounselMemory(Base):
+    """Current, versioned case memory for the worker's persistent counsel persona."""
+
+    __tablename__ = "worker_counsel_memories"
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=uid)
+    case_id: Mapped[str] = mapped_column(
+        ForeignKey("case_files.id", ondelete="CASCADE"), unique=True, index=True
+    )
+    agent_id: Mapped[str] = mapped_column(String(50), default="worker_counsel")
+    version: Mapped[int] = mapped_column(default=1)
+    snapshot: Mapped[dict] = mapped_column(JSON, default=dict)
+    content_hash: Mapped[str] = mapped_column(String(64), index=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now, onupdate=now)
+
+
 class SimulationSession(Base):
     __tablename__ = "simulation_sessions"
     id: Mapped[str] = mapped_column(String(36), primary_key=True, default=uid)
@@ -301,6 +317,11 @@ class SimulationSession(Base):
     user_role: Mapped[str] = mapped_column(String(50))
     transcript: Mapped[list[dict]] = mapped_column(JSON, default=list)
     feedback: Mapped[list[str]] = mapped_column(JSON, default=list)
+    suggested_answers: Mapped[list[str]] = mapped_column(JSON, default=list)
+    assistance_mode: Mapped[str] = mapped_column(String(30), default="coach")
+    counsel_agent_id: Mapped[str] = mapped_column(String(50), default="worker_counsel")
+    counsel_memory_version: Mapped[int] = mapped_column(default=0)
+    counsel_memory_snapshot: Mapped[dict] = mapped_column(JSON, default=dict)
     status: Mapped[str] = mapped_column(String(20), default="active", index=True)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now, onupdate=now)

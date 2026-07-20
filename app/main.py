@@ -31,6 +31,7 @@ from app.models import (
     ModelDataConsent,
     CasePseudonym,
     SimulationSession,
+    WorkerCounselMemory,
 )
 from app.schemas import (
     AgentTaskRead,
@@ -58,6 +59,7 @@ from app.schemas import (
     SimulationCreate,
     SimulationMessageCreate,
     SimulationRead,
+    WorkerCounselMemoryRead,
 )
 from app.analysis_lifecycle import invalidate_case_analyses
 from app.coordinator import ensure_human_review, reconcile_case_stage
@@ -76,6 +78,7 @@ from app.workflow import run_intake
 from app.model_gateway import ModelGateway
 from app.observability import aggregate_tenant_metrics
 from app.privacy import entity_fingerprint
+from app.worker_counsel import refresh_worker_counsel_memory
 
 
 def load_case(db: Session, case_id: str, principal: Principal) -> CaseFile:
@@ -138,10 +141,50 @@ async def lifespan(_: FastAPI):
                 connection.execute(
                     text("ALTER TABLE simulation_sessions ADD COLUMN updated_at DATETIME")
                 )
+            if "assistance_mode" not in simulation_columns:
+                connection.execute(
+                    text(
+                        "ALTER TABLE simulation_sessions ADD COLUMN "
+                        "assistance_mode VARCHAR(30) DEFAULT 'coach'"
+                    )
+                )
+            if "suggested_answers" not in simulation_columns:
+                connection.execute(
+                    text(
+                        "ALTER TABLE simulation_sessions ADD COLUMN "
+                        "suggested_answers JSON DEFAULT '[]'"
+                    )
+                )
+            if "counsel_agent_id" not in simulation_columns:
+                connection.execute(
+                    text(
+                        "ALTER TABLE simulation_sessions ADD COLUMN "
+                        "counsel_agent_id VARCHAR(50) DEFAULT 'worker_counsel'"
+                    )
+                )
+            if "counsel_memory_version" not in simulation_columns:
+                connection.execute(
+                    text(
+                        "ALTER TABLE simulation_sessions ADD COLUMN "
+                        "counsel_memory_version INTEGER DEFAULT 0"
+                    )
+                )
+            if "counsel_memory_snapshot" not in simulation_columns:
+                connection.execute(
+                    text(
+                        "ALTER TABLE simulation_sessions ADD COLUMN "
+                        "counsel_memory_snapshot JSON DEFAULT '{}'"
+                    )
+                )
             connection.execute(
                 text(
                     "UPDATE simulation_sessions "
                     "SET status = COALESCE(status, 'active'), "
+                    "assistance_mode = COALESCE(assistance_mode, 'coach'), "
+                    "suggested_answers = COALESCE(suggested_answers, '[]'), "
+                    "counsel_agent_id = COALESCE(counsel_agent_id, 'worker_counsel'), "
+                    "counsel_memory_version = COALESCE(counsel_memory_version, 0), "
+                    "counsel_memory_snapshot = COALESCE(counsel_memory_snapshot, '{}'), "
                     "created_at = COALESCE(created_at, CURRENT_TIMESTAMP), "
                     "updated_at = COALESCE(updated_at, created_at, CURRENT_TIMESTAMP)"
                 )
@@ -207,6 +250,8 @@ def create_case(
         **payload.model_dump(), tenant_id=principal.tenant_id, owner_id=principal.actor_id
     )
     db.add(case)
+    db.flush()
+    refresh_worker_counsel_memory(db, case, trigger="case_created")
     db.commit()
     return load_case(db, case.id, principal)
 
@@ -241,6 +286,22 @@ def read_case(
     return load_case(db, case_id, principal)
 
 
+@app.get(
+    "/cases/{case_id}/worker-counsel-memory",
+    response_model=WorkerCounselMemoryRead,
+)
+def read_worker_counsel_memory(
+    case_id: str,
+    db: Session = Depends(get_db),
+    principal: Principal = Depends(current_principal),
+) -> WorkerCounselMemory:
+    case = load_case(db, case_id, principal)
+    memory = refresh_worker_counsel_memory(db, case, trigger="memory_read")
+    db.commit()
+    db.refresh(memory)
+    return memory
+
+
 @app.delete("/cases/{case_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_case(
     case_id: str,
@@ -262,6 +323,7 @@ def delete_case(
         Feedback,
         ModelDataConsent,
         CasePseudonym,
+        WorkerCounselMemory,
     ):
         db.execute(delete(model).where(model.case_id == case_id))
     db.delete(case)
@@ -378,6 +440,7 @@ def add_evidence(
         )
     )
     reconcile_case_stage(db, case)
+    refresh_worker_counsel_memory(db, case, trigger="evidence_added")
     db.commit()
     db.refresh(item)
     return item
@@ -408,6 +471,7 @@ def update_fact(
             payload={"fact_id": fact.id, "previous": previous, "current": payload.model_dump(mode="json")},
         )
     )
+    refresh_worker_counsel_memory(db, case, trigger="fact_reviewed")
     db.commit()
     db.refresh(fact)
     return fact
@@ -553,6 +617,111 @@ def simulation_message(
     if session.status != "active":
         raise HTTPException(status_code=409, detail="本次模拟已结束，请重新开始一场模拟")
     return continue_simulation(db, session, case, payload.content)
+
+
+@app.post("/simulations/{session_id}/messages/stream")
+def stream_simulation_message(
+    session_id: str,
+    payload: SimulationMessageCreate,
+    db: Session = Depends(get_db),
+    principal: Principal = Depends(current_principal),
+) -> StreamingResponse:
+    session = db.get(SimulationSession, session_id)
+    if not session:
+        raise HTTPException(status_code=404, detail="模拟会话不存在")
+    case = load_case(db, session.case_id, principal)
+    if session.status != "active":
+        raise HTTPException(status_code=409, detail="本次模拟已结束，请重新开始一场模拟")
+    previous_count = len(session.transcript)
+
+    def generate() -> Iterator[str]:
+        yield sse("status", {"label": "正在分析你的回答并分配本轮发言顺序"})
+        try:
+            updated = continue_simulation(db, session, case, payload.content)
+            new_lines = [
+                line
+                for line in updated.transcript[previous_count:]
+                if line.get("agent_id") not in ("worker", "system")
+            ]
+            for index, line in enumerate(new_lines):
+                stream_id = f"{updated.id}:{len(updated.transcript)}:{index}"
+                shell = {
+                    "stream_id": stream_id,
+                    "role": line.get("role", "系统"),
+                    "agent_id": line.get("agent_id"),
+                    "kind": line.get("kind"),
+                    "content": "",
+                }
+                yield sse("agent_start", shell)
+                label = {
+                    "employer_advocate": "用人单位代理正在回应",
+                    "arbitrator": "仲裁员正在归纳和提问",
+                }.get(line.get("agent_id"), "劳动者代理正在整理建议")
+                yield sse("status", {"label": label})
+                content = str(line.get("content", ""))
+                for offset in range(0, len(content), 5):
+                    yield sse(
+                        "agent_token",
+                        {
+                            "stream_id": stream_id,
+                            "content": content[offset : offset + 5],
+                        },
+                    )
+                    time.sleep(0.018)
+                yield sse("agent_complete", {**shell, "content": content})
+            streamed_feedback: list[str] = []
+            streamed_answers: list[str] = []
+            if updated.feedback or updated.suggested_answers:
+                yield sse("status", {"label": "劳动者代理正在整理重点和建议回答"})
+            for item in updated.feedback[:4]:
+                streamed_feedback.append("")
+                for offset in range(0, len(item), 5):
+                    streamed_feedback[-1] += item[offset : offset + 5]
+                    yield sse(
+                        "counsel",
+                        {
+                            "feedback": streamed_feedback,
+                            "suggested_answers": streamed_answers,
+                        },
+                    )
+                    time.sleep(0.018)
+            for item in updated.suggested_answers[:4]:
+                streamed_answers.append("")
+                for offset in range(0, len(item), 5):
+                    streamed_answers[-1] += item[offset : offset + 5]
+                    yield sse(
+                        "counsel",
+                        {
+                            "feedback": streamed_feedback,
+                            "suggested_answers": streamed_answers,
+                        },
+                    )
+                    time.sleep(0.018)
+            yield sse(
+                "counsel",
+                {
+                    "feedback": updated.feedback[:4],
+                    "suggested_answers": updated.suggested_answers[:4],
+                },
+            )
+            serialized = SimulationRead.model_validate(updated).model_dump(mode="json")
+            yield sse("complete", {"session": serialized})
+        except Exception as exc:
+            db.rollback()
+            yield sse(
+                "error",
+                {"message": f"模拟回应生成失败：{type(exc).__name__}"},
+            )
+
+    return StreamingResponse(
+        generate(),
+        media_type="text/event-stream",
+        headers={
+            "Cache-Control": "no-cache, no-transform",
+            "X-Accel-Buffering": "no",
+            "Connection": "keep-alive",
+        },
+    )
 
 
 @app.post("/simulations/{session_id}/complete", response_model=SimulationRead)
