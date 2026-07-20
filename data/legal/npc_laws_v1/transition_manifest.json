@@ -1,0 +1,24 @@
+{
+  "corpus_version": "npc_laws_v1",
+  "target_corpus_sha256": "ddfbf5eec956f43bd04760b9ca808abeb001cdce2cbc692ae6e6004408e6da1f",
+  "transitions": [
+    {
+      "title": "中华人民共和国劳动法",
+      "supersedes_content_hash": "ccf942579a0efa96b3b5d45a52cb35d6d60806c143978a8ba737656dafea59b1",
+      "transition_kind": "amendment",
+      "reason": "以全国人大国家法律法规数据库2018年现行全文替换1995年内置演示子集，并保留旧版本历史区间。"
+    },
+    {
+      "title": "中华人民共和国劳动合同法",
+      "supersedes_content_hash": "b454f2261968bf4dbd403d3631eee762def9a6753f613f002413612e080bedeb",
+      "transition_kind": "amendment",
+      "reason": "以全国人大国家法律法规数据库2012年修正全文替换2008年内置演示子集，并保留旧版本历史区间。"
+    },
+    {
+      "title": "中华人民共和国劳动争议调解仲裁法",
+      "supersedes_content_hash": "c2e52e4e4e7c5aec533cbe8a9d4beb1c7fa0bb9237ee81e4479fd0f3e873ee4a",
+      "transition_kind": "correction",
+      "reason": "该法未发生版本日期变化，以全国人大官方54条全文替换仅含第二十七条的内置演示子集。"
+    }
+  ]
+}

@@ -74,6 +74,9 @@ def test_case_access_is_isolated_by_tenant_and_owner(client):
 
         app.dependency_overrides[current_principal] = lambda: bob
         assert client.get(f"/cases/{created['id']}").status_code == 404
+        assert (
+            client.get(f"/cases/{created['id']}/worker-counsel-memory").status_code == 404
+        )
 
         app.dependency_overrides[current_principal] = lambda: Principal(
             "other-user", "tenant-a", frozenset()

@@ -1,3 +1,5 @@
+import hashlib
+import json
 from datetime import date
 from pathlib import Path
 
@@ -7,8 +9,8 @@ from app.authorities import retrieve_authority_hits, retrieve_hybrid_authority_h
 from app.database import SessionLocal
 from app.embeddings import index_legal_chunks
 from app.legal_rag import build_rag_observations, validate_authority_ids
-from app.legal_ingestion import RawLegalDocument, import_legal_records
-from app.models import LegalChunk, LegalDocument, LegalDocumentVersion
+from app.legal_ingestion import RawLegalDocument, import_legal_jsonl, import_legal_records
+from app.models import LegalAuthority, LegalChunk, LegalDocument, LegalDocumentVersion
 from app.retrieval_evaluation import evaluate_retrieval, load_retrieval_cases
 
 
@@ -48,6 +50,176 @@ def test_legal_import_is_idempotent_and_auditable(client):
         assert first.imported_versions == 1
         assert first.imported_chunks == 1
         assert second.duplicates == 1
+
+
+def test_overlapping_active_version_requires_explicit_transition(client):
+    with SessionLocal() as db:
+        first = import_legal_records(db, [_record()])
+        conflicting = import_legal_records(
+            db,
+            [_record(version_label="冲突版本", chunks=[{"locator": "第三条", "content": "冲突正文"}])],
+        )
+
+        assert first.imported_versions == 1
+        assert conflicting.rejected == 1
+        assert "未声明替换关系" in conflicting.errors[0]
+        assert db.scalar(select(func.count()).select_from(LegalDocumentVersion)) == 4
+
+
+def test_correction_supersedes_old_version_without_changing_effective_date(client):
+    with SessionLocal() as db:
+        import_legal_records(db, [_record()])
+        document = db.scalar(
+            select(LegalDocument).where(LegalDocument.title == "北京市劳动争议示例规定")
+        )
+        old_version = db.scalar(
+            select(LegalDocumentVersion).where(LegalDocumentVersion.document_id == document.id)
+        )
+        old_authority = db.scalar(
+            select(LegalChunk).where(LegalChunk.version_id == old_version.id)
+        ).authority_id
+        corrected = _record(
+            version_label="2026勘误版",
+            supersedes_content_hash=old_version.content_hash,
+            transition_kind="correction",
+            chunks=[
+                {
+                    "locator": "第三条",
+                    "content": "用人单位应当准确记录劳动者的加班时间。",
+                    "keywords": ["加班记录", "加班时间"],
+                }
+            ],
+        )
+
+        result = import_legal_records(db, [corrected])
+        versions = db.scalars(
+            select(LegalDocumentVersion)
+            .where(LegalDocumentVersion.document_id == document.id)
+            .order_by(LegalDocumentVersion.ingested_at)
+        ).all()
+
+        assert result.transitioned_versions == 1
+        assert versions[0].status == "superseded"
+        assert versions[0].expired_on == date(2026, 1, 1)
+        assert versions[1].status == "active"
+        assert versions[1].supersedes_id == versions[0].id
+        hits = retrieve_authority_hits(db, "准确记录劳动者的加班时间", region="北京市")
+        assert any(hit.authority.content == corrected.chunks[0].content for hit in hits)
+        assert all(hit.authority.id != old_authority for hit in hits)
+
+
+def test_amendment_expires_old_version_and_preserves_historical_retrieval(client):
+    with SessionLocal() as db:
+        import_legal_records(db, [_record()])
+        document = db.scalar(
+            select(LegalDocument).where(LegalDocument.title == "北京市劳动争议示例规定")
+        )
+        old_version = db.scalar(
+            select(LegalDocumentVersion).where(LegalDocumentVersion.document_id == document.id)
+        )
+        amended = _record(
+            version_label="2027修订版",
+            effective_on="2027-01-01",
+            supersedes_content_hash=old_version.content_hash,
+            transition_kind="amendment",
+            chunks=[
+                {
+                    "locator": "第三条",
+                    "content": "用人单位应当保存劳动者的加班记录。",
+                    "keywords": ["加班记录", "加班时间"],
+                }
+            ],
+        )
+
+        result = import_legal_records(db, [amended])
+        db.refresh(old_version)
+        old_authority = db.scalar(
+            select(LegalChunk).where(LegalChunk.version_id == old_version.id)
+        ).authority_id
+
+        assert result.transitioned_versions == 1
+        assert old_version.status == "expired"
+        assert old_version.expired_on == date(2027, 1, 1)
+        assert db.get(LegalAuthority, old_authority).expired_on == date(2027, 1, 1)
+        historical = retrieve_authority_hits(
+            db,
+            "加班记录和加班时间",
+            as_of=date(2026, 7, 16),
+            region="北京市",
+        )
+        current = retrieve_authority_hits(
+            db,
+            "加班记录和加班时间",
+            as_of=date(2027, 1, 1),
+            region="北京市",
+        )
+        assert any(hit.authority.id == old_authority for hit in historical)
+        assert all(hit.authority.id != old_authority for hit in current)
+
+
+def test_transition_manifest_is_bound_to_corpus_hash(client, tmp_path):
+    with SessionLocal() as db:
+        import_legal_records(db, [_record()])
+        document = db.scalar(
+            select(LegalDocument).where(LegalDocument.title == "北京市劳动争议示例规定")
+        )
+        old_version = db.scalar(
+            select(LegalDocumentVersion).where(LegalDocumentVersion.document_id == document.id)
+        )
+        corrected = _record(
+            version_label="2026勘误版",
+            chunks=[{"locator": "第三条", "content": "依法准确记录加班时间。"}],
+        )
+        corpus_bytes = (corrected.model_dump_json() + "\n").encode()
+        corpus_path = tmp_path / "corpus.jsonl"
+        corpus_path.write_bytes(corpus_bytes)
+        manifest_path = tmp_path / "transition_manifest.json"
+        manifest_path.write_text(
+            json.dumps(
+                {
+                    "corpus_version": "test_v2",
+                    "target_corpus_sha256": hashlib.sha256(corpus_bytes).hexdigest(),
+                    "transitions": [
+                        {
+                            "title": corrected.title,
+                            "supersedes_content_hash": old_version.content_hash,
+                            "transition_kind": "correction",
+                            "reason": "测试解析勘误",
+                        }
+                    ],
+                },
+                ensure_ascii=False,
+            ),
+            encoding="utf-8",
+        )
+
+        result = import_legal_jsonl(
+            db,
+            corpus_path,
+            transition_manifest_path=manifest_path,
+        )
+
+        assert result.transitioned_versions == 1
+        db.refresh(old_version)
+        assert old_version.status == "superseded"
+
+        manifest_path.write_text(
+            manifest_path.read_text(encoding="utf-8").replace(
+                hashlib.sha256(corpus_bytes).hexdigest(),
+                "0" * 64,
+            ),
+            encoding="utf-8",
+        )
+        try:
+            import_legal_jsonl(
+                db,
+                corpus_path,
+                transition_manifest_path=manifest_path,
+            )
+        except ValueError as exc:
+            assert "SHA-256 不匹配" in str(exc)
+        else:
+            raise AssertionError("语料哈希不匹配时必须拒绝转换清单")
 
 
 def test_version_and_region_are_hard_filters(client):

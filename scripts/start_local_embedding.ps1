@@ -49,7 +49,6 @@ $process = Start-Process `
     -ArgumentList $arguments `
     -WorkingDirectory (Split-Path -Parent $ServerPath) `
     -WindowStyle Hidden `
-    -UseNewEnvironment `
     -RedirectStandardOutput (Join-Path $logDirectory "qwen-embedding.stdout.log") `
     -RedirectStandardError (Join-Path $logDirectory "qwen-embedding.stderr.log") `
     -PassThru

@@ -124,6 +124,11 @@ class SimulationRead(ORMModel):
     user_role: str
     transcript: list[dict]
     feedback: list[str]
+    suggested_answers: list[str]
+    assistance_mode: Literal["coach"]
+    counsel_agent_id: str
+    counsel_memory_version: int
+    counsel_memory_snapshot: dict
     status: Literal["active", "completed"]
     created_at: datetime
     updated_at: datetime
@@ -131,6 +136,17 @@ class SimulationRead(ORMModel):
 
 class SimulationMessageCreate(BaseModel):
     content: str = Field(min_length=1, max_length=5000)
+
+
+class WorkerCounselMemoryRead(ORMModel):
+    id: str
+    case_id: str
+    agent_id: Literal["worker_counsel"]
+    version: int
+    snapshot: dict
+    content_hash: str
+    created_at: datetime
+    updated_at: datetime
 
 
 class DocumentCreate(BaseModel):

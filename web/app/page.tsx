@@ -344,6 +344,27 @@ function ErrorToast({ message, onClose }: { message: string; onClose: () => void
   return <div className="toast error-toast" role="alert"><span className="toast-icon">!</span><div><b>操作未完成</b><p>{message}</p></div><button onClick={onClose} aria-label="关闭错误提示">×</button></div>;
 }
 
+function inlineEmphasis(content: string) {
+  return content.split(/(\*\*[^*]+\*\*)/g).filter(Boolean).map((part, index) => (
+    part.startsWith("**") && part.endsWith("**")
+      ? <strong key={`${part}-${index}`}>{part.slice(2, -2)}</strong>
+      : <span key={`${part}-${index}`}>{part}</span>
+  ));
+}
+
+function StructuredText({ content, streaming = false }: { content: string; streaming?: boolean }) {
+  const lines = normalizeConsultationContent(content).split(/\n+/).map((line) => line.trim()).filter(Boolean);
+  return <div className="structured-text">{lines.map((line, index) => {
+    const point = line.match(/^(?:(\d{1,2})[.、．]|[-•·])\s*(.+)$/);
+    const heading = line.match(/^#{1,3}\s+(.+)$/);
+    const body = point?.[2] ?? heading?.[1] ?? line;
+    return <p className={point ? "structured-point" : heading ? "structured-heading" : ""} key={`${line}-${index}`}>
+      {point && <i>{point[1] ? `${point[1]}.` : "•"}</i>}
+      <span>{inlineEmphasis(body)}{streaming && index === lines.length - 1 && <i className="stream-cursor" />}</span>
+    </p>;
+  })}</div>;
+}
+
 function Sidebar({ open, cases, pinned, current, onClose, onNew, onSelect, onPin, onDelete }: {
   open: boolean; cases: CaseFile[]; pinned: string[]; current: CaseFile | null;
   onClose: () => void; onNew: () => void; onSelect: (item: CaseFile) => void;
@@ -418,8 +439,8 @@ function ChatWorkspace({ caseFile, reviews, input, setInput, busy, streamedAnswe
       {pendingReview && <div className="review-banner"><span>审</span><div><b>本案已进入专业复核</b><p>系统发现需要人工判断的风险点。当前报告仅供参考，复核完成前不会作为确定结论。</p></div></div>}
       <div className="message-stream" aria-live="polite">
         {!caseFile.messages.length && <div className="assistant-card intro"><span className="mini-orb">衡</span><div><b>你好，我们先从发生了什么开始。</b><p>请尽量按时间顺序描述。不需要使用法律术语；日期、工资、通知方式和手头材料会帮助我更准确地梳理。</p><div className="quick-prompts">{starters.slice(0, 3).map((item) => <button key={item.title} onClick={() => setInput(item.text)}>{item.title}</button>)}</div></div></div>}
-        {caseFile.messages.map((message) => <div key={message.id} className={`bubble-row ${message.role}`}><span>{message.role === "user" ? "我" : "衡"}</span><div><small>{message.role === "user" ? "你的陈述" : "案件协调助手"}</small><p>{message.role === "assistant" ? normalizeConsultationContent(message.content) : message.content}</p></div></div>)}
-        {streamedAnswer && <div className="bubble-row assistant streaming"><span>衡</span><div><small>案件协调助手 · 正在回答</small><p>{normalizeConsultationContent(streamedAnswer)}<i className="stream-cursor" /></p></div></div>}
+        {caseFile.messages.map((message) => <div key={message.id} className={`bubble-row ${message.role}`}><span>{message.role === "user" ? "我" : "衡"}</span><div><small>{message.role === "user" ? "你的陈述" : "劳动者代理"}</small>{message.role === "assistant" ? <StructuredText content={message.content} /> : <p>{message.content}</p>}</div></div>)}
+        {streamedAnswer && <div className="bubble-row assistant streaming"><span>衡</span><div><small>劳动者代理 · 正在回答</small><StructuredText content={streamedAnswer} streaming /></div></div>}
         {busy && !streamedAnswer && <div className="thinking"><span className="mini-orb">衡</span><div><b>{busy}</b><p><i /><i /><i /></p></div></div>}
         <div ref={streamEndRef} />
       </div>
@@ -500,21 +521,49 @@ function SimulationOverlay({ session, onClose }: { session: Simulation; onClose:
   const [current, setCurrent] = useState(session);
   const [answer, setAnswer] = useState("");
   const [sending, setSending] = useState(false);
+  const [streamingLabel, setStreamingLabel] = useState("");
   const [ending, setEnding] = useState(false);
   const [failure, setFailure] = useState("");
   const [mobilePanel, setMobilePanel] = useState<"hearing" | "coach">("hearing");
   const streamRef = useRef<HTMLDivElement>(null);
+  const answerRef = useRef<HTMLTextAreaElement>(null);
   useEffect(() => { streamRef.current?.scrollTo({ top: streamRef.current.scrollHeight, behavior: "smooth" }); }, [current.transcript.length]);
   async function submit(event: FormEvent) {
     event.preventDefault();
     if (!answer.trim()) return;
     const content = answer.trim();
     const base = current.transcript;
-    setAnswer(""); setSending(true); setFailure("");
+    setAnswer(""); setSending(true); setFailure(""); setStreamingLabel("正在分析你的回答…");
     setCurrent({ ...current, transcript: [...base, { role: "劳动者（你）", agent_id: "worker", content }] });
-    try { setCurrent(await api.simulationMessage(current.id, content)); }
+    try {
+      await api.streamSimulationMessage(current.id, content, {
+        onStatus: setStreamingLabel,
+        onAgentStart: (line) => setCurrent((previous) => ({
+          ...previous,
+          transcript: [...previous.transcript, line],
+        })),
+        onAgentToken: (streamId, token) => setCurrent((previous) => ({
+          ...previous,
+          transcript: previous.transcript.map((line) => (
+            line.stream_id === streamId ? { ...line, content: line.content + token } : line
+          )),
+        })),
+        onAgentComplete: (completed) => setCurrent((previous) => ({
+          ...previous,
+          transcript: previous.transcript.map((line) => (
+            line.stream_id === completed.stream_id ? completed : line
+          )),
+        })),
+        onCounsel: (feedback, suggestedAnswers) => setCurrent((previous) => ({
+          ...previous,
+          feedback: feedback.slice(0, 4),
+          suggested_answers: suggestedAnswers.slice(0, 4),
+        })),
+        onComplete: setCurrent,
+      });
+    }
     catch { setAnswer(content); setCurrent({ ...current, transcript: base }); setFailure("回应生成失败，内容已保留，请重试。"); }
-    finally { setSending(false); }
+    finally { setSending(false); setStreamingLabel(""); }
   }
   async function complete() {
     if (ending || sending) return;
@@ -523,13 +572,18 @@ function SimulationOverlay({ session, onClose }: { session: Simulation; onClose:
     catch { setFailure("暂时无法结束本次模拟，请稍后重试。当前对话仍然保留。"); }
     finally { setEnding(false); }
   }
+  function useSuggestedAnswer(content: string) {
+    setAnswer(content);
+    setMobilePanel("hearing");
+    requestAnimationFrame(() => answerRef.current?.focus());
+  }
   const runtime = current.transcript.find((line) => line.agent_id === "system");
   const mode = runtime?.mode ?? "rule";
   const modeLabels = { model: "智能模拟", hybrid: "部分智能回应", rule: "基础模拟" };
   const stageLabels: Record<string, string> = { orientation: "身份与程序确认", claims: "仲裁请求", fact_investigation: "事实调查", evidence_examination: "举证质证", debate: "辩论", closing_or_mediation: "最后陈述／调解" };
-  const executionLabels: Record<string, string> = { employer_advocate: "单位代表回应", arbitrator: "仲裁员整理问题", worker_coach: "仲裁助手给出建议" };
+  const executionLabels: Record<string, string> = { employer_advocate: "单位代表回应", arbitrator: "仲裁员整理问题", worker_coach: "劳动者代理给出建议" };
   const visibleTranscript = current.transcript.filter((line) => line.agent_id !== "system");
-  return <div className="simulation-overlay" role="dialog" aria-modal="true" aria-label="劳动仲裁庭审模拟"><header><div><span>法衡 · 模拟仲裁庭</span><b>劳动仲裁模拟</b></div><div className={`simulation-status ${mode}`}><i />{modeLabels[mode]}</div><button onClick={onClose}>退出</button></header><nav className="simulation-mobile-tabs" aria-label="切换模拟内容"><button className={mobilePanel === "hearing" ? "active" : ""} onClick={() => setMobilePanel("hearing")}>庭审对话</button><button className={mobilePanel === "coach" ? "active" : ""} onClick={() => setMobilePanel("coach")}>仲裁建议</button></nav><main><section className={`hearing-room ${mobilePanel === "hearing" ? "mobile-active" : ""}`}><div className="bench"><span>{stageLabels[runtime?.stage ?? "orientation"]} · 第 {runtime?.round_number ?? 0} 回合</span><b><i>⚖️</i> 中立仲裁员</b></div><div className="role-legend" aria-label="模拟角色说明"><span className="arbitrator"><i>⚖️</i>仲裁员</span><span className="employer"><i>🏢</i>单位代表</span><span className="coach"><i>🧭</i>仲裁助手</span><span className="worker"><i>👤</i>你</span></div>{Boolean(runtime?.last_execution?.length) && <div className="round-trace" aria-label="本轮回应过程">{runtime?.last_execution?.map((agent, index) => <span className={runtime.fallback_agents?.includes(agent) ? "fallback" : ""} key={`${agent}-${index}`}>{index + 1}<b>{executionLabels[agent] ?? agent}</b>{runtime.fallback_agents?.includes(agent) && <small>已使用备用回答</small>}</span>)}</div>}<div className="hearing-stream" ref={streamRef} aria-live="polite">{visibleTranscript.map((line, index) => { const identity = simulationIdentity(line); return <article className={`${identity.id}${line.kind === "question" ? " question" : ""}`} key={`${line.role}-${index}`}><div className="avatar-stack"><small>{identity.label}</small><span aria-hidden="true"><em>{identity.icon}</em><Image src={identity.avatar} alt="" width={56} height={56} onError={(event) => { event.currentTarget.style.display = "none"; }} /></span></div><div className="message-card"><b>{identity.tag}</b><p>{line.content}</p></div></article>; })}{sending && <div className="hearing-thinking"><i /><i /><i /><span>正在准备单位回应和仲裁员提问…</span></div>}</div>{failure && <p className="inline-error" role="alert">{failure}</p>}<form className="hearing-composer" onSubmit={submit}><label className="sr-only" htmlFor="hearing-answer">输入你的回答</label><div><textarea id="hearing-answer" value={answer} onChange={(event) => setAnswer(event.target.value)} onKeyDown={(event) => { if (event.key === "Enter" && !event.shiftKey) { event.preventDefault(); event.currentTarget.form?.requestSubmit(); } }} placeholder="输入你的回答，也可以询问当前流程…" /><small>Enter 发送 · Shift + Enter 换行</small></div><button disabled={sending || !answer.trim()}>{sending ? "提交中…" : "提交回答"}</button></form></section><aside className={`coach-panel ${mobilePanel === "coach" ? "mobile-active" : ""}`}><div className="coach-identity"><i><em>🧭</em><Image src="/avatars/coach.png" alt="" width={56} height={56} onError={(event) => { event.currentTarget.style.display = "none"; }} /></i><div><span className="form-kicker">仲裁助手</span><h2>怎样回答更清楚</h2></div></div><p>这里会提示表达和证据上的改进方向，不会代替你发言，也不会把练习内容当成已经确认的事实。</p><ul>{current.feedback.map((item) => <li key={item}>{item}</li>)}</ul><button disabled={ending || sending} onClick={() => void complete()}>{ending ? "正在结束…" : "结束本次模拟"}</button></aside></main></div>;
+  return <div className="simulation-overlay" role="dialog" aria-modal="true" aria-label="劳动仲裁庭审模拟"><header><div><span>法衡 · 模拟仲裁庭</span><b>劳动仲裁模拟</b></div><div className={`simulation-status ${mode}`}><i />{modeLabels[mode]}</div><button onClick={onClose}>退出</button></header><nav className="simulation-mobile-tabs" aria-label="切换模拟内容"><button className={mobilePanel === "hearing" ? "active" : ""} onClick={() => setMobilePanel("hearing")}>庭审对话</button><button className={mobilePanel === "coach" ? "active" : ""} onClick={() => setMobilePanel("coach")}>代理建议</button></nav><main><section className={`hearing-room ${mobilePanel === "hearing" ? "mobile-active" : ""}`}><div className="bench"><span>{stageLabels[runtime?.stage ?? "orientation"]} · 第 {runtime?.round_number ?? 0} 回合</span><b><i>⚖️</i> 中立仲裁员</b></div><div className="role-legend" aria-label="模拟角色说明"><span className="arbitrator"><i>⚖️</i>仲裁员</span><span className="employer"><i>🏢</i>单位代表</span><span className="coach"><i>🧭</i>劳动者代理</span><span className="worker"><i>👤</i>你</span></div>{Boolean(runtime?.last_execution?.length) && <div className="round-trace" aria-label="本轮回应过程">{runtime?.last_execution?.map((agent, index) => <span className={runtime.fallback_agents?.includes(agent) ? "fallback" : ""} key={`${agent}-${index}`}>{index + 1}<b>{executionLabels[agent] ?? agent}</b>{runtime.fallback_agents?.includes(agent) && <small>已使用备用回答</small>}</span>)}</div>}<div className="hearing-stream" ref={streamRef} aria-live="polite">{visibleTranscript.map((line, index) => { const identity = simulationIdentity(line); return <article className={`${identity.id}${line.kind === "question" ? " question" : ""}`} key={`${line.role}-${index}`}><div className="avatar-stack"><small>{identity.label}</small><span aria-hidden="true"><em>{identity.icon}</em><Image src={identity.avatar} alt="" width={56} height={56} onError={(event) => { event.currentTarget.style.display = "none"; }} /></span></div><div className="message-card"><b>{identity.tag}</b><StructuredText content={line.content} streaming={Boolean(line.stream_id && sending)} /></div></article>; })}{sending && <div className="hearing-thinking"><i /><i /><i /><span>{streamingLabel || "正在准备本轮回应…"}</span></div>}</div>{failure && <p className="inline-error" role="alert">{failure}</p>}<form className="hearing-composer" onSubmit={submit}><label className="sr-only" htmlFor="hearing-answer">输入你的回答</label><div><textarea ref={answerRef} id="hearing-answer" value={answer} onChange={(event) => setAnswer(event.target.value)} onKeyDown={(event) => { if (event.key === "Enter" && !event.shiftKey) { event.preventDefault(); event.currentTarget.form?.requestSubmit(); } }} placeholder="输入你的回答，也可以从右侧选一条建议回答…" /><small>Enter 发送 · Shift + Enter 换行</small></div><button disabled={sending || !answer.trim()}>{sending ? "提交中…" : "提交回答"}</button></form></section><aside className={`coach-panel ${mobilePanel === "coach" ? "mobile-active" : ""}`}><div className="coach-identity"><i><em>🧭</em><Image src="/avatars/coach.png" alt="" width={56} height={56} onError={(event) => { event.currentTarget.style.display = "none"; }} /></i><div><span className="form-kicker">劳动者代理</span><h2>先抓住最重要的点</h2></div></div><p>每轮最多显示 4 条重点和 4 条可直接使用的回答。填入后请核对方括号内容，不会自动发送。</p><ul className="coach-tips">{current.feedback.slice(0, 4).map((item) => <li key={item}>{item}</li>)}</ul>{Boolean(current.suggested_answers?.length) && <section className="suggested-answers"><header><b>可直接使用的回答</b><span>{Math.min(current.suggested_answers.length, 4)}</span></header>{current.suggested_answers.slice(0, 4).map((item, index) => <article key={`${item}-${index}`}><StructuredText content={item} /><button type="button" disabled={sending} onClick={() => useSuggestedAnswer(item)}>填入回答框</button></article>)}</section>}<button className="complete-simulation" disabled={ending || sending} onClick={() => void complete()}>{ending ? "正在结束…" : "结束本次模拟"}</button></aside></main></div>;
 }
 
 function simulationIdentity(line: SimulationLine) {
