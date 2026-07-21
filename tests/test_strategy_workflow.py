@@ -142,6 +142,8 @@ def test_party_agents_are_independent_parallel_branches_before_judging(client):
     assert result["employer_argument"]["position"] == "employer position"
     assert result["worker_execution"]["status"] == "completed"
     assert result["employer_execution"]["status"] == "completed"
+    assert result["safety_review"]["decision"] == "pass"
+    assert result["safety_review"]["approved"] is True
     assert events.index(("judge", "started")) > events.index(("worker", "finished"))
     assert events.index(("judge", "started")) > events.index(("employer", "finished"))
     assert instances["worker"].isdisjoint(instances["employer"])
@@ -168,6 +170,9 @@ def test_one_party_failure_uses_local_fallback_without_blocking_the_other(
     assert result[f"{failed_role}_execution"]["error_type"] == "forced_failure"
     assert result[f"{other_role}_execution"]["status"] == "completed"
     assert result["assessment"]
+    assert result["safety_review"]["decision"] == "escalate"
+    assert result["safety_review"]["requires_human_lawyer"] is True
+    assert "备用回答" in " ".join(result["safety_review"]["problems"])
     assert len(tasks) == 4
     party_tasks = {
         task.agent: task.output["execution"]
@@ -188,5 +193,6 @@ def test_both_party_failures_still_join_and_reach_safety_review(client):
     assert events[-1] == ("judge", "started")
     assert result["assessment"]
     assert result["safety_review"]
+    assert result["safety_review"]["decision"] == "escalate"
     assert len(created_gateways) == 3
     assert len(tasks) == 4

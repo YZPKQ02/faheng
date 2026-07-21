@@ -323,6 +323,8 @@ class SimulationSession(Base):
     counsel_memory_version: Mapped[int] = mapped_column(default=0)
     counsel_memory_snapshot: Mapped[dict] = mapped_column(JSON, default=dict)
     status: Mapped[str] = mapped_column(String(20), default="active", index=True)
+    completion_reason: Mapped[str | None] = mapped_column(String(30), nullable=True)
+    completed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now, onupdate=now)
 

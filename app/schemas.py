@@ -130,6 +130,8 @@ class SimulationRead(ORMModel):
     counsel_memory_version: int
     counsel_memory_snapshot: dict
     status: Literal["active", "completed"]
+    completion_reason: Literal["natural_end", "user_ended", "max_rounds", "superseded"] | None
+    completed_at: datetime | None
     created_at: datetime
     updated_at: datetime
 

@@ -141,6 +141,17 @@ async def lifespan(_: FastAPI):
                 connection.execute(
                     text("ALTER TABLE simulation_sessions ADD COLUMN updated_at DATETIME")
                 )
+            if "completion_reason" not in simulation_columns:
+                connection.execute(
+                    text(
+                        "ALTER TABLE simulation_sessions ADD COLUMN "
+                        "completion_reason VARCHAR(30)"
+                    )
+                )
+            if "completed_at" not in simulation_columns:
+                connection.execute(
+                    text("ALTER TABLE simulation_sessions ADD COLUMN completed_at DATETIME")
+                )
             if "assistance_mode" not in simulation_columns:
                 connection.execute(
                     text(
@@ -489,6 +500,10 @@ def run_analysis(
     blocked_reasons = decision_gate(
         conclusions[0].quality_metrics, conclusions[0].authority_ids
     )
+    safety_gate = conclusions[0].quality_metrics.get("safety_gate", {})
+    if safety_gate.get("requires_human_lawyer"):
+        blocked_reasons.extend(safety_gate.get("problems", []))
+    blocked_reasons = list(dict.fromkeys(blocked_reasons))
     if blocked_reasons:
         ensure_human_review(db, case, conclusions[0], blocked_reasons)
     reconcile_case_stage(db, case)

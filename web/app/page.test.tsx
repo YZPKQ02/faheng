@@ -143,7 +143,7 @@ describe("legal advisor workspace", () => {
       "event: agent_token\ndata: {\"stream_id\":\"line-1\",\"content\":\"请说明\"}",
       "event: agent_complete\ndata: {\"stream_id\":\"line-1\",\"role\":\"仲裁员\",\"agent_id\":\"arbitrator\",\"content\":\"请说明请求\"}",
       "event: counsel\ndata: {\"feedback\":[\"先说请求\"],\"suggested_answers\":[\"我的请求是：[填写请求]\"]}",
-      "event: complete\ndata: {\"session\":{\"id\":\"simulation-1\",\"status\":\"active\",\"transcript\":[],\"feedback\":[],\"suggested_answers\":[]}}",
+      "event: complete\ndata: {\"session\":{\"id\":\"simulation-1\",\"status\":\"completed\",\"completion_reason\":\"natural_end\",\"completed_at\":\"2026-07-21T12:00:00Z\",\"transcript\":[],\"feedback\":[],\"suggested_answers\":[]}}",
     ].join("\n\n") + "\n\n";
     const fetchMock = vi.fn().mockResolvedValue(
       new Response(stream, { status: 200, headers: { "Content-Type": "text/event-stream" } }),
@@ -163,6 +163,10 @@ describe("legal advisor workspace", () => {
     expect(handlers.onAgentStart).toHaveBeenCalledWith(expect.objectContaining({ stream_id: "line-1" }));
     expect(handlers.onAgentToken).toHaveBeenCalledWith("line-1", "请说明");
     expect(handlers.onCounsel).toHaveBeenCalledWith(["先说请求"], ["我的请求是：[填写请求]"]);
+    expect(handlers.onComplete).toHaveBeenCalledWith(expect.objectContaining({
+      status: "completed",
+      completion_reason: "natural_end",
+    }));
     expect(handlers.onComplete).toHaveBeenCalled();
   });
 });

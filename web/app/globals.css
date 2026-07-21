@@ -391,6 +391,9 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px
 .hearing-thinking { display: flex; align-items: center; gap: 5px; max-width: 780px; margin: 10px auto; color: var(--muted); font-size: 12px; }
 .hearing-thinking span { margin-left: 5px; }
 .inline-error { flex: 0 0 auto; margin: 8px 0 0; color: var(--red); font-size: 12px; }
+.simulation-completed { display: flex; flex: 0 0 auto; align-items: center; justify-content: space-between; gap: 16px; margin-top: 10px; padding: 12px 14px; border: 1px solid #b8d8cd; border-radius: 12px; background: #eff9f5; color: #285f53; font-size: 12px; }
+.simulation-completed b { font-size: 13px; }
+.simulation-completed span { color: #58756d; text-align: right; }
 .hearing-composer { display: grid; flex: 0 0 auto; grid-template-columns: minmax(0, 1fr) 112px; gap: 10px; margin-top: 10px; padding: 10px 10px 8px 14px; border: 1px solid var(--line-strong); border-radius: 14px; background: #fff; box-shadow: var(--shadow-sm); }
 .hearing-composer > div { min-width: 0; }
 .hearing-composer textarea { display: block; width: 100%; min-height: 50px; max-height: 110px; resize: vertical; padding: 5px 0; border: 0; outline: 0; color: var(--ink); font-size: 14px; line-height: 1.55; }
