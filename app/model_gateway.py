@@ -1,5 +1,7 @@
 import json
 import logging
+from dataclasses import dataclass, field
+from threading import Lock
 import time
 from typing import TypeVar
 
@@ -19,9 +21,49 @@ class ModelGatewayError(RuntimeError):
     """Raised when a configured model cannot return a validated response."""
 
 
+class ModelBudgetExceededError(ModelGatewayError):
+    """Raised before transport when a harness model-call budget is exhausted."""
+
+
+@dataclass
+class ModelRequestBudget:
+    max_logical_calls: int
+    max_http_requests: int
+    logical_calls: int = 0
+    http_requests: int = 0
+    _lock: Lock = field(default_factory=Lock, repr=False)
+
+    def reserve_logical_call(self) -> None:
+        with self._lock:
+            if self.logical_calls >= self.max_logical_calls:
+                raise ModelBudgetExceededError("模型逻辑调用预算已耗尽")
+            self.logical_calls += 1
+
+    def reserve_http_request(self) -> None:
+        with self._lock:
+            if self.http_requests >= self.max_http_requests:
+                raise ModelBudgetExceededError("模型 HTTP 请求预算已耗尽")
+            self.http_requests += 1
+
+    def snapshot(self) -> dict[str, int]:
+        with self._lock:
+            return {
+                "max_logical_calls": self.max_logical_calls,
+                "max_http_requests": self.max_http_requests,
+                "logical_calls": self.logical_calls,
+                "http_requests": self.http_requests,
+            }
+
+
 class ModelGateway:
-    def __init__(self, settings: Settings | None = None):
+    def __init__(
+        self,
+        settings: Settings | None = None,
+        *,
+        request_budget: ModelRequestBudget | None = None,
+    ):
         self.settings = settings or get_settings()
+        self.request_budget = request_budget
         self.last_telemetry: ModelCallTelemetry | None = None
 
     @property
@@ -49,6 +91,20 @@ class ModelGateway:
                 "rejected", 0, 0, 0, error_type="consent_missing"
             )
             raise ModelGatewayError("当前案件未授权向外部模型发送数据")
+        if self.request_budget is not None:
+            try:
+                self.request_budget.reserve_logical_call()
+            except ModelBudgetExceededError:
+                self.last_telemetry = ModelCallTelemetry(
+                    "rejected",
+                    round((time.perf_counter() - started) * 1000, 2),
+                    0,
+                    0,
+                    error_type="model_budget_exceeded",
+                    provider=self.settings.model_provider,
+                    model=self.settings.deepseek_model,
+                )
+                raise
         schema_json = json.dumps(schema.model_json_schema(), ensure_ascii=False)
         if authorization and authorization.pseudonyms:
             if not self.settings.pseudonym_hmac_secret:
@@ -97,6 +153,8 @@ class ModelGateway:
         status_code: int | None = None
         for attempt in range(self.settings.deepseek_max_retries + 1):
             try:
+                if self.request_budget is not None:
+                    self.request_budget.reserve_http_request()
                 with httpx.Client(timeout=self.settings.deepseek_timeout_seconds) as client:
                     response = client.post(
                         f"{self.settings.deepseek_base_url.rstrip('/')}/chat/completions",
@@ -105,8 +163,10 @@ class ModelGateway:
                     )
                     status_code = response.status_code
                     response.raise_for_status()
-                content = response.json()["choices"][0]["message"]["content"]
+                response_payload = response.json()
+                content = response_payload["choices"][0]["message"]["content"]
                 result = schema.model_validate_json(content)
+                usage = response_payload.get("usage") or {}
                 self.last_telemetry = ModelCallTelemetry(
                     outcome="success",
                     duration_ms=round((time.perf_counter() - started) * 1000, 2),
@@ -115,8 +175,16 @@ class ModelGateway:
                     status_code=status_code,
                     redaction_count=redaction_count,
                     pseudonym_count=pseudonym_count,
+                    provider=self.settings.model_provider,
+                    model=self.settings.deepseek_model,
+                    prompt_tokens=usage.get("prompt_tokens"),
+                    completion_tokens=usage.get("completion_tokens"),
+                    total_tokens=usage.get("total_tokens"),
                 )
                 return result
+            except ModelBudgetExceededError as exc:
+                last_error = exc
+                break
             except (httpx.HTTPError, KeyError, TypeError, ValidationError, json.JSONDecodeError) as exc:
                 last_error = exc
                 if attempt < self.settings.deepseek_max_retries:
@@ -131,5 +199,7 @@ class ModelGateway:
             error_type=type(last_error).__name__ if last_error else "unknown",
             redaction_count=redaction_count,
             pseudonym_count=pseudonym_count,
+            provider=self.settings.model_provider,
+            model=self.settings.deepseek_model,
         )
         raise ModelGatewayError(f"模型调用或结构校验失败：{last_error}") from last_error

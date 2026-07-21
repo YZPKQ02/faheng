@@ -1,0 +1,45 @@
+{
+  "schema_version": "harness-case-pack-v1",
+  "version": "live-strategy-v1",
+  "as_of": "2026-07-21",
+  "cases": [
+    {
+      "id": "harness-live-termination",
+      "title": "合成案例：解除劳动合同争议",
+      "data_classification": "synthetic",
+      "external_model_allowed": true,
+      "facts": [
+        {"id": "live-termination-f1", "content": "某劳动者收到某单位出具的解除通知", "status": "confirmed"},
+        {"id": "live-termination-f2", "content": "通知仅写明不符合岗位要求，未列明具体事实", "status": "confirmed"}
+      ],
+      "evidence": [
+        {"id": "live-termination-e1", "name": "已匿名化解除通知", "purpose": "证明解除时间和通知内容", "authenticity": "verified"}
+      ]
+    },
+    {
+      "id": "harness-live-wage",
+      "title": "合成案例：欠薪与加班费争议",
+      "data_classification": "synthetic",
+      "external_model_allowed": true,
+      "facts": [
+        {"id": "live-wage-f1", "content": "某劳动者主张某单位拖欠两个月工资", "status": "user_stated"},
+        {"id": "live-wage-f2", "content": "现有考勤表显示部分工作日延长工作时间", "status": "confirmed"}
+      ],
+      "evidence": [
+        {"id": "live-wage-e1", "name": "合成工资流水", "purpose": "核对工资支付月份"},
+        {"id": "live-wage-e2", "name": "合成考勤表", "purpose": "核对延长工作时间"}
+      ]
+    },
+    {
+      "id": "harness-live-evidence-gap",
+      "title": "合成案例：劳动关系证据不足",
+      "data_classification": "synthetic",
+      "external_model_allowed": true,
+      "facts": [
+        {"id": "live-gap-f1", "content": "某人员称曾为某单位提供劳动并接受排班", "status": "user_stated"},
+        {"id": "live-gap-f2", "content": "目前未能提供劳动合同、工资流水或完整聊天记录", "status": "confirmed"}
+      ],
+      "evidence": []
+    }
+  ]
+}

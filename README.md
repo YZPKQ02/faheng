@@ -256,6 +256,28 @@ PostgreSQL 使用与当前同步 SQLAlchemy `Session` 一致的 `psycopg` 驱动
 .\.venv\Scripts\python.exe scripts\evaluate_agents.py --dataset data\evaluation\official_model_labeled_cases.json --output data\evaluation\official_report.json
 ```
 
+### Harness 质量门禁
+
+离线 Harness 使用固定日期、临时 SQLite 和确定性 embedding，验证策略图协议、引用边界、检索指标及故障回退，并与受审查基线比较：
+
+```powershell
+.\.venv\Scripts\python.exe scripts\run_harness.py run --profile offline --output artifacts\harness\offline
+```
+
+只有完整且规则门禁通过的离线报告才能显式更新基线：
+
+```powershell
+.\.venv\Scripts\python.exe scripts\run_harness.py baseline accept --report artifacts\harness\offline\report.json
+```
+
+真实模型 Harness 仅允许使用三个合成/公开案例，且必须显式提供收费调用开关、有效授权清单和调用预算。`data/harness/live_authorization.example.json` 只是模板，不能直接执行：
+
+```powershell
+.\.venv\Scripts\python.exe scripts\run_harness.py run --profile live --allow-paid-model --authorization <已批准的授权清单> --max-model-calls 15 --max-http-requests 30 --output artifacts\harness\live
+```
+
+LLM Judge 首期只生成告警，不作为合并门禁或律师意见。Harness 报告不保存原始 prompt、密钥或完整模型回答。
+
 ## 可观测性基线
 
 系统将咨询模型调用与法律检索的非敏感性能指标写入审计事件。模型指标包括阶段、结果、耗时、尝试/重试次数、供应商状态码、错误类型及脱敏数量；检索指标包括候选数、有效候选数、结果数、耗时和可选的查询指纹。指标不保存 prompt、用户查询原文、模型输出或敏感实体。

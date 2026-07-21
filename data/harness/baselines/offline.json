@@ -1,0 +1,92 @@
+{
+  "schema_version": "harness-baseline-v1",
+  "accepted_at": "2026-07-21T13:17:40.567883+00:00",
+  "accepted_from_run_id": "83653e26-927e-4db9-84c6-5706058c0ddf",
+  "compatibility_fingerprint": "4f8c84ae8e78271633b85c951aa2c44fa016584a1bd3e250747bda90a6308025",
+  "compatibility": {
+    "case_pack_version": "offline-strategy-v1",
+    "workflow_version": "legal-debate-v2",
+    "embedding": "deterministic:legal-hash-v1:128",
+    "inputs": {
+      "case_pack": "703bb71e49fc752653fe1e08dd9787f7b8d9f3e7c27793f3a8699f509588ecab",
+      "reasoning_demo": "2ae94dfaa4a5e1c2dd614f15807860c742d3f6573ccaf7be4104efe553d3b417",
+      "reasoning_official": "f3f8f5c9488f8b51d17cb0a6de5b662015956d18fcb38bb5936540e534e17df9",
+      "retrieval": "c9ff5d90e0ba225395fb87c1a1a8c03dd7fd8695daa23b9d7e4ecc2f1f5d1232"
+    },
+    "fingerprint": "4f8c84ae8e78271633b85c951aa2c44fa016584a1bd3e250747bda90a6308025"
+  },
+  "metric_rules": {
+    "reasoning_demo.aggregate.issue_recall": {
+      "value": 1.0,
+      "direction": "min"
+    },
+    "reasoning_demo.aggregate.authority_recall": {
+      "value": 1.0,
+      "direction": "min"
+    },
+    "reasoning_demo.aggregate.grounded_element_rate": {
+      "value": 0.805,
+      "direction": "min"
+    },
+    "reasoning_demo.aggregate.citation_validity": {
+      "value": 1.0,
+      "direction": "min"
+    },
+    "reasoning_official.aggregate.issue_recall": {
+      "value": 1.0,
+      "direction": "min"
+    },
+    "reasoning_official.aggregate.authority_recall": {
+      "value": 1.0,
+      "direction": "min"
+    },
+    "reasoning_official.aggregate.grounded_element_rate": {
+      "value": 0.639,
+      "direction": "min"
+    },
+    "reasoning_official.aggregate.citation_validity": {
+      "value": 1.0,
+      "direction": "min"
+    },
+    "retrieval.aggregate.recall_at_5": {
+      "value": 0.875,
+      "direction": "min"
+    },
+    "retrieval.aggregate.recall_at_10": {
+      "value": 0.875,
+      "direction": "min"
+    },
+    "retrieval.aggregate.mrr": {
+      "value": 1.0,
+      "direction": "min"
+    },
+    "retrieval.aggregate.ndcg_at_10": {
+      "value": 0.9033,
+      "direction": "min"
+    },
+    "retrieval.aggregate.citation_validity": {
+      "value": 1.0,
+      "direction": "min"
+    },
+    "retrieval.aggregate.version_violations": {
+      "value": 0.0,
+      "direction": "max"
+    },
+    "retrieval.aggregate.region_violations": {
+      "value": 0.0,
+      "direction": "max"
+    },
+    "retrieval.aggregate.empty_result_rate": {
+      "value": 0.0,
+      "direction": "max"
+    },
+    "strategy.pass_rate": {
+      "value": 1.0,
+      "direction": "min"
+    },
+    "fault_injection.pass_rate": {
+      "value": 1.0,
+      "direction": "min"
+    }
+  }
+}
