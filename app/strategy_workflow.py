@@ -104,7 +104,7 @@ def build_strategy_workflow(
             "worker_advocate": "基于事实、证据和候选法条形成劳动者主张",
             "employer_advocate": "基于事实、证据和候选法条独立形成单位抗辩",
             "neutral_adjudicator": "逐项评估双方主张并形成中立判断",
-            "safety_reviewer": "检查引用、事实边界和人工接管条件",
+            "safety_reviewer": "执行引用、事实边界和人工接管的确定性发布安全门",
         }
         record_agent_task(
             db,
@@ -236,22 +236,47 @@ def build_strategy_workflow(
         )
         return {"assessment": data}
 
-    def safety_agent(state: StrategyState) -> StrategyState:
+    def safety_gate(state: StrategyState) -> StrategyState:
         started = time.perf_counter()
-        invalid_citations = not state["assessment"].get("authority_ids")
+        assessment_ids = set(state["assessment"].get("authority_ids", []))
+        allowed_ids = _allowed_ids(state)
+        invalid_citations = not assessment_ids or not assessment_ids <= allowed_ids
         inferred_as_fact = any(fact.get("status") == "inferred" for fact in state["facts"])
-        high_risk = invalid_citations or inferred_as_fact or state["assessment"]["confidence"] < 0.45
+        low_confidence = state["assessment"]["confidence"] < 0.45
+        party_fallback = any(
+            state.get(key, {}).get("fallback_used", False)
+            for key in ("worker_execution", "employer_execution")
+        )
         summary = state["assessment"]["assessment"]
-        problems = []
+        problems: list[str] = []
         if invalid_citations:
             problems.append("裁判评估缺少可核验依据")
         if inferred_as_fact:
             problems.append("存在模型推断事实，必须由用户确认")
+        if low_confidence:
+            problems.append("裁判评估置信度过低，必须人工复核")
+        if party_fallback:
+            problems.append("一方或双方观点使用了确定性备用回答")
+        if invalid_citations:
+            decision = "block"
+            corrected_summary = "当前分析未通过引用安全校验，暂不提供可依赖的法律结论，需补充依据并由人工复核。"
+        elif problems:
+            decision = "escalate"
+            corrected_summary = summary
+        else:
+            decision = "pass"
+            corrected_summary = summary
         review = SafetyReview(
-            approved=not invalid_citations,
+            decision=decision,
+            approved=decision == "pass",
             problems=problems,
-            corrected_summary=summary,
-            requires_human_lawyer=high_risk,
+            corrected_summary=corrected_summary,
+            requires_human_lawyer=decision != "pass",
+            publishable_authority_ids=(
+                [item for item in state["assessment"].get("authority_ids", []) if item in allowed_ids]
+                if decision != "block"
+                else []
+            ),
         ).model_dump()
         audit(
             state["case_id"],
@@ -266,7 +291,7 @@ def build_strategy_workflow(
     graph.add_node("employer_advocate", employer_agent)
     graph.add_node("record_party_tasks", record_party_tasks)
     graph.add_node("neutral_adjudicator", judge_agent)
-    graph.add_node("safety_reviewer", safety_agent)
+    graph.add_node("safety_reviewer", safety_gate)
     graph.add_edge(START, "worker_advocate")
     graph.add_edge(START, "employer_advocate")
     graph.add_edge(["worker_advocate", "employer_advocate"], "record_party_tasks")

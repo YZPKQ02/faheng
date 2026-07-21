@@ -343,7 +343,10 @@ def _assert_strategy(
             failures.append(f"{key}_authority_out_of_bounds")
     if not state.get("assessment", {}).get("authority_ids"):
         failures.append("assessment_missing_authority")
-    if not state.get("safety_review", {}).get("approved"):
+    safety_decision = state.get("safety_review", {}).get("decision")
+    if (not allow_fallback and safety_decision != "pass") or (
+        allow_fallback and safety_decision == "block"
+    ):
         failures.append("safety_review_rejected")
     source_fact_ids = {item.id for item in case.facts}
     if not {item["id"] for item in state.get("facts", [])} <= source_fact_ids:

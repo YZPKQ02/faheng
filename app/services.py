@@ -67,15 +67,33 @@ def analyze_case(db: Session, case: CaseFile, as_of: date) -> tuple[list[Analysi
     review = strategy["safety_review"]
     trace = build_reasoning_trace(case, authorities, as_of)
     metrics = quality_metrics(case, trace)
-    authority_ids, rejected_ids = validate_citation_support(trace, assessment["authority_ids"])
+    requested_authority_ids = review.get("publishable_authority_ids", assessment["authority_ids"])
+    authority_ids, rejected_ids = validate_citation_support(trace, requested_authority_ids)
     gate_reasons = decision_gate(metrics, authority_ids)
+    if review["decision"] != "pass":
+        gate_reasons.extend(review["problems"])
     if rejected_ids:
         gate_reasons.append(f"已拒绝{len(rejected_ids)}个不能支持当前争点的引用")
-    viewpoint = f"{worker['position']}\n\n中立评估：{review['corrected_summary']}\n可能结果：{assessment['likely_outcome']}"
-    counter = employer["position"] + " " + "；".join(employer["arguments"])
+    gate_reasons = list(dict.fromkeys(gate_reasons))
+    if review["decision"] == "block":
+        viewpoint = f"安全门结论：{review['corrected_summary']}"
+        counter = "安全门未通过，单位抗辩暂不作为可发布结论。"
+    else:
+        viewpoint = f"{worker['position']}\n\n中立评估：{review['corrected_summary']}\n可能结果：{assessment['likely_outcome']}"
+        counter = employer["position"] + " " + "；".join(employer["arguments"])
     confidence = min(assessment["confidence"], calibrated_confidence(metrics))
     if gate_reasons:
         confidence = min(confidence, 0.49)
+    if review["decision"] == "block":
+        confidence = min(confidence, 0.2)
+    metrics = {
+        **metrics,
+        "safety_gate": {
+            "decision": review["decision"],
+            "requires_human_lawyer": review["requires_human_lawyer"],
+            "problems": review["problems"],
+        },
+    }
     conclusion = AnalysisConclusion(
         case_id=case.id,
         viewpoint=viewpoint,
@@ -229,18 +247,51 @@ def open_simulation(db: Session, case: CaseFile, scenario: str, user_role: str) 
     if duplicates:
         timestamp = now()
         for item in duplicates:
-            item.status = "completed"
-            item.updated_at = timestamp
+            _apply_simulation_completion(item, "superseded", timestamp)
             db.add(item)
         db.commit()
         db.refresh(selected)
     return selected
 
 
-def complete_simulation(db: Session, session: SimulationSession) -> SimulationSession:
+def _apply_simulation_completion(
+    session: SimulationSession,
+    reason: str,
+    timestamp=None,
+) -> None:
+    timestamp = timestamp or now()
     session.status = "completed"
-    session.updated_at = now()
+    session.completion_reason = reason
+    session.completed_at = timestamp
+    session.updated_at = timestamp
+    transcript = list(session.transcript)
+    if transcript and transcript[0].get("agent_id") == "system":
+        metadata = dict(transcript[0])
+        metadata["completion_reason"] = reason
+        metadata["expected_actor"] = "none"
+        metadata["pending_question_by"] = None
+        metadata["pending_question_type"] = None
+        transcript[0] = metadata
+        session.transcript = transcript
+
+
+def complete_simulation(
+    db: Session,
+    session: SimulationSession,
+    reason: str = "user_ended",
+) -> SimulationSession:
+    if session.status == "completed":
+        return session
+    _apply_simulation_completion(session, reason)
     db.add(session)
+    db.add(
+        AuditEvent(
+            case_id=session.case_id,
+            event_type="simulation_completed",
+            agent="floor_controller",
+            payload={"session_id": session.id, "completion_reason": reason},
+        )
+    )
     db.commit()
     db.refresh(session)
     return session
@@ -254,6 +305,22 @@ SIMULATION_STAGES = {
     "debate": "辩论",
     "closing_or_mediation": "最后陈述／调解",
 }
+MAX_SIMULATION_ROUNDS = 12
+
+
+def _requested_simulation_completion(content: str) -> bool:
+    normalized = "".join(content.strip().casefold().split())
+    return any(
+        marker in normalized
+        for marker in (
+            "结束本次模拟",
+            "结束模拟",
+            "没有其他补充",
+            "没有别的补充",
+            "以上是我的最后陈述",
+            "申请结束",
+        )
+    )
 
 
 def _explicit_simulation_turn_decision(
@@ -582,6 +649,11 @@ def continue_simulation(
     metadata = transcript[0] if transcript and transcript[0].get("agent_id") == "system" else {}
     stage = metadata.get("stage", "orientation")
     round_number = int(metadata.get("round_number", 0)) + 1
+    completion_reason: str | None = None
+    if _requested_simulation_completion(content):
+        completion_reason = "user_ended"
+    elif round_number >= MAX_SIMULATION_ROUNDS:
+        completion_reason = "max_rounds"
     context = json.dumps(
         {
             "scenario": session.scenario,
@@ -630,7 +702,16 @@ def continue_simulation(
         )
         return output
 
-    decision = _explicit_simulation_turn_decision(content, metadata)
+    decision = (
+        SimulationTurnDecision(
+            speech_act="answer_or_substantive",
+            addressed_to="arbitrator",
+            response_plan=["arbitrator"],
+            route_source="explicit_address",
+        )
+        if completion_reason
+        else _explicit_simulation_turn_decision(content, metadata)
+    )
     router_attempted = decision is None
     router_error_type: str | None = None
     if decision is None:
@@ -698,7 +779,26 @@ def continue_simulation(
     pending_question_by = metadata.get("pending_question_by")
     pending_question_type = metadata.get("pending_question_type")
 
-    if decision.response_plan == ["employer_advocate"]:
+    if completion_reason:
+        closing_reason = (
+            "已达到本次练习的最大回合数"
+            if completion_reason == "max_rounds"
+            else "劳动者已表示没有其他补充"
+        )
+        transcript.append(
+            {
+                "role": "仲裁员",
+                "agent_id": "arbitrator",
+                "kind": "closing",
+                "content": f"{closing_reason}。仲裁庭已记录现有陈述，本次模拟到此结束。",
+            }
+        )
+        next_stage = "closing_or_mediation"
+        expected_actor = "none"
+        pending_question_by = None
+        pending_question_type = None
+        counsel_update_reason = "simulation_completed"
+    elif decision.response_plan == ["employer_advocate"]:
         employer_fallback = (
             "我是本次模拟中的用人单位代理人，负责代表单位进行答辩、质证和调解回应。"
             if decision.speech_act == "role_identity"
@@ -812,17 +912,45 @@ def continue_simulation(
             (
                 "你是中立劳动争议仲裁员。结合劳动者本轮陈述和单位代理刚才的实际回应，"
                 "归纳一个争议焦点并决定下一庭审阶段。必要时只提出一个清晰问题，不得替任何一方答辩。"
+                "如果当前已经是最后陈述／调解阶段，应当总结双方最后意见并结庭，不再提出问题。"
             ),
             context + "\n单位代理本轮回应：" + employer.reply,
             SimulationArbitratorReply,
-            SimulationArbitratorReply(
-                reply="仲裁庭已记录双方意见，当前需要围绕请求、关键时间和证据逐项核实。",
-                next_question="请针对单位方刚才的意见，说明你最直接的反驳事实或证据。",
-                next_stage=_next_rule_stage(stage, content),
+            (
+                SimulationArbitratorReply(
+                    reply="仲裁庭已记录双方最后意见，本次模拟到此结束。",
+                    next_stage="closing_or_mediation",
+                )
+                if stage == "closing_or_mediation"
+                else SimulationArbitratorReply(
+                    reply="仲裁庭已记录双方意见，当前需要围绕请求、关键时间和证据逐项核实。",
+                    next_question="请针对单位方刚才的意见，说明你最直接的反驳事实或证据。",
+                    next_stage=_next_rule_stage(stage, content),
+                )
             ),
         )
+        if stage == "closing_or_mediation":
+            closing_reply = arbitrator.reply
+            if "模拟到此结束" not in closing_reply:
+                closing_reply = (
+                    closing_reply.rstrip("。")
+                    + "。仲裁庭已记录双方最后陈述，本次模拟到此结束。"
+                )
+            arbitrator = arbitrator.model_copy(
+                update={
+                    "reply": closing_reply,
+                    "next_question": None,
+                    "next_stage": "closing_or_mediation",
+                }
+            )
+            completion_reason = "natural_end"
         transcript.append(
-            {"role": "仲裁员", "agent_id": "arbitrator", "content": arbitrator.reply}
+            {
+                "role": "仲裁员",
+                "agent_id": "arbitrator",
+                "kind": "closing" if completion_reason == "natural_end" else None,
+                "content": arbitrator.reply,
+            }
         )
         if arbitrator.next_question:
             transcript.append(
@@ -840,7 +968,9 @@ def continue_simulation(
             and _normalize_coaching_text(arbitrator.next_question)
             == _normalize_coaching_text(previous_arbitrator_question)
         )
-        if repeated_question and (session.feedback or session.suggested_answers):
+        if completion_reason == "natural_end":
+            counsel_update_reason = "simulation_completed"
+        elif repeated_question and (session.feedback or session.suggested_answers):
             # The court has asked the same question again, so the previous counsel
             # remains applicable and a new model call would only duplicate it.
             counsel_update_reason = "repeated_arbitrator_question"
@@ -924,6 +1054,8 @@ def continue_simulation(
     else:
         session.suggested_answers = session.suggested_answers[:4]
     session.updated_at = now()
+    if completion_reason:
+        _apply_simulation_completion(session, completion_reason, session.updated_at)
     db.add(session)
     db.add(
         AuditEvent(
@@ -940,6 +1072,7 @@ def continue_simulation(
                 "route_source": decision.route_source,
                 "router_attempted": router_attempted,
                 "counsel_update_reason": counsel_update_reason,
+                "completion_reason": completion_reason,
             },
         )
     )
@@ -959,9 +1092,23 @@ def continue_simulation(
                 "counsel_update_reason": counsel_update_reason,
                 "model_node_count": len(execution) + int(router_attempted),
                 "max_model_nodes": 3,
+                "completion_reason": completion_reason,
             },
         )
     )
+    if completion_reason:
+        db.add(
+            AuditEvent(
+                case_id=case.id,
+                event_type="simulation_completed",
+                agent="floor_controller",
+                payload={
+                    "session_id": session.id,
+                    "round_number": round_number,
+                    "completion_reason": completion_reason,
+                },
+            )
+        )
     db.commit()
     db.refresh(session)
     return session

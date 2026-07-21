@@ -30,7 +30,7 @@ def upgrade() -> None:
         sa.Column("updated_at", sa.DateTime(timezone=True), nullable=False),
         sa.ForeignKeyConstraint(["case_id"], ["case_files.id"], ondelete="CASCADE"),
         sa.PrimaryKeyConstraint("id"),
-        sa.UniqueConstraint("case_id"),
+        sa.UniqueConstraint("case_id", name="worker_counsel_memories_case_id_key"),
     )
     op.create_index(
         "ix_worker_counsel_memories_case_id",

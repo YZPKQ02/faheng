@@ -34,10 +34,12 @@ class JudicialAssessment(BaseModel):
 
 
 class SafetyReview(BaseModel):
+    decision: Literal["pass", "escalate", "block"]
     approved: bool
     problems: list[str]
     corrected_summary: str
     requires_human_lawyer: bool
+    publishable_authority_ids: list[str] = Field(default_factory=list)
 
 
 class ConversationOutput(BaseModel):

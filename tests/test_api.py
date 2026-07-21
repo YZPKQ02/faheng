@@ -5,7 +5,7 @@ from app.agent_contracts import (
     SimulationRouterOutput,
 )
 from app.database import SessionLocal
-from app.models import AuditEvent, Feedback
+from app.models import AuditEvent, Feedback, SimulationSession
 from app.main import settings
 from app.model_gateway import ModelGateway
 from app.observability import ModelCallTelemetry
@@ -202,6 +202,10 @@ def test_analysis_gate_requires_review_when_evidence_is_insufficient(client):
     assert payload["requires_human_review"] is True
     assert payload["blocked_reasons"]
     assert payload["conclusions"][0]["confidence"] <= 0.49
+    safety_gate = payload["conclusions"][0]["quality_metrics"]["safety_gate"]
+    assert safety_gate["decision"] == "escalate"
+    assert safety_gate["requires_human_lawyer"] is True
+    assert any("备用回答" in reason for reason in payload["blocked_reasons"])
     saved = client.get(f"/cases/{case['id']}").json()
     assert saved["stage"] == "human_review"
     tasks = client.get(f"/cases/{case['id']}/agent-tasks").json()
@@ -234,6 +238,23 @@ def test_analysis_gate_requires_review_when_evidence_is_insufficient(client):
         json={"decision": "rejected", "reviewer": "测试审核员", "notes": "重复处理"},
     )
     assert duplicate.status_code == 409
+
+
+def test_safety_gate_blocks_analysis_without_publishable_authority(client):
+    case = client.post("/cases", json={"title": "今天午饭吃什么"}).json()
+
+    response = client.post(f"/cases/{case['id']}/analysis", json={})
+
+    assert response.status_code == 200
+    payload = response.json()
+    conclusion = payload["conclusions"][0]
+    assert conclusion["quality_metrics"]["safety_gate"]["decision"] == "block"
+    assert conclusion["authority_ids"] == []
+    assert conclusion["confidence"] <= 0.2
+    assert conclusion["viewpoint"].startswith("安全门结论：")
+    assert "暂不提供" in conclusion["viewpoint"]
+    assert payload["requires_human_review"] is True
+    assert any("缺少可核验依据" in reason for reason in payload["blocked_reasons"])
 
 
 def test_rejected_review_invalidates_analysis(client):
@@ -670,6 +691,8 @@ def test_active_simulation_is_resumed_until_explicitly_completed(client):
     completed = client.post(f"/simulations/{first['id']}/complete")
     assert completed.status_code == 200
     assert completed.json()["status"] == "completed"
+    assert completed.json()["completion_reason"] == "user_ended"
+    assert completed.json()["completed_at"]
     rejected = client.post(
         f"/simulations/{first['id']}/messages",
         json={"content": "继续回答"},
@@ -683,6 +706,88 @@ def test_active_simulation_is_resumed_until_explicitly_completed(client):
     assert restarted.status_code == 200
     assert restarted.json()["id"] != first["id"]
     assert restarted.json()["status"] == "active"
+
+
+def _set_simulation_runtime(session_id: str, *, stage: str, round_number: int) -> None:
+    with SessionLocal() as db:
+        session = db.get(SimulationSession, session_id)
+        transcript = list(session.transcript)
+        metadata = dict(transcript[0])
+        metadata["stage"] = stage
+        metadata["round_number"] = round_number
+        metadata["expected_actor"] = "worker"
+        metadata["pending_question_by"] = "arbitrator"
+        metadata["pending_question_type"] = stage
+        transcript[0] = metadata
+        session.transcript = transcript
+        db.add(session)
+        db.commit()
+
+
+def test_simulation_naturally_completes_after_closing_statement(client):
+    case = create_case(client)
+    simulation = client.put(
+        f"/cases/{case['id']}/simulations/active",
+        json={"scenario": "arbitration", "user_role": "worker"},
+    ).json()
+    _set_simulation_runtime(
+        simulation["id"], stage="closing_or_mediation", round_number=5
+    )
+
+    response = client.post(
+        f"/simulations/{simulation['id']}/messages",
+        json={"content": "我方坚持已经陈述的请求和证据，请仲裁庭依法处理。"},
+    )
+
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["status"] == "completed"
+    assert payload["completion_reason"] == "natural_end"
+    assert payload["completed_at"]
+    assert payload["transcript"][0]["completion_reason"] == "natural_end"
+    assert payload["transcript"][0]["expected_actor"] == "none"
+    assert payload["transcript"][-1]["kind"] == "closing"
+    assert "模拟到此结束" in payload["transcript"][-1]["content"]
+
+
+def test_simulation_accepts_explicit_completion_without_model_turn(client):
+    case = create_case(client)
+    simulation = client.put(
+        f"/cases/{case['id']}/simulations/active",
+        json={"scenario": "arbitration", "user_role": "worker"},
+    ).json()
+
+    response = client.post(
+        f"/simulations/{simulation['id']}/messages",
+        json={"content": "我没有其他补充，请结束本次模拟。"},
+    )
+
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["status"] == "completed"
+    assert payload["completion_reason"] == "user_ended"
+    assert payload["transcript"][0]["last_execution"] == []
+
+
+def test_simulation_max_round_guard_completes_session(client):
+    case = create_case(client)
+    simulation = client.put(
+        f"/cases/{case['id']}/simulations/active",
+        json={"scenario": "arbitration", "user_role": "worker"},
+    ).json()
+    _set_simulation_runtime(simulation["id"], stage="debate", round_number=11)
+
+    response = client.post(
+        f"/simulations/{simulation['id']}/messages",
+        json={"content": "我补充说明现有证据能够相互印证。"},
+    )
+
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["status"] == "completed"
+    assert payload["completion_reason"] == "max_rounds"
+    assert payload["transcript"][0]["round_number"] == 12
+    assert "最大回合数" in payload["transcript"][-1]["content"]
 
 
 def test_active_simulation_never_crosses_case_boundary(client):
