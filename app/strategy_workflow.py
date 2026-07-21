@@ -1,5 +1,6 @@
 import json
 import time
+from collections.abc import Callable
 from typing import TypedDict
 
 from langgraph.graph import END, START, StateGraph
@@ -8,6 +9,8 @@ from sqlalchemy.orm import Session
 from app.agent_contracts import JudicialAssessment, PartyArgument, SafetyReview
 from app.coordinator import record_agent_task
 from app.model_gateway import ModelGateway, ModelGatewayError
+from app.observability import ModelCallTelemetry
+from app.privacy import ModelCallAuthorization
 from app.privacy_governance import build_model_authorization
 from app.models import CaseFile, LegalAuthority
 
@@ -18,7 +21,9 @@ class StrategyState(TypedDict, total=False):
     evidence: list[dict]
     authorities: list[dict]
     worker_argument: dict
+    worker_execution: dict
     employer_argument: dict
+    employer_execution: dict
     assessment: dict
     safety_review: dict
     protocol_version: str
@@ -72,25 +77,32 @@ def _filter_ids(ids: list[str], state: StrategyState) -> list[str]:
     return [item for item in ids if item in allowed]
 
 
-def build_strategy_workflow(db: Session, gateway: ModelGateway | None = None):
-    gateway = gateway or ModelGateway()
+def build_strategy_workflow(
+    db: Session,
+    gateway_factory: Callable[[], ModelGateway] | None = None,
+    authorization: ModelCallAuthorization | None = None,
+):
+    gateway_factory = gateway_factory or ModelGateway
 
-    def model_authorization(state: StrategyState):
-        if not isinstance(gateway, ModelGateway):
-            return None
-        case = db.get(CaseFile, state["case_id"])
-        return build_model_authorization(
-            db,
-            case_id=case.id,
-            tenant_id=case.tenant_id,
-            purpose="analysis",
-            settings=gateway.settings,
-        )
+    def execution_result(
+        *,
+        started: float,
+        telemetry: ModelCallTelemetry | None,
+        fallback_used: bool,
+    ) -> dict:
+        elapsed_ms = round((time.perf_counter() - started) * 1000, 2)
+        return {
+            "status": "fallback" if fallback_used else "completed",
+            "duration_ms": telemetry.duration_ms if telemetry else elapsed_ms,
+            "model_enabled": telemetry is None or telemetry.outcome != "disabled",
+            "fallback_used": fallback_used,
+            "error_type": telemetry.error_type if telemetry else None,
+        }
 
-    def audit(case_id: str, agent: str, started: float, payload: dict) -> None:
+    def audit(case_id: str, agent: str, duration_ms: float, payload: dict) -> None:
         objectives = {
             "worker_advocate": "基于事实、证据和候选法条形成劳动者主张",
-            "employer_advocate": "针对劳动者主张形成事实、证据和程序抗辩",
+            "employer_advocate": "基于事实、证据和候选法条独立形成单位抗辩",
             "neutral_adjudicator": "逐项评估双方主张并形成中立判断",
             "safety_reviewer": "检查引用、事实边界和人工接管条件",
         }
@@ -101,22 +113,25 @@ def build_strategy_workflow(db: Session, gateway: ModelGateway | None = None):
             task_type="legal_strategy",
             objective=objectives[agent],
             input_refs={"case_id": case_id},
-            output=payload,
-            duration_ms=round((time.perf_counter() - started) * 1000, 2),
+            output={"strategy_protocol": "legal-debate-v2", **payload},
+            duration_ms=duration_ms,
             constraints={"max_attempts": 2, "timeout_seconds": 60, "max_rounds": 1},
         )
         db.commit()
 
     def worker_agent(state: StrategyState) -> StrategyState:
         started = time.perf_counter()
+        gateway = gateway_factory()
+        fallback_used = False
         try:
             result = gateway.structured(
                 system="你是中国大陆劳动争议中的劳动者代理人。仅基于给定事实、证据和候选依据形成最有力但审慎的论证。",
                 user=_context(state),
                 schema=PartyArgument,
-                authorization=model_authorization(state),
+                authorization=authorization,
             )
         except ModelGatewayError:
+            fallback_used = True
             result = PartyArgument(
                 position="现有陈述显示劳动者可能具有可主张的劳动权益，但需补强证据。",
                 arguments=["围绕劳动关系、争议行为、损失及请求计算逐项举证。"],
@@ -125,20 +140,32 @@ def build_strategy_workflow(db: Session, gateway: ModelGateway | None = None):
             )
         data = result.model_dump()
         data["authority_ids"] = _filter_ids(data["authority_ids"], state)
-        audit(state["case_id"], "worker_advocate", started, {"output": data, "model_enabled": gateway.enabled})
-        return {"worker_argument": data}
+        return {
+            "worker_argument": data,
+            "worker_execution": execution_result(
+                started=started,
+                telemetry=gateway.last_telemetry,
+                fallback_used=fallback_used,
+            ),
+        }
 
     def employer_agent(state: StrategyState) -> StrategyState:
         started = time.perf_counter()
-        prompt = _context(state) + "\n劳动者观点：" + json.dumps(state["worker_argument"], ensure_ascii=False)
+        gateway = gateway_factory()
+        fallback_used = False
         try:
             result = gateway.structured(
-                system="你是用人单位代理人。识别劳动者主张中事实、证据、计算、程序和时效方面最可能成立的抗辩，不得捏造新事实。",
-                user=prompt,
-            schema=PartyArgument,
-            authorization=model_authorization(state),
+                system=(
+                    "你是中国大陆劳动争议中的用人单位代理人。仅基于给定事实、证据和"
+                    "候选依据，独立识别事实、证据、计算、程序和时效方面最可能成立的抗辩。"
+                    "不得假设或读取劳动者代理的观点，不得捏造新事实。"
+                ),
+                user=_context(state),
+                schema=PartyArgument,
+                authorization=authorization,
             )
         except ModelGatewayError:
+            fallback_used = True
             result = PartyArgument(
                 position="用人单位可能从劳动关系、行为合法性、金额计算和仲裁时效提出抗辩。",
                 arguments=["要求劳动者对每项构成要件承担相应举证责任。"],
@@ -147,11 +174,33 @@ def build_strategy_workflow(db: Session, gateway: ModelGateway | None = None):
             )
         data = result.model_dump()
         data["authority_ids"] = _filter_ids(data["authority_ids"], state)
-        audit(state["case_id"], "employer_advocate", started, {"output": data, "model_enabled": gateway.enabled})
-        return {"employer_argument": data}
+        return {
+            "employer_argument": data,
+            "employer_execution": execution_result(
+                started=started,
+                telemetry=gateway.last_telemetry,
+                fallback_used=fallback_used,
+            ),
+        }
+
+    def record_party_tasks(state: StrategyState) -> StrategyState:
+        for agent, output_key, execution_key in (
+            ("worker_advocate", "worker_argument", "worker_execution"),
+            ("employer_advocate", "employer_argument", "employer_execution"),
+        ):
+            execution = state[execution_key]
+            audit(
+                state["case_id"],
+                agent,
+                execution["duration_ms"],
+                {"output": state[output_key], "execution": execution},
+            )
+        return {}
 
     def judge_agent(state: StrategyState) -> StrategyState:
         started = time.perf_counter()
+        gateway = gateway_factory()
+        fallback_used = False
         prompt = _context(state) + "\n双方观点：" + json.dumps(
             {"worker": state["worker_argument"], "employer": state["employer_argument"]}, ensure_ascii=False
         )
@@ -159,10 +208,11 @@ def build_strategy_workflow(db: Session, gateway: ModelGateway | None = None):
             result = gateway.structured(
                 system="你是中立的劳动争议裁判评估者。逐项列出争点、举证责任、双方强弱与待核实事项。不得给出伪精确胜诉率。",
                 user=prompt,
-            schema=JudicialAssessment,
-            authorization=model_authorization(state),
+                schema=JudicialAssessment,
+                authorization=authorization,
             )
         except ModelGatewayError:
+            fallback_used = True
             result = JudicialAssessment(
                 issues=["劳动关系是否成立", "争议行为是否合法", "请求金额与时效是否成立"],
                 assessment="现有信息只能支持初步分析；关键原始证据和完整时间线尚未经过核验。",
@@ -173,7 +223,17 @@ def build_strategy_workflow(db: Session, gateway: ModelGateway | None = None):
             )
         data = result.model_dump()
         data["authority_ids"] = _filter_ids(data["authority_ids"], state)
-        audit(state["case_id"], "neutral_adjudicator", started, {"output": data, "model_enabled": gateway.enabled})
+        execution = execution_result(
+            started=started,
+            telemetry=gateway.last_telemetry,
+            fallback_used=fallback_used,
+        )
+        audit(
+            state["case_id"],
+            "neutral_adjudicator",
+            execution["duration_ms"],
+            {"output": data, "execution": execution},
+        )
         return {"assessment": data}
 
     def safety_agent(state: StrategyState) -> StrategyState:
@@ -193,26 +253,42 @@ def build_strategy_workflow(db: Session, gateway: ModelGateway | None = None):
             corrected_summary=summary,
             requires_human_lawyer=high_risk,
         ).model_dump()
-        audit(state["case_id"], "safety_reviewer", started, review)
+        audit(
+            state["case_id"],
+            "safety_reviewer",
+            round((time.perf_counter() - started) * 1000, 2),
+            review,
+        )
         return {"safety_review": review}
 
     graph = StateGraph(StrategyState)
     graph.add_node("worker_advocate", worker_agent)
     graph.add_node("employer_advocate", employer_agent)
+    graph.add_node("record_party_tasks", record_party_tasks)
     graph.add_node("neutral_adjudicator", judge_agent)
     graph.add_node("safety_reviewer", safety_agent)
     graph.add_edge(START, "worker_advocate")
-    graph.add_edge("worker_advocate", "employer_advocate")
-    graph.add_edge("employer_advocate", "neutral_adjudicator")
+    graph.add_edge(START, "employer_advocate")
+    graph.add_edge(["worker_advocate", "employer_advocate"], "record_party_tasks")
+    graph.add_edge("record_party_tasks", "neutral_adjudicator")
     graph.add_edge("neutral_adjudicator", "safety_reviewer")
     graph.add_edge("safety_reviewer", END)
     return graph.compile()
 
 
 def run_strategy(db: Session, case: CaseFile, authorities: list[LegalAuthority]) -> StrategyState:
+    gateway_settings = ModelGateway().settings
+    authorization = build_model_authorization(
+        db,
+        case_id=case.id,
+        tenant_id=case.tenant_id,
+        purpose="analysis",
+        settings=gateway_settings,
+    )
+    db.commit()
     initial: StrategyState = {
         "case_id": case.id,
-        "protocol_version": "legal-debate-v1",
+        "protocol_version": "legal-debate-v2",
         "round_number": 1,
         "facts": _select_strategy_facts(case),
         "evidence": [
@@ -234,4 +310,4 @@ def run_strategy(db: Session, case: CaseFile, authorities: list[LegalAuthority])
             for item in authorities[:MAX_STRATEGY_AUTHORITIES]
         ],
     }
-    return build_strategy_workflow(db).invoke(initial)
+    return build_strategy_workflow(db, authorization=authorization).invoke(initial)
