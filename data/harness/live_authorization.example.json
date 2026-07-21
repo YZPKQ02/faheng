@@ -1,0 +1,12 @@
+{
+  "schema_version": "harness-authorization-v1",
+  "status": "template",
+  "consent_id": "replace-with-approved-consent-id",
+  "consent_version": 1,
+  "tenant_id": "harness",
+  "provider": "deepseek",
+  "purpose": "harness_evaluation",
+  "allowed_case_pack_version": "live-strategy-v1",
+  "allowed_data_classifications": ["synthetic"],
+  "expires_on": "2099-12-31"
+}

@@ -1,0 +1,44 @@
+{
+  "schema_version": "harness-case-pack-v1",
+  "version": "offline-strategy-v1",
+  "as_of": "2026-07-21",
+  "cases": [
+    {
+      "id": "harness-offline-termination",
+      "title": "解除劳动合同争议",
+      "data_classification": "synthetic",
+      "external_model_allowed": false,
+      "facts": [
+        {"id": "termination-f1", "content": "劳动者收到单位出具的解除通知", "status": "confirmed"},
+        {"id": "termination-f2", "content": "单位尚未说明解除所依据的具体事实", "status": "user_stated"}
+      ],
+      "evidence": [
+        {"id": "termination-e1", "name": "解除通知", "purpose": "证明单位作出解除决定", "authenticity": "verified"}
+      ]
+    },
+    {
+      "id": "harness-offline-wage",
+      "title": "欠薪与加班费争议",
+      "data_classification": "synthetic",
+      "external_model_allowed": false,
+      "facts": [
+        {"id": "wage-f1", "content": "劳动者主张单位拖欠两个月工资", "status": "user_stated"},
+        {"id": "wage-f2", "content": "劳动者保存了部分考勤记录", "status": "confirmed"}
+      ],
+      "evidence": [
+        {"id": "wage-e1", "name": "工资流水", "purpose": "核对工资支付情况"},
+        {"id": "wage-e2", "name": "考勤记录", "purpose": "核对工作时间"}
+      ]
+    },
+    {
+      "id": "harness-offline-evidence-gap",
+      "title": "证据不足的劳动关系争议",
+      "data_classification": "synthetic",
+      "external_model_allowed": false,
+      "facts": [
+        {"id": "gap-f1", "content": "劳动者称曾接受单位日常管理并按月获得报酬", "status": "user_stated"}
+      ],
+      "evidence": []
+    }
+  ]
+}
