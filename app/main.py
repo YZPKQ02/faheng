@@ -27,6 +27,8 @@ from app.models import (
     HumanReviewTask,
     LegalAuthority,
     LegalCase,
+    LegalDocument,
+    LegalDocumentVersion,
     Message,
     ModelDataConsent,
     CasePseudonym,
@@ -54,6 +56,8 @@ from app.schemas import (
     ModelConsentCreate,
     ModelConsentRead,
     KnowledgeStats,
+    LegalVersionDecision,
+    LegalVersionRead,
     PseudonymCreate,
     PseudonymRead,
     SimulationCreate,
@@ -64,6 +68,7 @@ from app.schemas import (
 from app.analysis_lifecycle import invalidate_case_analyses
 from app.coordinator import ensure_human_review, reconcile_case_stage
 from app.reasoning import decision_gate
+from app.rate_limit import OperationRateLimitExceeded, OperationRateLimiter
 from app.services import (
     DISCLAIMER,
     analyze_case,
@@ -79,6 +84,10 @@ from app.model_gateway import ModelGateway
 from app.observability import aggregate_tenant_metrics
 from app.privacy import entity_fingerprint
 from app.worker_counsel import refresh_worker_counsel_memory
+from app.legal_governance import transition_legal_version
+
+
+model_operation_limiter = OperationRateLimiter()
 
 
 def load_case(db: Session, case_id: str, principal: Principal) -> CaseFile:
@@ -100,6 +109,67 @@ def load_case(db: Session, case_id: str, principal: Principal) -> CaseFile:
     return case
 
 
+def require_published_analysis(db: Session, case: CaseFile) -> AnalysisConclusion:
+    conclusion = db.scalar(
+        select(AnalysisConclusion)
+        .where(
+            AnalysisConclusion.case_id == case.id,
+            AnalysisConclusion.is_current.is_(True),
+            AnalysisConclusion.publication_status == "published",
+        )
+        .order_by(AnalysisConclusion.created_at.desc())
+    )
+    if conclusion is None:
+        raise HTTPException(
+            status_code=409,
+            detail="当前案件没有已发布的有效分析；请先完成安全审查或人工复核",
+        )
+    return conclusion
+
+
+def reject_if_analysis_awaits_publication(db: Session, case: CaseFile) -> None:
+    unpublished = db.scalar(
+        select(AnalysisConclusion.id).where(
+            AnalysisConclusion.case_id == case.id,
+            AnalysisConclusion.is_current.is_(True),
+            AnalysisConclusion.publication_status.in_(("draft", "pending_review", "blocked")),
+        )
+    )
+    if unpublished:
+        raise HTTPException(
+            status_code=409,
+            detail="当前分析尚未发布，完成复核或重新分析后才能开始仲裁模拟",
+        )
+
+
+def lock_case_for_expensive_operation(db: Session, case: CaseFile) -> None:
+    db.execute(
+        select(CaseFile.id)
+        .where(CaseFile.id == case.id, CaseFile.tenant_id == case.tenant_id)
+        .with_for_update()
+    ).scalar_one()
+
+
+def lock_simulation(db: Session, session_id: str) -> SimulationSession | None:
+    return db.scalar(
+        select(SimulationSession)
+        .where(SimulationSession.id == session_id)
+        .with_for_update()
+    )
+
+
+def enforce_model_operation_limit(principal: Principal, operation: str) -> None:
+    if not ModelGateway().enabled:
+        return
+    try:
+        model_operation_limiter.reserve(
+            f"{principal.tenant_id}:{principal.actor_id}:{operation}",
+            limit=settings.model_operations_per_minute,
+        )
+    except OperationRateLimitExceeded as exc:
+        raise HTTPException(status_code=429, detail=str(exc)) from exc
+
+
 @asynccontextmanager
 async def lifespan(_: FastAPI):
     if engine.dialect.name == "sqlite":
@@ -115,6 +185,21 @@ async def lifespan(_: FastAPI):
                 connection.execute(text("ALTER TABLE analysis_conclusions ADD COLUMN is_current BOOLEAN DEFAULT 1"))
             if "invalidated_reason" not in columns:
                 connection.execute(text("ALTER TABLE analysis_conclusions ADD COLUMN invalidated_reason VARCHAR(200)"))
+            if "publication_status" not in columns:
+                connection.execute(
+                    text(
+                        "ALTER TABLE analysis_conclusions ADD COLUMN "
+                        "publication_status VARCHAR(30) DEFAULT 'draft'"
+                    )
+                )
+            if "published_at" not in columns:
+                connection.execute(
+                    text("ALTER TABLE analysis_conclusions ADD COLUMN published_at DATETIME")
+                )
+            if "published_by" not in columns:
+                connection.execute(
+                    text("ALTER TABLE analysis_conclusions ADD COLUMN published_by VARCHAR(200)")
+                )
         case_columns = {item["name"] for item in inspect(engine).get_columns("case_files")}
         with engine.begin() as connection:
             if "tenant_id" not in case_columns:
@@ -251,6 +336,78 @@ def internal_metrics(
     return aggregate_tenant_metrics(db, tenant_id=principal.tenant_id, hours=hours)
 
 
+def legal_version_read(
+    version: LegalDocumentVersion,
+    document: LegalDocument,
+) -> LegalVersionRead:
+    return LegalVersionRead(
+        id=version.id,
+        document_id=document.id,
+        title=document.title,
+        version_label=version.version_label,
+        status=version.status,
+        review_status=version.review_status,
+        effective_on=version.effective_on,
+        expired_on=version.expired_on,
+        source_url=version.source_url,
+        content_hash=version.content_hash,
+        ingested_at=version.ingested_at,
+    )
+
+
+@app.get("/internal/legal-versions", response_model=list[LegalVersionRead])
+def list_legal_versions(
+    review_status: str | None = Query(default=None),
+    db: Session = Depends(get_db),
+    _: Principal = Depends(require_reviewer),
+) -> list[LegalVersionRead]:
+    allowed = {"pending", "approved", "published", "rejected"}
+    if review_status is not None and review_status not in allowed:
+        raise HTTPException(status_code=422, detail="法律语料审核状态无效")
+    statement = (
+        select(LegalDocumentVersion, LegalDocument)
+        .join(LegalDocument, LegalDocument.id == LegalDocumentVersion.document_id)
+        .order_by(LegalDocumentVersion.ingested_at.desc())
+    )
+    if review_status is not None:
+        statement = statement.where(LegalDocumentVersion.review_status == review_status)
+    return [legal_version_read(version, document) for version, document in db.execute(statement)]
+
+
+@app.post(
+    "/internal/legal-versions/{version_id}/decision",
+    response_model=LegalVersionRead,
+)
+def decide_legal_version(
+    version_id: str,
+    payload: LegalVersionDecision,
+    db: Session = Depends(get_db),
+    principal: Principal = Depends(require_reviewer),
+) -> LegalVersionRead:
+    version = db.get(LegalDocumentVersion, version_id)
+    if version is None:
+        raise HTTPException(status_code=404, detail="法律语料版本不存在")
+    try:
+        transition_legal_version(
+            db,
+            version,
+            action=payload.action,
+            actor_id=principal.actor_id,
+            roles=principal.roles,
+            notes=payload.notes,
+        )
+    except PermissionError as exc:
+        raise HTTPException(status_code=403, detail=str(exc)) from exc
+    except ValueError as exc:
+        raise HTTPException(status_code=409, detail=str(exc)) from exc
+    document = db.get(LegalDocument, version.document_id)
+    if document is None:
+        raise HTTPException(status_code=409, detail="法律语料版本缺少文档主体")
+    db.commit()
+    db.refresh(version)
+    return legal_version_read(version, document)
+
+
 @app.post("/cases", response_model=CaseRead, status_code=status.HTTP_201_CREATED)
 def create_case(
     payload: CaseCreate,
@@ -359,6 +516,8 @@ def post_message(
     principal: Principal = Depends(current_principal),
 ) -> MessageResponse:
     case = load_case(db, case_id, principal)
+    lock_case_for_expensive_operation(db, case)
+    enforce_model_operation_limit(principal, "intake")
     message, state = run_intake(db, case, payload.content)
     reconcile_case_stage(db, case)
     db.commit()
@@ -378,6 +537,8 @@ def stream_message(
     principal: Principal = Depends(current_principal),
 ) -> StreamingResponse:
     case = load_case(db, case_id, principal)
+    lock_case_for_expensive_operation(db, case)
+    enforce_model_operation_limit(principal, "intake")
 
     def generate() -> Iterator[str]:
         yield sse("status", {"stage": "observe", "label": "正在回顾本案与当前问题"})
@@ -496,6 +657,8 @@ def run_analysis(
     principal: Principal = Depends(current_principal),
 ) -> AnalysisResponse:
     case = load_case(db, case_id, principal)
+    lock_case_for_expensive_operation(db, case)
+    enforce_model_operation_limit(principal, "analysis")
     conclusions, authorities, gaps, next_steps = analyze_case(db, case, payload.as_of)
     blocked_reasons = decision_gate(
         conclusions[0].quality_metrics, conclusions[0].authority_ids
@@ -510,7 +673,11 @@ def run_analysis(
     db.commit()
     return AnalysisResponse(
         conclusions=conclusions,
-        authorities=authorities,
+        authorities=[
+            authority
+            for authority in authorities
+            if authority.id in conclusions[0].authority_ids
+        ],
         evidence_gaps=gaps,
         next_steps=next_steps,
         disclaimer=DISCLAIMER,
@@ -565,16 +732,31 @@ def decide_human_review(
         raise HTTPException(status_code=409, detail="人工审核任务已处理")
     case = load_case(db, review.case_id, principal)
     conclusion = db.get(AnalysisConclusion, review.analysis_id)
+    if (
+        payload.decision == "approved"
+        and conclusion
+        and conclusion.publication_status == "blocked"
+    ):
+        raise HTTPException(
+            status_code=409,
+            detail="安全门已阻断该分析；必须修正材料并重新分析，不能直接批准发布",
+        )
     review.status = "completed"
     review.decision = payload.decision
     review.reviewer = principal.actor_id
     review.notes = payload.notes
     review.reviewed_at = datetime.now(timezone.utc)
-    if payload.decision in ("rejected", "changes_requested") and conclusion:
-        conclusion.is_current = False
-        conclusion.invalidated_reason = (
-            "人工审核驳回" if payload.decision == "rejected" else "人工审核要求修改"
-        )
+    if conclusion:
+        if payload.decision == "approved":
+            conclusion.publication_status = "published"
+            conclusion.published_at = datetime.now(timezone.utc)
+            conclusion.published_by = principal.actor_id
+        elif payload.decision in ("rejected", "changes_requested"):
+            conclusion.is_current = False
+            conclusion.publication_status = payload.decision
+            conclusion.invalidated_reason = (
+                "人工审核驳回" if payload.decision == "rejected" else "人工审核要求修改"
+            )
     db.add(
         AuditEvent(
             case_id=case.id,
@@ -601,9 +783,10 @@ def start_simulation(
     db: Session = Depends(get_db),
     principal: Principal = Depends(current_principal),
 ):
-    return create_simulation(
-        db, load_case(db, case_id, principal), payload.scenario, payload.user_role
-    )
+    case = load_case(db, case_id, principal)
+    lock_case_for_expensive_operation(db, case)
+    reject_if_analysis_awaits_publication(db, case)
+    return create_simulation(db, case, payload.scenario, payload.user_role)
 
 
 @app.put("/cases/{case_id}/simulations/active", response_model=SimulationRead)
@@ -613,9 +796,10 @@ def open_active_simulation(
     db: Session = Depends(get_db),
     principal: Principal = Depends(current_principal),
 ):
-    return open_simulation(
-        db, load_case(db, case_id, principal), payload.scenario, payload.user_role
-    )
+    case = load_case(db, case_id, principal)
+    lock_case_for_expensive_operation(db, case)
+    reject_if_analysis_awaits_publication(db, case)
+    return open_simulation(db, case, payload.scenario, payload.user_role)
 
 
 @app.post("/simulations/{session_id}/messages", response_model=SimulationRead)
@@ -629,8 +813,12 @@ def simulation_message(
     if not session:
         raise HTTPException(status_code=404, detail="模拟会话不存在")
     case = load_case(db, session.case_id, principal)
+    session = lock_simulation(db, session_id)
+    if session is None:
+        raise HTTPException(status_code=404, detail="模拟会话不存在")
     if session.status != "active":
         raise HTTPException(status_code=409, detail="本次模拟已结束，请重新开始一场模拟")
+    enforce_model_operation_limit(principal, "simulation")
     return continue_simulation(db, session, case, payload.content)
 
 
@@ -645,8 +833,12 @@ def stream_simulation_message(
     if not session:
         raise HTTPException(status_code=404, detail="模拟会话不存在")
     case = load_case(db, session.case_id, principal)
+    session = lock_simulation(db, session_id)
+    if session is None:
+        raise HTTPException(status_code=404, detail="模拟会话不存在")
     if session.status != "active":
         raise HTTPException(status_code=409, detail="本次模拟已结束，请重新开始一场模拟")
+    enforce_model_operation_limit(principal, "simulation")
     previous_count = len(session.transcript)
 
     def generate() -> Iterator[str]:
@@ -749,6 +941,9 @@ def finish_simulation(
     if not session:
         raise HTTPException(status_code=404, detail="模拟会话不存在")
     load_case(db, session.case_id, principal)
+    session = lock_simulation(db, session_id)
+    if session is None:
+        raise HTTPException(status_code=404, detail="模拟会话不存在")
     return complete_simulation(db, session)
 
 
@@ -759,7 +954,9 @@ def generate_document(
     db: Session = Depends(get_db),
     principal: Principal = Depends(current_principal),
 ):
-    return create_document(db, load_case(db, case_id, principal), payload.document_type)
+    case = load_case(db, case_id, principal)
+    require_published_analysis(db, case)
+    return create_document(db, case, payload.document_type)
 
 
 @app.get("/cases/{case_id}/authorities", response_model=list[AuthorityRead])

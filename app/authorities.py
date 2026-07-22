@@ -180,6 +180,7 @@ def retrieve_authority_hits(
                 LegalDocumentVersion.expired_on > as_of,
             ),
             LegalDocumentVersion.status.in_(("active", "expired")),
+            LegalDocumentVersion.review_status == "published",
             LegalDocument.jurisdiction.in_(("全国", "中国大陆", region)),
         )
     ).all()
@@ -359,6 +360,7 @@ def retrieve_hybrid_authority_hits(
                     LegalDocumentVersion.expired_on > as_of,
                 ),
                 LegalDocumentVersion.status.in_(("active", "expired")),
+                LegalDocumentVersion.review_status == "published",
                 LegalDocument.jurisdiction.in_(("全国", "中国大陆", region)),
                 LegalChunkEmbedding.provider == provider.name,
                 LegalChunkEmbedding.model == provider.model,

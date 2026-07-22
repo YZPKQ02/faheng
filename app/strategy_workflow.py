@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session
 
 from app.agent_contracts import JudicialAssessment, PartyArgument, SafetyReview
 from app.coordinator import record_agent_task
-from app.model_gateway import ModelGateway, ModelGatewayError
+from app.model_gateway import ModelGateway, ModelGatewayError, ModelRequestBudget
 from app.observability import ModelCallTelemetry
 from app.privacy import ModelCallAuthorization
 from app.privacy_governance import build_model_authorization
@@ -303,6 +303,11 @@ def build_strategy_workflow(
 
 def run_strategy(db: Session, case: CaseFile, authorities: list[LegalAuthority]) -> StrategyState:
     gateway_settings = ModelGateway().settings
+    logical_calls = gateway_settings.analysis_model_call_budget
+    request_budget = ModelRequestBudget(
+        max_logical_calls=logical_calls,
+        max_http_requests=logical_calls * gateway_settings.model_http_request_multiplier,
+    )
     authorization = build_model_authorization(
         db,
         case_id=case.id,
@@ -335,4 +340,11 @@ def run_strategy(db: Session, case: CaseFile, authorities: list[LegalAuthority])
             for item in authorities[:MAX_STRATEGY_AUTHORITIES]
         ],
     }
-    return build_strategy_workflow(db, authorization=authorization).invoke(initial)
+    return build_strategy_workflow(
+        db,
+        gateway_factory=lambda: ModelGateway(
+            gateway_settings,
+            request_budget=request_budget,
+        ),
+        authorization=authorization,
+    ).invoke(initial)

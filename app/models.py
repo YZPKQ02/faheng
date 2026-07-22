@@ -26,6 +26,13 @@ class FactStatus(StrEnum):
     UNKNOWN = "unknown"
 
 
+class LegalVersionReviewStatus(StrEnum):
+    PENDING = "pending"
+    APPROVED = "approved"
+    PUBLISHED = "published"
+    REJECTED = "rejected"
+
+
 class CaseFile(Base):
     __tablename__ = "case_files"
     id: Mapped[str] = mapped_column(String(36), primary_key=True, default=uid)
@@ -221,6 +228,9 @@ class AnalysisConclusion(Base):
     quality_metrics: Mapped[dict] = mapped_column(JSON, default=dict)
     is_current: Mapped[bool] = mapped_column(default=True)
     invalidated_reason: Mapped[str | None] = mapped_column(String(200), nullable=True)
+    publication_status: Mapped[str] = mapped_column(String(30), default="draft", index=True)
+    published_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    published_by: Mapped[str | None] = mapped_column(String(200), nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
 
 

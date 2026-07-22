@@ -13,8 +13,9 @@ from app.agent_contracts import (
 )
 from app.analysis_lifecycle import invalidate_case_analyses
 from app.authorities import search_authorities
+from app.config import get_settings
 from app.conversation_memory import ConversationMemory, build_conversation_memory
-from app.model_gateway import ModelGateway, ModelGatewayError
+from app.model_gateway import ModelGateway, ModelGatewayError, ModelRequestBudget
 from app.observability import record_model_call_metric
 from app.legal_rag import build_rag_observations, render_citations, validate_authority_ids
 from app.privacy_governance import build_model_authorization
@@ -174,7 +175,16 @@ def _compile_execution_plan(plan: ConversationPlan) -> ConversationExecutionPlan
 
 
 def build_workflow(db: Session, gateway: ModelGateway | None = None):
-    gateway = gateway or ModelGateway()
+    if gateway is None:
+        settings = get_settings()
+        logical_calls = settings.intake_model_call_budget
+        gateway = ModelGateway(
+            settings,
+            request_budget=ModelRequestBudget(
+                max_logical_calls=logical_calls,
+                max_http_requests=logical_calls * settings.model_http_request_multiplier,
+            ),
+        )
 
     def model_authorization(state: AdvisorState):
         if not isinstance(gateway, ModelGateway):

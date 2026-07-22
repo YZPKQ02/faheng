@@ -22,6 +22,10 @@ class Principal:
     def can_access_tenant_cases(self) -> bool:
         return bool(self.roles & {"admin", "reviewer"})
 
+    @property
+    def can_publish_legal_versions(self) -> bool:
+        return bool(self.roles & {"admin", "lawyer"})
+
 
 bearer = HTTPBearer(auto_error=False)
 

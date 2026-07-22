@@ -1,6 +1,7 @@
 from functools import lru_cache
 from urllib.parse import urlsplit, urlunsplit
 
+from pydantic import model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -21,6 +22,11 @@ class Settings(BaseSettings):
     deepseek_model: str = "deepseek-v4-flash"
     deepseek_timeout_seconds: float = 45.0
     deepseek_max_retries: int = 2
+    intake_model_call_budget: int = 2
+    analysis_model_call_budget: int = 3
+    simulation_model_call_budget: int = 3
+    model_http_request_multiplier: int = 3
+    model_operations_per_minute: int = 12
     embedding_provider: str = "deterministic"
     embedding_base_url: str | None = None
     embedding_api_key: str | None = None
@@ -36,6 +42,7 @@ class Settings(BaseSettings):
     )
     cors_origins: str = "http://localhost:3001,http://127.0.0.1:3001"
     auth_enabled: bool = False
+    deployment_environment: str = "local"
     oidc_issuer: str | None = None
     oidc_audience: str | None = None
     oidc_jwks_url: str | None = None
@@ -45,6 +52,27 @@ class Settings(BaseSettings):
     oidc_roles_claim: str = "roles"
 
     model_config = SettingsConfigDict(env_file=(".env", ".env.local"), extra="ignore")
+
+    @model_validator(mode="after")
+    def validate_deployment_safety(self):
+        environment = self.deployment_environment.strip().casefold()
+        if environment not in {"local", "test", "staging", "production"}:
+            raise ValueError("DEPLOYMENT_ENVIRONMENT 必须是 local/test/staging/production")
+        if environment in {"staging", "production"} and not self.auth_enabled:
+            raise ValueError("共享或生产环境必须启用 AUTH_ENABLED")
+        if self.auth_enabled and (
+            not self.oidc_issuer
+            or not self.oidc_audience
+            or not (self.oidc_jwks_url or self.oidc_signing_key)
+        ):
+            raise ValueError("启用认证时必须完整配置 OIDC issuer、audience 和验签密钥")
+        if self.auth_enabled and "*" in self.cors_origin_list:
+            raise ValueError("启用认证时不允许通配 CORS 来源")
+        if environment == "production" and not self.model_redaction_enabled:
+            raise ValueError("生产环境不得关闭模型出站脱敏")
+        if environment == "production" and not self.model_consent_required:
+            raise ValueError("生产环境不得关闭案件模型授权")
+        return self
 
     @property
     def cors_origin_list(self) -> list[str]:

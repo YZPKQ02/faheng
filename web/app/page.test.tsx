@@ -3,9 +3,13 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { api } from "../lib/api";
 import { normalizeConsultationContent } from "../lib/format";
 import { mergeConsentScope } from "../lib/consent";
+import { clearAuthSession, saveAuthToken } from "../lib/auth";
 
 describe("legal advisor workspace", () => {
-  afterEach(() => vi.unstubAllGlobals());
+  afterEach(() => {
+    clearAuthSession();
+    vi.unstubAllGlobals();
+  });
 
   it("keeps the legal-risk disclaimer in the product copy", () => {
     const disclaimer = "本产品提供法律信息与案件梳理，不替代执业律师，不承诺胜诉";
@@ -29,6 +33,23 @@ describe("legal advisor workspace", () => {
     expect(fetchMock).toHaveBeenCalledWith(
       "http://localhost:8000/cases/case-1/facts/fact-1",
       expect.objectContaining({ method: "PATCH", body: JSON.stringify({ status: "confirmed", occurred_on: null }) }),
+    );
+  });
+
+  it("adds the saved bearer token to API requests", async () => {
+    saveAuthToken("Bearer test-access-token");
+    const caseFile = { id: "case-1", title: "Case", stage: "intake", goal: "", risk_level: "low", created_at: "", updated_at: "", facts: [], evidence: [], messages: [], analyses: [] };
+    const fetchMock = vi.fn().mockResolvedValue(
+      new Response(JSON.stringify(caseFile), { status: 200, headers: { "Content-Type": "application/json" } }),
+    );
+    vi.stubGlobal("fetch", fetchMock);
+
+    await expect(api.getCase("case-1")).resolves.toEqual(caseFile);
+    expect(fetchMock).toHaveBeenCalledWith(
+      "http://localhost:8000/cases/case-1",
+      expect.objectContaining({
+        headers: expect.objectContaining({ Authorization: "Bearer test-access-token" }),
+      }),
     );
   });
 

@@ -24,8 +24,17 @@ from app.authorities import SEED_AUTHORITIES, seed_authorities
 from app.config import Settings
 from app.database import Base
 from app.evaluation import EvalCase, evaluate_trace, load_gold_cases
+from app.legal_governance import transition_legal_version
 from app.model_gateway import ModelGateway, ModelGatewayError, ModelRequestBudget
-from app.models import AgentTask, AuditEvent, CaseFile, EvidenceItem, Fact, LegalAuthority
+from app.models import (
+    AgentTask,
+    AuditEvent,
+    CaseFile,
+    EvidenceItem,
+    Fact,
+    LegalAuthority,
+    LegalDocumentVersion,
+)
 from app.observability import ModelCallTelemetry
 from app.privacy import ModelCallAuthorization
 from app.reasoning import build_reasoning_trace
@@ -250,6 +259,28 @@ def isolated_session():
     finally:
         Base.metadata.drop_all(engine)
         engine.dispose()
+
+
+def _publish_fixture_legal_versions(db: Session) -> None:
+    versions = list(db.scalars(select(LegalDocumentVersion)).all())
+    for version in versions:
+        transition_legal_version(
+            db,
+            version,
+            action="approve",
+            actor_id="harness-legal-reviewer",
+            roles={"admin"},
+            notes="isolated harness corpus",
+        )
+        transition_legal_version(
+            db,
+            version,
+            action="publish",
+            actor_id="harness-legal-publisher",
+            roles={"admin"},
+            notes="isolated harness corpus",
+        )
+    db.commit()
 
 
 @contextmanager
@@ -503,6 +534,7 @@ def run_offline(
     with _deterministic_embedding_settings():
         with isolated_session() as db:
             seed_authorities(db)
+            _publish_fixture_legal_versions(db)
             authorities = list(db.scalars(select(LegalAuthority)).all())
             for item in pack.cases:
                 case = _seed_case(db, item)
@@ -683,6 +715,7 @@ def run_live(
     with _deterministic_embedding_settings():
         with isolated_session() as db:
             seed_authorities(db)
+            _publish_fixture_legal_versions(db)
             authorities = list(db.scalars(select(LegalAuthority)).all())
             for item in pack.cases:
                 case = _seed_case(db, item)

@@ -16,6 +16,7 @@ def invalidate_case_analyses(db: Session, case: CaseFile, reason: str) -> int:
     for conclusion in current:
         conclusion.is_current = False
         conclusion.invalidated_reason = reason
+        conclusion.publication_status = "stale"
         reviews = db.scalars(
             select(HumanReviewTask).where(
                 HumanReviewTask.analysis_id == conclusion.id,

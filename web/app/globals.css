@@ -102,8 +102,12 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px
 .stage-pill { padding: 5px 9px; border-radius: 999px; background: var(--blue-soft); color: #40647e; font-size: 11px; font-weight: 600; }
 .stage-pill.human_review { background: var(--amber-soft); color: var(--amber); }
 .stage-pill.strategy_ready { background: var(--green-soft); color: var(--green); }
-.header-trust { display: flex; align-items: center; gap: 7px; margin-left: auto; color: var(--muted); font-size: 12px; }
+.header-actions { display: flex; align-items: center; gap: 10px; margin-left: auto; }
+.header-trust { display: flex; align-items: center; gap: 7px; color: var(--muted); font-size: 12px; }
 .header-trust i { width: 7px; height: 7px; border-radius: 50%; background: var(--green); }
+.auth-button { min-height: 34px; padding: 0 12px; border: 1px solid var(--line-strong); border-radius: 9px; background: #fff; color: var(--ink-soft); font-size: 12px; font-weight: 650; }
+.auth-button:hover { border-color: #98a6af; color: var(--ink); }
+.auth-button.active { border-color: #b8d8cd; background: var(--green-soft); color: var(--green); }
 
 .toast { position: absolute; top: 78px; right: 24px; z-index: 80; display: flex; align-items: flex-start; gap: 11px; width: min(420px, calc(100% - 32px)); padding: 14px; border: 1px solid #efc9c9; border-radius: 12px; background: #fff; box-shadow: var(--shadow-md); }
 .toast-icon { display: grid; place-items: center; flex: 0 0 26px; height: 26px; border-radius: 50%; background: var(--red-soft); color: var(--red); font-weight: 700; }
@@ -140,6 +144,12 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px
 .starter-grid em { color: #9ca6ad; font-size: 18px; font-style: normal; }
 .welcome-foot { padding: 20px 34px 28px; border-top: 1px solid var(--line); color: var(--muted); text-align: center; font-size: 12px; }
 .welcome-foot b { margin-right: 7px; color: var(--ink-soft); }
+
+.auth-gate { display: grid; place-items: center; height: calc(100vh - 64px); padding: 28px; background: radial-gradient(circle at 50% 0, rgba(176, 138, 78, .12), transparent 30%), var(--canvas); }
+.auth-gate section { width: min(560px, 100%); padding: 34px; border: 1px solid var(--line); border-radius: var(--radius-md); background: #fff; box-shadow: var(--shadow-md); }
+.auth-gate h1 { margin: 10px 0; font: 30px "Songti SC", Georgia, serif; }
+.auth-gate p { margin: 0 0 22px; color: var(--ink-soft); font-size: 13px; line-height: 1.8; }
+.auth-gate .primary-button { min-height: 44px; padding: 0 16px; border: 0; border-radius: 9px; background: var(--navy-900); color: #fff; font-size: 13px; font-weight: 650; }
 
 .desk { display: grid; grid-template-columns: minmax(0, 1fr) 370px; height: calc(100vh - 64px); min-height: 0; overflow: hidden; }
 .chat-column { display: flex; flex-direction: column; min-width: 0; min-height: 0; background: var(--canvas); }
@@ -253,6 +263,10 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px
 .report-review-alert ul { margin: 8px 0 0; padding-left: 18px; color: #795c31; font-size: 12px; line-height: 1.7; }
 .report-summary { display: grid; grid-template-columns: 210px 1fr; max-width: 1120px; margin: 30px auto 16px; overflow: hidden; border-radius: 16px; background: linear-gradient(135deg, var(--navy-900), #102f47); color: #fff; box-shadow: 0 20px 50px rgba(7, 21, 34, .18); }
 .report-review-alert + .report-summary { margin-top: 14px; }
+.report-publication-lock { display: grid; grid-template-columns: 150px 1fr; gap: 20px; max-width: 1120px; margin: 14px auto; padding: 22px 24px; border: 1px solid #e7c6c2; border-radius: 14px; background: #fff7f6; }
+.report-publication-lock > span { align-self: start; width: max-content; padding: 6px 9px; border-radius: 999px; background: var(--red-soft); color: var(--red); font-size: 10px; font-weight: 700; }
+.report-publication-lock b { font-size: 14px; }
+.report-publication-lock p { margin: 7px 0 0; color: #775552; font-size: 12px; line-height: 1.7; }
 .report-summary > div { padding: 27px 30px; }
 .report-summary > div:first-child { border-right: 1px solid rgba(255, 255, 255, .12); }
 .report-summary span, .report-summary > div > small { color: #92a6b6; font-size: 10px; letter-spacing: .08em; }
@@ -292,6 +306,17 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px
 .reasoning-section li b, .reasoning-section li small { display: block; }
 .reasoning-section li b { font-size: 11px; }
 .reasoning-section li small { margin-top: 3px; color: var(--muted); font-size: 9px; }
+.citation-section { max-width: 1120px; margin: 16px auto; padding: 28px; border: 1px solid var(--line); border-radius: 18px; background: #fff; }
+.citation-section > header { display: flex; align-items: flex-end; justify-content: space-between; padding-bottom: 18px; border-bottom: 1px solid var(--line); }
+.citation-section header small { color: var(--gold); font-size: 9px; font-weight: 700; letter-spacing: .14em; }
+.citation-section h2 { margin: 6px 0 0; font: 23px "Songti SC", Georgia, serif; }
+.citation-section > header p { margin: 0; color: var(--muted); font-size: 11px; }
+.citation-section article { padding: 18px 0; border-bottom: 1px solid var(--line); }
+.citation-section article:last-child { border-bottom: 0; }
+.citation-section article div { display: flex; justify-content: space-between; gap: 20px; }
+.citation-section article span { color: var(--muted); font-size: 10px; }
+.citation-section article p { margin: 10px 0; color: #3e474d; font-size: 12px; line-height: 1.8; }
+.citation-section article a { color: var(--green); font-size: 11px; font-weight: 700; }
 .next-actions { display: flex; align-items: center; justify-content: space-between; max-width: 1120px; margin: 16px auto 0; padding: 25px 28px; border: 1px solid #e2d4bb; border-radius: var(--radius-md); background: var(--surface-warm); }
 .next-actions small { color: var(--gold); font-size: 9px; font-weight: 700; letter-spacing: .17em; }
 .next-actions h2 { margin: 6px 0 0; font: 20px "Songti SC", Georgia, serif; }
@@ -330,6 +355,9 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px
 .evidence-dialog input, .evidence-dialog textarea { display: block; width: 100%; margin-top: 8px; padding: 12px 13px; border: 1px solid var(--line-strong); border-radius: 9px; outline: 0; color: var(--ink); font-size: 13px; }
 .evidence-dialog input:focus, .evidence-dialog textarea:focus { border-color: #718b9d; box-shadow: 0 0 0 3px rgba(63, 105, 134, .09); }
 .evidence-dialog textarea { min-height: 100px; resize: vertical; line-height: 1.6; }
+.auth-dialog label { display: block; margin-top: 18px; color: var(--ink-soft); font-size: 12px; font-weight: 650; }
+.auth-dialog textarea { display: block; width: 100%; min-height: 132px; margin-top: 8px; padding: 12px 13px; resize: vertical; border: 1px solid var(--line-strong); border-radius: 9px; outline: 0; color: var(--ink); font: 12px/1.65 ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace; }
+.auth-dialog textarea:focus { border-color: #718b9d; box-shadow: 0 0 0 3px rgba(63, 105, 134, .09); }
 .backdrop { display: none; }
 
 .simulation-overlay { position: fixed; inset: 0; z-index: 200; display: flex; flex-direction: column; width: 100%; height: 100dvh; overflow: hidden; background: #eef1f2; }
@@ -471,7 +499,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px
   .report-top { display: flex; flex-wrap: wrap; justify-content: space-between; }
   .report-top > div { order: -1; width: 100%; margin-bottom: 19px; }
   .report-top h1 { font-size: 29px; }
-  .report-review-alert, .report-summary { grid-template-columns: 1fr; }
+  .report-review-alert, .report-publication-lock, .report-summary { grid-template-columns: 1fr; }
   .report-review-alert { gap: 12px; }
   .report-summary > div:first-child { border-right: 0; border-bottom: 1px solid rgba(255,255,255,.12); }
   .report-grid { grid-template-columns: 1fr; }
@@ -481,6 +509,9 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px
   .reasoning-section > header p { margin-top: 7px; }
   .reasoning-section > div > article { grid-template-columns: 1fr; gap: 14px; }
   .reasoning-section ul { grid-template-columns: 1fr; }
+  .citation-section { padding: 20px; }
+  .citation-section > header, .citation-section article div { display: block; }
+  .citation-section > header p, .citation-section article span { display: block; margin-top: 7px; }
   .next-actions { display: block; }
   .next-actions button { width: 100%; margin-top: 18px; }
   .dialog { padding: 25px 20px; }
