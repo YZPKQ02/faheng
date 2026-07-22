@@ -17,6 +17,20 @@ def create_case(client):
     return response.json()
 
 
+def approve_pending_analysis(client, case_id: str) -> None:
+    reviews = client.get(f"/cases/{case_id}/reviews").json()
+    pending = next(item for item in reviews if item["status"] == "pending")
+    response = client.post(
+        f"/reviews/{pending['id']}/decision",
+        json={
+            "decision": "approved",
+            "reviewer": "test-reviewer",
+            "notes": "测试中确认该分析可以发布",
+        },
+    )
+    assert response.status_code == 200
+
+
 def test_health(client):
     assert client.get("/health").json() == {"status": "ok"}
 
@@ -57,6 +71,7 @@ def test_worker_counsel_memory_is_inherited_and_pinned_by_simulation(client):
     assert evidence.status_code == 201
     analysis = client.post(f"/cases/{case['id']}/analysis", json={})
     assert analysis.status_code == 200
+    approve_pending_analysis(client, case["id"])
 
     memory = client.get(f"/cases/{case['id']}/worker-counsel-memory").json()
     assert memory["agent_id"] == "worker_counsel"
@@ -249,12 +264,20 @@ def test_safety_gate_blocks_analysis_without_publishable_authority(client):
     payload = response.json()
     conclusion = payload["conclusions"][0]
     assert conclusion["quality_metrics"]["safety_gate"]["decision"] == "block"
+    assert conclusion["publication_status"] == "blocked"
     assert conclusion["authority_ids"] == []
     assert conclusion["confidence"] <= 0.2
     assert conclusion["viewpoint"].startswith("安全门结论：")
     assert "暂不提供" in conclusion["viewpoint"]
     assert payload["requires_human_review"] is True
     assert any("缺少可核验依据" in reason for reason in payload["blocked_reasons"])
+
+    review = client.get(f"/cases/{case['id']}/reviews").json()[0]
+    decision = client.post(
+        f"/reviews/{review['id']}/decision",
+        json={"decision": "approved", "reviewer": "审核律师", "notes": "尝试发布安全门拦截结论"},
+    )
+    assert decision.status_code == 409
 
 
 def test_rejected_review_invalidates_analysis(client):
@@ -323,6 +346,9 @@ def test_evidence_simulation_document_and_feedback(client):
             "worker_coach",
         ]
         assert len(agent_calls) <= 3
+    analysis = client.post(f"/cases/{case['id']}/analysis", json={})
+    assert analysis.status_code == 200
+    approve_pending_analysis(client, case["id"])
     document = client.post(f"/cases/{case['id']}/documents", json={"document_type": "arbitration_application"})
     assert document.status_code == 201
     assert "仲裁申请书" in document.json()["content"]

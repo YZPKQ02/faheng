@@ -74,6 +74,17 @@ class ConclusionRead(ORMModel):
     quality_metrics: dict = {}
     is_current: bool = True
     invalidated_reason: str | None = None
+    publication_status: Literal[
+        "draft",
+        "pending_review",
+        "published",
+        "blocked",
+        "rejected",
+        "changes_requested",
+        "stale",
+    ] = "draft"
+    published_at: datetime | None = None
+    published_by: str | None = None
 
 
 class CaseRead(ORMModel):
@@ -175,6 +186,25 @@ class KnowledgeStats(BaseModel):
     approved_cases: int
     model_provider: str
     model_configured: bool
+
+
+class LegalVersionRead(BaseModel):
+    id: str
+    document_id: str
+    title: str
+    version_label: str
+    status: str
+    review_status: str
+    effective_on: date
+    expired_on: date | None
+    source_url: str
+    content_hash: str
+    ingested_at: datetime
+
+
+class LegalVersionDecision(BaseModel):
+    action: Literal["approve", "publish", "reject"]
+    notes: str = Field(min_length=1, max_length=2000)
 
 
 class AgentTaskRead(ORMModel):

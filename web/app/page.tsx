@@ -2,7 +2,8 @@
 
 import { FormEvent, ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
-import { api, CaseFile, Fact, HumanReview, ModelConsent, Simulation, SimulationLine } from "../lib/api";
+import { api, Authority, CaseFile, Fact, HumanReview, ModelConsent, Simulation, SimulationLine } from "../lib/api";
+import { AuthSession, clearAuthSession, completeOidcRedirect, getAuthSession, isAuthRequired, isOidcConfigured, saveAuthToken, startOidcLogin } from "../lib/auth";
 import { mergeConsentScope, type ModelPurpose } from "../lib/consent";
 import { normalizeConsultationContent } from "../lib/format";
 
@@ -41,6 +42,7 @@ export default function Home() {
   const [cases, setCases] = useState<CaseFile[]>([]);
   const [current, setCurrent] = useState<CaseFile | null>(null);
   const [reviews, setReviews] = useState<HumanReview[]>([]);
+  const [authorities, setAuthorities] = useState<Authority[]>([]);
   const [view, setView] = useState<View>("welcome");
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState("");
@@ -54,11 +56,65 @@ export default function Home() {
   const [simulation, setSimulation] = useState<Simulation | null>(null);
   const [consentRequest, setConsentRequest] = useState<ConsentRequest | null>(null);
   const [activeConsent, setActiveConsent] = useState<ModelConsent | null>(null);
+  const [authSession, setAuthSession] = useState<AuthSession | null>(null);
+  const [authDialog, setAuthDialog] = useState(false);
 
   useEffect(() => {
     setPinned(JSON.parse(localStorage.getItem("pinned-legal-cases") ?? "[]"));
-    void loadCases();
+    void bootstrap();
   }, []);
+
+  async function bootstrap() {
+    try {
+      let session = getAuthSession();
+      if (isAuthRequired()) {
+        session = await completeOidcRedirect(window.location.href) ?? session;
+        setAuthSession(session);
+        if (!session) {
+          setLoading(false);
+          return;
+        }
+      } else {
+        setAuthSession(session);
+      }
+      await loadCases();
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : "认证状态初始化失败");
+      setLoading(false);
+    }
+  }
+
+  async function login() {
+    setError("");
+    if (isOidcConfigured()) {
+      try {
+        await startOidcLogin();
+      } catch (cause) {
+        setError(cause instanceof Error ? cause.message : "无法启动登录");
+      }
+      return;
+    }
+    setAuthDialog(true);
+  }
+
+  function logout() {
+    clearAuthSession();
+    setAuthSession(null);
+    setCurrent(null);
+    setCases([]);
+    setReviews([]);
+    setAuthorities([]);
+    localStorage.removeItem("legal-case-id");
+    setView("welcome");
+  }
+
+  async function storeManualToken(token: string) {
+    saveAuthToken(token);
+    const session = getAuthSession();
+    setAuthSession(session);
+    setAuthDialog(false);
+    await loadCases();
+  }
 
   async function loadCases(selectId?: string) {
     setLoading(true);
@@ -72,6 +128,7 @@ export default function Home() {
         const hasCurrentReport = selected.analyses.some((item) => item.is_current);
         setView(hasCurrentReport ? "report" : "chat");
         setReviews(await api.listReviews(selected.id));
+        setAuthorities(await api.getAuthorities(selected.id));
       }
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : "暂时无法连接服务，请稍后重试");
@@ -89,6 +146,7 @@ export default function Home() {
       setCurrent(item);
       setCases((previous) => [item, ...previous]);
       setReviews([]);
+      setAuthorities([]);
       setView("chat");
       if (starter) setInput(starter);
     } catch (cause) {
@@ -102,6 +160,7 @@ export default function Home() {
     localStorage.setItem("legal-case-id", item.id);
     setCurrent(item);
     setReviews(await api.listReviews(item.id).catch(() => []));
+    setAuthorities(await api.getAuthorities(item.id).catch(() => []));
     setView(item.analyses.some((analysis) => analysis.is_current) ? "report" : "chat");
     setSidebar(false);
     setSimulation(null);
@@ -109,9 +168,14 @@ export default function Home() {
 
   async function refresh(id = current?.id) {
     if (!id) return;
-    const [updated, nextReviews] = await Promise.all([api.getCase(id), api.listReviews(id)]);
+    const [updated, nextReviews, nextAuthorities] = await Promise.all([
+      api.getCase(id),
+      api.listReviews(id),
+      api.getAuthorities(id),
+    ]);
     setCurrent(updated);
     setReviews(nextReviews);
+    setAuthorities(nextAuthorities);
     setCases((items) => [updated, ...items.filter((item) => item.id !== id)]);
   }
 
@@ -292,45 +356,56 @@ export default function Home() {
       <section className="main-stage">
         <Header
           current={current}
+          authSession={authSession}
+          authRequired={isAuthRequired()}
           onMenu={() => setSidebar(true)}
+          onLogin={() => void login()}
+          onLogout={logout}
           onHome={() => {
             setView("welcome");
             setCurrent(null);
             setReviews([]);
+            setAuthorities([]);
             localStorage.removeItem("legal-case-id");
           }}
         />
         {error && <ErrorToast message={error} onClose={() => setError("")} />}
-        {view === "welcome" && <Welcome busy={busy} onStart={(starter) => void createCase(starter)} />}
-        {view === "chat" && current && (
-          <ChatWorkspace
-            caseFile={current}
-            reviews={reviews}
-            input={input}
-            setInput={setInput}
-            busy={busy}
-            streamedAnswer={streamedAnswer}
-            onSend={send}
-            onAnalyze={() => void analyze()}
-            onEvidence={() => setEvidenceOpen(true)}
-            onReport={() => setView("report")}
-            onReviewFact={(fact, status) => void reviewFact(fact, status)}
-          />
-        )}
-        {view === "report" && current && (
-          <Report
-            caseFile={current}
-            reviews={reviews}
-            onBack={() => setView("chat")}
-            onAnalyze={() => void analyze()}
-            onSimulate={() => void simulate()}
-            busy={busy}
-          />
-        )}
+        {isAuthRequired() && !authSession ? (
+          <AuthGate busy={busy} onLogin={() => void login()} />
+        ) : <>
+          {view === "welcome" && <Welcome busy={busy} onStart={(starter) => void createCase(starter)} />}
+          {view === "chat" && current && (
+            <ChatWorkspace
+              caseFile={current}
+              reviews={reviews}
+              input={input}
+              setInput={setInput}
+              busy={busy}
+              streamedAnswer={streamedAnswer}
+              onSend={send}
+              onAnalyze={() => void analyze()}
+              onEvidence={() => setEvidenceOpen(true)}
+              onReport={() => setView("report")}
+              onReviewFact={(fact, status) => void reviewFact(fact, status)}
+            />
+          )}
+          {view === "report" && current && (
+            <Report
+              caseFile={current}
+              reviews={reviews}
+              authorities={authorities}
+              onBack={() => setView("chat")}
+              onAnalyze={() => void analyze()}
+              onSimulate={() => void simulate()}
+              busy={busy}
+            />
+          )}
+        </>}
       </section>
       {deleteTarget && <DeleteDialog item={deleteTarget} busy={busy} onCancel={() => setDeleteTarget(null)} onConfirm={() => void confirmDelete()} />}
       {evidenceOpen && current && <EvidenceDialog caseId={current.id} onClose={() => setEvidenceOpen(false)} onSaved={async () => { setEvidenceOpen(false); await refresh(); }} />}
       {consentRequest && <ModelConsentDialog purpose={consentRequest.purpose} busy={busy} onCancel={() => { setConsentRequest(null); setActiveConsent(null); }} onConfirm={() => void grantRequestedConsent()} />}
+      {authDialog && <AuthTokenDialog busy={busy} onCancel={() => setAuthDialog(false)} onConfirm={(token) => void storeManualToken(token)} />}
       {simulation && <SimulationOverlay session={simulation} onClose={() => setSimulation(null)} />}
     </main>
   );
@@ -395,13 +470,39 @@ function Sidebar({ open, cases, pinned, current, onClose, onNew, onSelect, onPin
   </>;
 }
 
-function Header({ current, onMenu, onHome }: { current: CaseFile | null; onMenu: () => void; onHome: () => void }) {
+function Header({ current, authSession, authRequired, onMenu, onHome, onLogin, onLogout }: {
+  current: CaseFile | null;
+  authSession: AuthSession | null;
+  authRequired: boolean;
+  onMenu: () => void;
+  onHome: () => void;
+  onLogin: () => void;
+  onLogout: () => void;
+}) {
   return <header className="app-header">
     <button className="menu-button" onClick={onMenu} aria-label="打开案件导航">☰</button>
     <button className="crumb" onClick={onHome}>工作台</button>
     {current && <><span className="slash">/</span><span className="current-title">{current.title}</span><span className={`stage-pill ${current.stage}`}>{stageLabels[current.stage] ?? "处理中"}</span></>}
-    <div className="header-trust"><i />保密会话</div>
+    <div className="header-actions">
+      <div className="header-trust"><i />保密会话</div>
+      {authRequired && (
+        authSession
+          ? <button className="auth-button active" onClick={onLogout}>已登录</button>
+          : <button className="auth-button" onClick={onLogin}>登录</button>
+      )}
+    </div>
   </header>;
+}
+
+function AuthGate({ busy, onLogin }: { busy: string; onLogin: () => void }) {
+  return <div className="auth-gate">
+    <section>
+      <span className="form-kicker">SECURE ACCESS</span>
+      <h1>需要登录后继续</h1>
+      <p>后端已开启租户隔离和 Bearer Token 校验。登录后，案件列表、分析、文书和仲裁模拟请求都会携带访问令牌。</p>
+      <button className="primary-button" disabled={Boolean(busy)} onClick={onLogin}>{busy || "登录或填入访问令牌"}</button>
+    </section>
+  </div>;
 }
 
 function Welcome({ busy, onStart }: { busy: string; onStart: (starter?: string) => void }) {
@@ -471,14 +572,18 @@ function InsightSection({ title, count, children }: { title: string; count: numb
   return <section className="insight-section"><header><b>{title}</b><span>{count}</span></header><div>{children || <p className="muted">暂无记录</p>}</div></section>;
 }
 
-function Report({ caseFile, reviews, onBack, onAnalyze, onSimulate, busy }: { caseFile: CaseFile; reviews: HumanReview[]; onBack: () => void; onAnalyze: () => void; onSimulate: () => void; busy: string }) {
+function Report({ caseFile, reviews, authorities, onBack, onAnalyze, onSimulate, busy }: { caseFile: CaseFile; reviews: HumanReview[]; authorities: Authority[]; onBack: () => void; onAnalyze: () => void; onSimulate: () => void; busy: string }) {
   const result = caseFile.analyses.findLast((item) => item.is_current);
   const stale = result ? undefined : caseFile.analyses.at(-1);
   const pendingReview = reviews.find((item) => item.status === "pending" && item.analysis_id === result?.id);
+  const published = result?.publication_status === "published";
+  const citedAuthorities = authorities.filter((item) => result?.authority_ids.includes(item.id));
   return <div className="report-page">
     <div className="report-top"><button onClick={onBack}>← 返回咨询</button><div><span>TRACEABLE CASE MEMO</span><h1>案件策略分析</h1><p>基于当前事实、证据与有效法律依据 · {formatDate(caseFile.updated_at)}</p></div><button className="outline-button" onClick={onAnalyze} disabled={!!busy}>{busy || "重新分析"}</button></div>
     {result ? <>
       {pendingReview && <section className="report-review-alert"><span>专业复核中</span><div><b>以下分析存在需要人工确认的风险点</b><ul>{pendingReview.reasons.map((reason) => <li key={reason}>{reason}</li>)}</ul></div></section>}
+      {!published && <section className="report-publication-lock"><span>未发布</span><div><b>分析内容尚未通过发布门禁</b><p>{result.publication_status === "blocked" ? "安全审查已阻断本次分析，请修正案件材料后重新分析。" : "当前草稿仅供人工复核；批准发布前不展示双方策略结论，也不能进入后续交付。"}</p></div></section>}
+      {published && <>
       <section className="report-summary"><div><span>证据成熟度</span><h2>{Math.round(result.confidence * 100)}<small>%</small></h2><p>不是胜诉概率</p></div><div><small>中立评估摘要</small><p>{extractNeutral(result.viewpoint)}</p></div></section>
       <div className="report-grid">
         <ReportCard tone="favorable" icon="申" eyebrow="劳动者代理" title="可主张方向"><p>{result.viewpoint.split("中立评估：")[0]}</p></ReportCard>
@@ -486,7 +591,9 @@ function Report({ caseFile, reviews, onBack, onAnalyze, onSimulate, busy }: { ca
         <ReportCard tone="neutral wide" icon="审" eyebrow="中立审查" title="不确定性与风险"><ul>{result.uncertainties.map((item) => <li key={item}>{item}</li>)}</ul></ReportCard>
       </div>
       {result.reasoning_trace?.length > 0 && <section className="reasoning-section"><header><div><small>EVIDENCE CHAIN</small><h2>争点与构成要件</h2></div><p>每项判断均关联案件事实、证据与法律依据</p></header><div>{result.reasoning_trace.map((trace) => <article key={trace.issue}><div><span>争议焦点</span><h3>{trace.issue}</h3><small>{trace.authority_ids.length} 条法律依据</small></div><ul>{trace.elements.map((element) => <li key={element.element}><i className={element.status}>{element.status === "supported" ? "✓" : element.status === "claimed" ? "·" : "!"}</i><span><b>{element.element}</b><small>{element.status === "supported" ? "已有证据支持" : element.status === "claimed" ? "仅有事实陈述" : "尚缺必要信息"}</small></span></li>)}</ul></article>)}</div></section>}
+      <section className="citation-section"><header><div><small>VERIFIABLE SOURCES</small><h2>可核验法律依据</h2></div><p>仅展示已发布且被当前分析实际引用的版本</p></header>{citedAuthorities.length ? <div>{citedAuthorities.map((authority) => <article key={authority.id}><div><b>《{authority.title}》{authority.article}</b><span>{authority.level} · 生效于 {authority.effective_on}</span></div><p>{authority.content}</p><a href={authority.source_url} target="_blank" rel="noreferrer">查看官方来源 ↗</a></article>)}</div> : <p className="muted">当前分析没有可发布的法律引用。</p>}</section>
       <section className="next-actions"><div><small>NEXT STEP</small><h2>用模拟庭审检验表达与证据</h2><p>模拟内容不会写入已确认案件事实。</p></div><button onClick={onSimulate}>进入仲裁模拟 <span>→</span></button></section>
+      </>}
       <p className="report-disclaimer">本报告仅提供法律信息和决策辅助，不构成律师意见，不承诺案件结果。</p>
     </> : <div className="empty-report"><span>{stale ? "↻" : "◇"}</span><h2>{stale ? "案件材料已变化，需要重新分析" : "还没有分析报告"}</h2><p>{stale?.invalidated_reason ?? "完成事实陈述并登记关键证据后，可以从双方立场生成案件分析。"}</p><button onClick={onAnalyze} disabled={!!busy}>{busy || "生成最新分析"}</button></div>}
   </div>;
@@ -503,6 +610,15 @@ function ModelConsentDialog({ purpose, busy, onCancel, onConfirm }: { purpose: C
     simulation: { title: "授权用于仲裁模拟", purpose: "生成仲裁员和用人单位代理人的模拟回应", data: "本轮模拟对话、案件事实、证据名称与证明目的", action: "同意并开始模拟" },
   }[purpose];
   return <div className="modal-layer" role="presentation"><div className="dialog consent-dialog" role="dialog" aria-modal="true" aria-labelledby="consent-title"><div className="consent-scroll"><div className="consent-mark">隐</div><span className="form-kicker">信息使用授权</span><h2 id="consent-title">{copy.title}</h2><p>该功能需要把以下案件信息发送给 DeepSeek。只有你确认后才会发送。</p><ul><li><b>用来做什么</b><span>{copy.purpose}</span></li><li><b>会使用什么</b><span>{copy.data}</span></li><li><b>如何保护</b><span>发送前会隐藏身份证号、手机号等敏感信息；不会改动你保存的原始材料</span></li><li><b>你可以撤销</b><span>授权只对当前案件生效，以后可以撤销；新增用途不会取消已有授权</span></li></ul><div className="consent-warning">生成内容只用于案件辅助，不是律师意见，也不会自动变成已经确认的事实。</div></div><div className="dialog-actions"><button disabled={Boolean(busy)} onClick={onCancel}>暂不授权</button><button className="primary-button" disabled={Boolean(busy)} onClick={onConfirm}>{busy || copy.action}</button></div></div></div>;
+}
+
+function AuthTokenDialog({ busy, onCancel, onConfirm }: { busy: string; onCancel: () => void; onConfirm: (token: string) => void }) {
+  const [token, setToken] = useState("");
+  function submit(event: FormEvent) {
+    event.preventDefault();
+    onConfirm(token);
+  }
+  return <div className="modal-layer" role="presentation"><form className="dialog auth-dialog" onSubmit={submit} role="dialog" aria-modal="true" aria-labelledby="auth-title"><span className="form-kicker">ACCESS TOKEN</span><h2 id="auth-title">输入访问令牌</h2><p>当前未配置前端 OIDC 登录参数。请粘贴你的 Bearer Token；令牌只保存在本浏览器，用于访问已启用认证的后端。</p><label>Bearer Token<textarea autoFocus value={token} spellCheck={false} onChange={(event) => setToken(event.target.value)} placeholder="eyJ..." required /></label><div className="dialog-actions"><button type="button" onClick={onCancel}>取消</button><button className="primary-button" disabled={Boolean(busy) || !token.trim()}>{busy || "保存并继续"}</button></div></form></div>;
 }
 
 function DeleteDialog({ item, busy, onCancel, onConfirm }: { item: CaseFile; busy: string; onCancel: () => void; onConfirm: () => void }) {

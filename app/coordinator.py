@@ -23,7 +23,13 @@ def reconcile_case_stage(db: Session, case: CaseFile) -> str:
             HumanReviewTask.status == "pending",
         )
     )
-    current_analysis = next((item for item in case.analyses if item.is_current), None)
+    current_analysis = db.scalar(
+        select(AnalysisConclusion.id).where(
+            AnalysisConclusion.case_id == case.id,
+            AnalysisConclusion.is_current.is_(True),
+            AnalysisConclusion.publication_status == "published",
+        )
+    )
     if pending_review:
         stage = "human_review"
     elif current_analysis:

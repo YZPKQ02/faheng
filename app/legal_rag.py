@@ -32,6 +32,7 @@ def validate_authority_ids(
                     LegalDocumentVersion.expired_on > as_of,
                 ),
                 LegalDocumentVersion.status.in_(("active", "expired")),
+                LegalDocumentVersion.review_status == "published",
                 LegalDocument.jurisdiction.in_(("全国", "中国大陆", region)),
             )
         ).all()
@@ -47,6 +48,7 @@ def build_rag_observations(db: Session, authority_ids: list[str]) -> list[dict]:
         .join(LegalChunk, LegalChunk.authority_id == LegalAuthority.id)
         .join(LegalDocumentVersion, LegalDocumentVersion.id == LegalChunk.version_id)
         .join(LegalDocument, LegalDocument.id == LegalDocumentVersion.document_id)
+        .where(LegalDocumentVersion.review_status == "published")
         .where(LegalAuthority.id.in_(authority_ids))
     ).all()
     by_id = {

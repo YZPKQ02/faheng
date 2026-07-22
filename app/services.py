@@ -13,7 +13,7 @@ from app.agent_contracts import (
     SimulationRouterOutput,
     SimulationTurnDecision,
 )
-from app.model_gateway import ModelGateway, ModelGatewayError
+from app.model_gateway import ModelGateway, ModelGatewayError, ModelRequestBudget
 from app.privacy_governance import build_model_authorization
 from app.models import (
     AnalysisConclusion,
@@ -86,6 +86,18 @@ def analyze_case(db: Session, case: CaseFile, as_of: date) -> tuple[list[Analysi
         confidence = min(confidence, 0.49)
     if review["decision"] == "block":
         confidence = min(confidence, 0.2)
+    if review["decision"] == "block":
+        publication_status = "blocked"
+        published_at = None
+        published_by = None
+    elif gate_reasons:
+        publication_status = "pending_review"
+        published_at = None
+        published_by = None
+    else:
+        publication_status = "published"
+        published_at = now()
+        published_by = "safety_reviewer"
     metrics = {
         **metrics,
         "safety_gate": {
@@ -105,6 +117,9 @@ def analyze_case(db: Session, case: CaseFile, as_of: date) -> tuple[list[Analysi
         authority_ids=authority_ids,
         reasoning_trace=trace,
         quality_metrics=metrics,
+        publication_status=publication_status,
+        published_at=published_at,
+        published_by=published_by,
     )
     db.add(conclusion)
     case.stage = "strategy_ready"
@@ -196,6 +211,19 @@ def create_simulation(db: Session, case: CaseFile, scenario: str, user_role: str
         "争议的关键经过是：[填写日期]，公司当时[填写具体行为]。",
         "支持上述陈述的证据包括：[填写证据名称]。",
     ]
+    previous_sessions = list(
+        db.scalars(
+            select(SimulationSession).where(
+                SimulationSession.case_id == case.id,
+                SimulationSession.scenario == scenario,
+                SimulationSession.user_role == user_role,
+                SimulationSession.status == "active",
+            )
+        ).all()
+    )
+    for previous in previous_sessions:
+        _apply_simulation_completion(previous, "superseded")
+        db.add(previous)
     session = SimulationSession(
         case_id=case.id,
         scenario=scenario,
@@ -638,7 +666,15 @@ def continue_simulation(
         {"name": item.name, "purpose": item.purpose, "authenticity": item.authenticity}
         for item in case.evidence
     ]
-    gateway = ModelGateway()
+    settings = ModelGateway().settings
+    logical_calls = settings.simulation_model_call_budget
+    gateway = ModelGateway(
+        settings,
+        request_budget=ModelRequestBudget(
+            max_logical_calls=logical_calls,
+            max_http_requests=logical_calls * settings.model_http_request_multiplier,
+        ),
+    )
     authorization = build_model_authorization(
         db,
         case_id=case.id,
@@ -1143,7 +1179,13 @@ def create_document(db: Session, case: CaseFile, document_type: str) -> Generate
 
 
 def get_case_authorities(db: Session, case_id: str) -> list[LegalAuthority]:
-    analyses = db.scalars(select(AnalysisConclusion).where(AnalysisConclusion.case_id == case_id)).all()
+    analyses = db.scalars(
+        select(AnalysisConclusion).where(
+            AnalysisConclusion.case_id == case_id,
+            AnalysisConclusion.is_current.is_(True),
+            AnalysisConclusion.publication_status == "published",
+        )
+    ).all()
     ids = {aid for analysis in analyses for aid in analysis.authority_ids}
     if not ids:
         return []

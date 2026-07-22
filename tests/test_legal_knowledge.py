@@ -8,6 +8,7 @@ from sqlalchemy import func, select
 from app.authorities import retrieve_authority_hits, retrieve_hybrid_authority_hits
 from app.database import SessionLocal
 from app.embeddings import index_legal_chunks
+from app.legal_governance import transition_legal_version
 from app.legal_rag import build_rag_observations, validate_authority_ids
 from app.legal_ingestion import RawLegalDocument, import_legal_jsonl, import_legal_records
 from app.models import LegalAuthority, LegalChunk, LegalDocument, LegalDocumentVersion
@@ -32,6 +33,34 @@ def _record(**overrides) -> RawLegalDocument:
     }
     payload.update(overrides)
     return RawLegalDocument.model_validate(payload)
+
+
+def _publish_pending_versions(db) -> None:
+    versions = list(
+        db.scalars(
+            select(LegalDocumentVersion).where(
+                LegalDocumentVersion.review_status == "pending"
+            )
+        ).all()
+    )
+    for version in versions:
+        transition_legal_version(
+            db,
+            version,
+            action="approve",
+            actor_id="test-reviewer",
+            roles={"admin"},
+            notes="test corpus reviewed",
+        )
+        transition_legal_version(
+            db,
+            version,
+            action="publish",
+            actor_id="test-publisher",
+            roles={"admin"},
+            notes="test corpus published",
+        )
+    db.commit()
 
 
 def test_seed_is_backfilled_into_versioned_knowledge(client):
@@ -92,6 +121,7 @@ def test_correction_supersedes_old_version_without_changing_effective_date(clien
         )
 
         result = import_legal_records(db, [corrected])
+        _publish_pending_versions(db)
         versions = db.scalars(
             select(LegalDocumentVersion)
             .where(LegalDocumentVersion.document_id == document.id)
@@ -132,6 +162,7 @@ def test_amendment_expires_old_version_and_preserves_historical_retrieval(client
         )
 
         result = import_legal_records(db, [amended])
+        _publish_pending_versions(db)
         db.refresh(old_version)
         old_authority = db.scalar(
             select(LegalChunk).where(LegalChunk.version_id == old_version.id)
@@ -238,6 +269,7 @@ def test_version_and_region_are_hard_filters(client):
                 ),
             ],
         )
+        _publish_pending_versions(db)
         hits = retrieve_authority_hits(
             db,
             "加班记录和加班时间",
@@ -310,6 +342,46 @@ def test_rag_observations_and_citations_use_versioned_chunks(client):
     assert observations[0]["citation"].startswith("《中华人民共和国")
     assert observations[0]["effective_on"]
     assert observations[0]["source_url"].startswith("https://")
+
+
+def test_pending_and_approved_legal_versions_are_not_retrievable(client):
+    with SessionLocal() as db:
+        import_legal_records(db, [_record()])
+        version = db.scalar(
+            select(LegalDocumentVersion)
+            .join(LegalDocument, LegalDocument.id == LegalDocumentVersion.document_id)
+            .where(LegalDocument.title == "北京市劳动争议示例规定")
+        )
+
+        assert not any(
+            hit.authority.title == "北京市劳动争议示例规定"
+            for hit in retrieve_authority_hits(db, "加班记录", region="北京市")
+        )
+        transition_legal_version(
+            db,
+            version,
+            action="approve",
+            actor_id="reviewer",
+            roles={"reviewer"},
+            notes="内容与官方来源一致",
+        )
+        assert not any(
+            hit.authority.title == "北京市劳动争议示例规定"
+            for hit in retrieve_authority_hits(db, "加班记录", region="北京市")
+        )
+        transition_legal_version(
+            db,
+            version,
+            action="publish",
+            actor_id="lawyer",
+            roles={"lawyer"},
+            notes="批准进入检索语料",
+        )
+
+        assert any(
+            hit.authority.title == "北京市劳动争议示例规定"
+            for hit in retrieve_authority_hits(db, "加班记录", region="北京市")
+        )
 
 
 def test_external_semantic_query_requires_case_consent(client, monkeypatch):

@@ -1,5 +1,12 @@
 name: quality-harness
 
+permissions:
+  contents: read
+
+concurrency:
+  group: quality-harness-${{ github.ref }}
+  cancel-in-progress: true
+
 on:
   pull_request:
   push:
@@ -8,6 +15,21 @@ on:
 jobs:
   verify:
     runs-on: ubuntu-latest
+    timeout-minutes: 25
+    services:
+      postgres:
+        image: pgvector/pgvector:pg16
+        env:
+          POSTGRES_DB: legal_ci
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d legal_ci"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 20
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -28,6 +50,12 @@ jobs:
         run: ruff check app tests scripts/run_harness.py
       - name: Backend tests
         run: pytest -q
+      - name: PostgreSQL migrations
+        env:
+          DATABASE_URL: postgresql+psycopg://postgres:postgres@127.0.0.1:5432/legal_ci
+        run: |
+          python -m alembic upgrade head
+          python -m alembic check
       - name: Offline harness
         run: python scripts/run_harness.py run --profile offline --output artifacts/harness/offline
       - name: Install frontend
@@ -36,6 +64,9 @@ jobs:
       - name: Frontend tests
         working-directory: web
         run: pnpm test
+      - name: Frontend typecheck
+        working-directory: web
+        run: pnpm exec tsc --noEmit --incremental false
       - name: Frontend build
         working-directory: web
         run: pnpm build
